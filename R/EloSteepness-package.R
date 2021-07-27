@@ -1,0 +1,14 @@
+#' The 'EloSteepness' package.
+#'
+#' @description Dominance Hierarchy Steepness Via Elo Rating
+#'
+#' @docType package
+#' @name EloSteepness-package
+#' @aliases EloSteepness
+#' @useDynLib EloSteepness, .registration = TRUE
+#' @import methods
+#' @import Rcpp
+#' @importFrom rstan sampling
+#'
+#'
+NULL

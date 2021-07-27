@@ -1,0 +1,42 @@
+Package: EloSteepness
+Title: Bayesian Dominance Hierarchy Steepness Via Elo Rating and David's Scores
+Version: 0.1.0
+Date: 2021-07-26
+Authors@R: c(
+  person(given="Christof", 
+         family="Neumann", 
+         role=c("aut", "cre"),
+         email="christofneumann1@gmail.com",
+         comment=c(ORCID="0000-0002-0236-1219"))
+  )
+Maintainer: Christof Neumann <christofneumann1@gmail.com>
+Description: Obtain Bayesian posterior distributions of dominance hierarchy steepness. Steepness estimation is based on Bayesian implementations of either Elo-rating or David's scores.
+License: GPL (>= 2)
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Biarch: true
+Depends: 
+    R (>= 3.5.0),
+    EloRating
+Imports: 
+    methods,
+    Rcpp (>= 0.12.0),
+    RcppParallel (>= 5.0.1),
+    rstan (>= 2.18.1),
+    rstantools (>= 2.1.1)
+LinkingTo: 
+    BH (>= 1.66.0),
+    Rcpp (>= 0.12.0),
+    RcppEigen (>= 0.3.3.3.0),
+    RcppParallel (>= 5.0.1),
+    rstan (>= 2.18.1),
+    StanHeaders (>= 2.18.0)
+SystemRequirements: GNU make
+Suggests: 
+    rmarkdown,
+    knitr,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
