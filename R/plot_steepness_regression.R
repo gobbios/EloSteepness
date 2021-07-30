@@ -3,8 +3,10 @@
 #' @param x result from \code{\link{elo_steepness_from_matrix}} or
 #'        \code{\link{davids_steepness}}
 #' @param adjust numeric, parameter for smoothing posterior of individual scores
-#' @param color logical, default is \code{TRUE} where individuals get colour-
-#'        coded. If \code{FALSE}: a grey scale is used.
+#' @param color logical, default is \code{TRUE} where individuals get color-
+#'        coded. If \code{FALSE}: a gray scale is used. It is also possible
+#'        to hand over a vector with colors, which then must be correspond
+#'        in length to the number of individuals.
 #' @param width_fac numeric, relative width of posterior distributions. This is
 #'        actually affects the 'height' but since the posteriors are rotated it
 #'        visually represents width.
@@ -57,13 +59,29 @@ plot_steepness_regression <- function(x,
   ranks <- colMeans(rranks)
   pdata <- apply(scores, 2, density, adjust = adjust)
   n <- length(pdata)
-
-  if (color) {
+  
+  # deal with colors
+  if (!isFALSE(color) & !isTRUE(color) & !is.null(color)) {
+    cols <- NULL
+    if (length(color) == n) {
+      cols <- color
+    }
+    if (length(color) == 1) {
+      cols <- rep(color, n)
+    }
+    if (is.null(cols)) {
+      stop("colour vector does not match number of ids")
+    }
+  }
+  
+  if (isTRUE(color)) {
     cols <- sample(hcl.colors(n = n, "zissou", alpha = 0.7))
-  } else {
+  } 
+  if (isFALSE(color)) {
     cols <- sample(gray.colors(n = n, start = 0.3, end = 0.9,
                                alpha = 0.7))
   }
+  
 
   plot(0, 0, type = "n", xlim = c(1, n * (1 + axis_extend)), ylim = c(0, n - 1),
        las = 1, xlab = "mean ordinal rank", ylab = ylab,

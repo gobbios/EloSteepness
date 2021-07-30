@@ -8,3 +8,5 @@ test_that("multiplication works", {
 
 plot_steepness_regression(res)
 plot_steepness_regression(res, color = FALSE, width_fac = 2, axis_extend = 0.2)
+cols <- adjustcolor(1:length(res$ids), 0.7)
+plot_steepness_regression(res, color = cols)
