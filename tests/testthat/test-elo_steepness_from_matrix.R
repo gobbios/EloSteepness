@@ -1,7 +1,7 @@
 
 x <- simple_steep_gen(n_ind = 5, n_int = 50, steep = runif(1, 0, 1))$matrix
 o <- capture.output(res1 <- elo_steepness_from_matrix(x,
-                                                      mode = "fixed_sd",
+                                                      algo = "fixed_sd",
                                                       n_rand = 2,
                                                       silent = TRUE))
 
@@ -12,7 +12,7 @@ test_that("steepness is between 0 and 1", {
 
 
 o <- capture.output(res2 <- elo_steepness_from_matrix(x,
-                                                     mode = "original",
+                                                      algo = "original",
                                                      n_rand = 2,
                                                      silent = TRUE))
 
@@ -26,7 +26,7 @@ test_that("steepness is between 0 and 1", {
 
 x <- simple_steep_gen(n_ind = 11, n_int = 300, steep = runif(1, 0.8, 1))$matrix
 o <- capture.output(res3 <- elo_steepness_from_matrix(x,
-                                                      mode = "fixed_sd",
+                                                      algo = "fixed_sd",
                                                       n_rand = 1,
                                                       silent = TRUE))
 
@@ -34,7 +34,7 @@ o <- capture.output(res3 <- elo_steepness_from_matrix(x,
 y <- sample(colnames(x))
 y <- x[y, y]
 o <- capture.output(res4 <- elo_steepness_from_matrix(y,
-                                                      mode = "fixed_sd",
+                                                      algo = "fixed_sd",
                                                       n_rand = 1,
                                                       silent = TRUE))
 

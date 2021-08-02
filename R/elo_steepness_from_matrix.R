@@ -1,11 +1,14 @@
 #' steepness based on Bayesian Elo-rating
 #'
 #' @param mat square interaction matrix
-#' @param mode character, either \code{"original"} or \code{"fixed_sd"}
-#' @param static logical, treat the data as static (i.e. think of data in
-#'               matrix form). Default is \code{TRUE}.
+#' @param algo character, either \code{"fixed_sd"} or \code{"original"}. This
+#'             determines which algorithim is used. Default is \code{"fixed_sd"},
+#'             which is a slight modification from Goffe et al's original code.
 #' @param n_rand numeric, number of randomized sequences
 #' @param silent logical, suppress warnings
+#' @param static logical, treat the data as static (i.e. think of data in
+#'               matrix form). Default is \code{TRUE}. \code{FALSE} is not
+#'               yet supported.
 #' @param ... additional arguments for \code{sampling()}
 #'
 #' @importFrom rstan sampling extract get_bfmi
@@ -17,23 +20,23 @@
 #' data(dommats, package = "EloRating")
 #' \dontrun{
 #' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 10,
-#'                                  mode = "fixed_sd",cores = 4,
+#'                                  cores = 4,
 #'                                  iter = 3000, warmup = 2000, refresh = 0)
 #' plot_steep(res$steepness)
 #'
 #' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 10,
-#'                                  mode = "original", cores = 4, iter = 3000,
+#'                                  algo = "original", cores = 4, iter = 3000,
 #'                                  warmup = 2000, refresh = 0)
 #' plot_steep(res$steepness)
 #' }
 
 elo_steepness_from_matrix <- function(mat,
-                                      mode = c("original", "fixed_sd"),
-                                      static = TRUE,
+                                      algo = c("fixed_sd", "original"),
                                       n_rand = 10,
                                       silent = FALSE,
+                                      static = TRUE,
                                       ...) {
-  mode <- match.arg(mode)
+  algo <- match.arg(algo)
 
   standat <- prep_data_for_rstan(mat = mat,
                                  n_rand = n_rand,
@@ -43,10 +46,10 @@ elo_steepness_from_matrix <- function(mat,
   if (silent) {
     options(warn = -1)
   }
-  if (mode == "original") {
+  if (algo == "original") {
     res <- sampling(stanmodels$multi_steep_original, data = standat, ...)
   }
-  if (mode == "fixed_sd") {
+  if (algo == "fixed_sd") {
     res <- sampling(stanmodels$multi_steep_fixed_sd, data = standat, ...)
   }
 
@@ -73,5 +76,6 @@ elo_steepness_from_matrix <- function(mat,
        cumwinprobs = cumwinprobs,
        ids = standat$ids,
        diagnostics = issues,
-       stanfit = res)
+       stanfit = res,
+       algo = algo)
 }

@@ -13,6 +13,13 @@
 #' @importFrom graphics polygon text title axis points
 #' @importFrom grDevices hcl.colors
 #'
+#' @examples
+#' \dontrun{
+#' data("dommats", package = "EloRating")
+#' m <- dommats$badgers
+#' res <- elo_steepness_from_matrix(m, n_rand = 5, refresh = 0)
+#' plot_steepness(res)
+#' }
 
 plot_steepness <- function(x, adjustpar = 1.5, print_numbers = TRUE) {
   if (!"steepness" %in% names(x)) {
@@ -31,13 +38,15 @@ plot_steepness <- function(x, adjustpar = 1.5, print_numbers = TRUE) {
                                              col = "grey", lwd = 0.5)))
 
   if (print_numbers) {
-    text(0.03, ymax * 0.95,
+    text(0.03, ymax * 0.35,
          paste("mean = ", sprintf("%.2f",
                                   mean(as.numeric(x)))), adj = 0)
-    text(0.03, ymax * 0.9,
+    text(0.03, ymax * 0.3,
          paste("median = ", sprintf("%.2f",
                                     median(as.numeric(x)))), adj = 0)
-    text(x = 0.03, y = ymax * 0.85,
+    text(x = 0.03, y = ymax * 0.25,
+         paste("sd = ", sprintf("%.2f", sd(as.numeric(x)))), adj = 0)
+    text(x = 0.03, y = ymax * 0.2,
          paste("mad = ", sprintf("%.2f", mad(as.numeric(x)))), adj = 0)
   }
 

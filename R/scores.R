@@ -4,6 +4,8 @@
 #'        \code{\link{davids_steepness}}
 #' @param quantiles numeric, the quantiles to be returned
 #'
+#' @importFrom stats quantile sd
+#'
 #' @return a data.frame with one line per individual
 #' @export
 #'
@@ -14,7 +16,7 @@
 #' \dontrun{
 #' data("dommats", package = "EloRating")
 #' m <- dommats$badgers
-#' res <- elo_steepness_from_matrix(m, mode = "fixed_sd", n_rand = 2, refresh = 0)
+#' res <- elo_steepness_from_matrix(m, n_rand = 2, refresh = 0)
 #' scores(res)
 #' }
 

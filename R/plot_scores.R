@@ -28,7 +28,7 @@
 #' plot_scores(res, color = FALSE)
 #' plot_scores(res, adjustpar = 0.3)
 #' \dontrun{
-#' res <- elo_steepness_from_matrix(bonobos, n_rand = 1, mode = "fixed_sd")
+#' res <- elo_steepness_from_matrix(bonobos, n_rand = 1)
 #' plot_scores(res)
 #' }
 

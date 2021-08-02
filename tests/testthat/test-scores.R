@@ -18,8 +18,8 @@ test_that("multiplication works", {
 })
 
 m <- dommats$badgers
-res1 <- elo_steepness_from_matrix(m, mode = "fixed_sd", n_rand = 1, refresh = 0)
-res2 <- elo_steepness_from_matrix(m, mode = "fixed_sd", n_rand = 2, refresh = 0)
+res1 <- elo_steepness_from_matrix(m, algo = "fixed_sd", n_rand = 1, refresh = 0)
+res2 <- elo_steepness_from_matrix(m, algo = "fixed_sd", n_rand = 2, refresh = 0)
 
 res1 <- scores(res1)
 res2 <- scores(res2)
