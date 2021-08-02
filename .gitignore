@@ -6,8 +6,8 @@ src/*.hpp
 src/EloSteepness.so
 src/EloSteepness.dll
 man/*.Rd
-
-
+src/*.gcda
+tests/testthat/Rplots.pdf
 .DS_Store
 
 # History files
