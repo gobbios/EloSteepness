@@ -46,7 +46,8 @@ scores <- function(x, quantiles = c(0.045, 0.955)) {
   out <- data.frame(id = x$ids,
                     mean = colMeans(res),
                     sd = apply(res, 2, sd),
-                    median = apply(res, 2, median))
+                    median = apply(res, 2, median),
+                    mad = apply(res, 2, mad))
   nm <- paste0("q", substr(sprintf("%.3f", quantiles), 3, 5))
   for (i in seq_len(length(quantiles))) {
     out <- cbind(out, apply(res, 2, quantile, prob = quantiles[i]))

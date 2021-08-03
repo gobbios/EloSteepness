@@ -19,15 +19,14 @@
 #' @examples
 #' data(dommats, package = "EloRating")
 #' \dontrun{
-#' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 10,
-#'                                  cores = 4,
+#' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 10, cores = 4,
 #'                                  iter = 3000, warmup = 2000, refresh = 0)
-#' plot_steep(res$steepness)
+#' plot_steepness(res)
 #'
-#' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 10,
-#'                                  algo = "original", cores = 4, iter = 3000,
-#'                                  warmup = 2000, refresh = 0)
-#' plot_steep(res$steepness)
+#' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 10, cores = 4,
+#'                                  algo = "original", 
+#'                                  iter = 3000, warmup = 2000, refresh = 0)
+#' plot_steepness(res)
 #' }
 
 elo_steepness_from_matrix <- function(mat,

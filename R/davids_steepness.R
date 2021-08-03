@@ -5,7 +5,12 @@
 #'
 #' @return a list or stan fit object
 #' @export
-#'
+#' @examples 
+#' \dontrun{
+#' data(dommats, package = "EloRating")
+#' res <- davids_steepness(dommats$elephants, refresh = 0)
+#' plot_steepness(res)
+#' }
 
 davids_steepness <- function(mat, ...) {
   standat <- prep_data_for_rstan(mat = mat,
