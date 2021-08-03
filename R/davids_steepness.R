@@ -33,9 +33,12 @@ davids_steepness <- function(mat, ...) {
   # cum win probs
   norm_ds <- extract(res, "normds")$normds
 
-  list(steepness = xres,
-       norm_ds = norm_ds,
-       ids = standat$ids,
-       diagnostics = issues,
-       stanfit = res)
+  res <- list(steepness = xres,
+              norm_ds = norm_ds,
+              ids = standat$ids,
+              diagnostics = issues,
+              stanfit = res,
+              mat = mat)
+  class(res) <- "david_steepness"
+  res
 }
