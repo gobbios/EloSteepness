@@ -21,8 +21,7 @@ steepness_precis <- function(x, quantiles = c(0.045, 0.25, 0.75, 0.955)) {
   }
   is_elo <- "cumwinprobs" %in% names(x)
   x <- x$steepness
-  
-  
+
   out <- data.frame(mean = mean(x),
                     sd = sd(x),
                     median = median(x),
@@ -32,7 +31,7 @@ steepness_precis <- function(x, quantiles = c(0.045, 0.25, 0.75, 0.955)) {
     out <- cbind(out, quantile(x, prob = quantiles[i]))
     colnames(out)[ncol(out)] <- nm[i]
   }
-  
+
   if (is_elo) {
     out$mean_cv <- NA
     out$median_cv <- NA
@@ -43,7 +42,7 @@ steepness_precis <- function(x, quantiles = c(0.045, 0.25, 0.75, 0.955)) {
       out$median_cv[1] <- sd(medians) / mean(medians)
     }
   }
-  
+
   rownames(out) <- NULL
   out
 }

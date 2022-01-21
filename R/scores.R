@@ -1,4 +1,4 @@
-#' numeric summaries of individual ratings/scores (Elo-ratings or David's scores)
+#' numeric summaries of individual Elo-ratings or David's scores
 #'
 #' @param x result from \code{\link{elo_steepness_from_matrix}} or
 #'        \code{\link{davids_steepness}}
@@ -22,6 +22,7 @@
 
 scores <- function(x, quantiles = c(0.045, 0.955)) {
   correct_object <- FALSE
+
   if ("cumwinprobs" %in% names(x)) {
     y <- x$cumwinprobs
     res <- matrix(ncol = dim(y)[3], nrow = length(y[, , 1]))

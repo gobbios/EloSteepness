@@ -1,2 +1,6 @@
 ^EloSteepness\.Rproj$
 ^\.Rproj\.user$
+_dump/
+vignette_data/
+^doc$
+^Meta$

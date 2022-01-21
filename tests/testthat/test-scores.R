@@ -29,4 +29,3 @@ test_that("multiplication works", {
   expect_true(all(is.na(res1$mean_cv)))
   expect_true(!all(is.na(res2$mean_cv)))
 })
-

@@ -46,9 +46,9 @@ plot_matrix <- function(mat, greyout = NULL, prunkcol = NULL) {
     if (nrow(pmat) > 0) {
       for (i in seq_len(nrow(pmat))) {
         rect(xleft = pmat[i, 2] - 0.4,
-             ybottom = pmat[i, 1] - 0.4,
+             ybottom = pmat[i, 1] - 0.5,
              xright = pmat[i, 2] + 0.4,
-             ytop = pmat[i, 1] + 0.4,
+             ytop = pmat[i, 1] + 0.3,
              border = prunkcol, lwd = 1.5)
       }
     }

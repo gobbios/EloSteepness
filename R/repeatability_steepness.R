@@ -1,7 +1,8 @@
 #' steepness via repeatability (cf aniDom package)
 #'
 #' @param mat square interaction matrix
-#' @param n_rand numeric, number of randomized sequences (default is \code{1000})
+#' @param n_rand numeric, number of randomized sequences
+#'               (default is \code{1000})
 #' @references Sanchez-Tojar et al 2018
 #' @return a steepness value
 #' @importFrom aniDom estimate_uncertainty_by_repeatability
@@ -21,6 +22,6 @@ repeatability_steepness <- function(mat, n_rand = 1000) {
                                                               losers = s[, 2],
                                                               n.rands = n_rand))
 
-  list(steepness = res$value, 
+  list(steepness = res$value,
        has_issues = !is.null(res$warning))
 }

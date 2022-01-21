@@ -35,7 +35,7 @@ test_that("david_steepness handles non-interacting individuals", {
   expect_message(res1 <- davids_steepness(m1, refresh = 0, chains = 2))
   set.seed(123)
   res2 <- davids_steepness(m2, refresh = 0, chains = 2)
-  
+
   x1 <- colMeans(res1$norm_ds)
   x2 <- colMeans(res2$norm_ds)
   expect_true(all((x1 - x2) < 0.001))

@@ -62,8 +62,8 @@ prep_data_for_rstan <- function(mat,
     winnermat <- matrix(x[[1]][locmat], ncol = n_rand)
     losermat <- matrix(x[[2]][locmat], ncol = n_rand)
 
-    outlist <- list(Ai = winnermat,
-                    Bi = losermat,
+    outlist <- list(winner = winnermat,
+                    loser = losermat,
                     diff_f = 1,
                     N = n,
                     K = ncol(mat),

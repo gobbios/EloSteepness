@@ -59,7 +59,7 @@ plot_steepness_regression <- function(x,
   ranks <- colMeans(rranks)
   pdata <- apply(scores, 2, density, adjust = adjust)
   n <- length(pdata)
-  
+
   # deal with colors
   if (!isFALSE(color) & !isTRUE(color) & !is.null(color)) {
     cols <- NULL
@@ -73,15 +73,13 @@ plot_steepness_regression <- function(x,
       stop("colour vector does not match number of ids")
     }
   }
-  
+
   if (isTRUE(color)) {
     cols <- sample(hcl.colors(n = n, "zissou", alpha = 0.7))
-  } 
-  if (isFALSE(color)) {
-    cols <- sample(gray.colors(n = n, start = 0.3, end = 0.9,
-                               alpha = 0.7))
   }
-  
+  if (isFALSE(color)) {
+    cols <- sample(gray.colors(n = n, start = 0.3, end = 0.9, alpha = 0.7))
+  }
 
   plot(0, 0, type = "n", xlim = c(1, n * (1 + axis_extend)), ylim = c(0, n - 1),
        las = 1, xlab = "mean ordinal rank", ylab = ylab,

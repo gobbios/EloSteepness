@@ -19,7 +19,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_multi_steep_fixed_sd");
-    reader.add_event(165, 163, "end", "model_multi_steep_fixed_sd");
+    reader.add_event(164, 162, "end", "model_multi_steep_fixed_sd");
     return reader;
 }
 template <typename T0__, typename T1__, typename T2__>
@@ -29,8 +29,8 @@ ProbFunction(const Eigen::Matrix<T0__, Eigen::Dynamic, 1>& EloStart,
                  const Eigen::Matrix<T2__, Eigen::Dynamic, Eigen::Dynamic>& presence,
                  const int& N,
                  const int& K,
-                 const std::vector<int>& Ai,
-                 const std::vector<int>& Bi, std::ostream* pstream__) {
+                 const std::vector<int>& winner_index,
+                 const std::vector<int>& loser_index, std::ostream* pstream__) {
     typedef typename boost::math::tools::promote_args<T0__, T1__, T2__>::type local_scalar_t__;
     typedef local_scalar_t__ fun_return_scalar_t__;
     const static bool propto__ = true;
@@ -70,19 +70,19 @@ ProbFunction(const Eigen::Matrix<T0__, Eigen::Dynamic, 1>& EloStart,
             current_statement_begin__ = 14;
             stan::model::assign(result, 
                         stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
-                        (1 / (1 + stan::math::exp((get_base1(EloNow, get_base1(Bi, i, "Bi", 1), "EloNow", 1) - get_base1(EloNow, get_base1(Ai, i, "Ai", 1), "EloNow", 1))))), 
+                        (1 / (1 + stan::math::exp((get_base1(EloNow, get_base1(loser_index, i, "loser_index", 1), "EloNow", 1) - get_base1(EloNow, get_base1(winner_index, i, "winner_index", 1), "EloNow", 1))))), 
                         "assigning variable result");
             current_statement_begin__ = 16;
             stan::math::assign(toAdd, ((1 - get_base1(result, i, "result", 1)) * k));
             current_statement_begin__ = 18;
             stan::model::assign(EloNow, 
-                        stan::model::cons_list(stan::model::index_uni(get_base1(Ai, i, "Ai", 1)), stan::model::nil_index_list()), 
-                        (get_base1(EloNow, get_base1(Ai, i, "Ai", 1), "EloNow", 1) + toAdd), 
+                        stan::model::cons_list(stan::model::index_uni(get_base1(winner_index, i, "winner_index", 1)), stan::model::nil_index_list()), 
+                        (get_base1(EloNow, get_base1(winner_index, i, "winner_index", 1), "EloNow", 1) + toAdd), 
                         "assigning variable EloNow");
             current_statement_begin__ = 19;
             stan::model::assign(EloNow, 
-                        stan::model::cons_list(stan::model::index_uni(get_base1(Bi, i, "Bi", 1)), stan::model::nil_index_list()), 
-                        (get_base1(EloNow, get_base1(Bi, i, "Bi", 1), "EloNow", 1) - toAdd), 
+                        stan::model::cons_list(stan::model::index_uni(get_base1(loser_index, i, "loser_index", 1)), stan::model::nil_index_list()), 
+                        (get_base1(EloNow, get_base1(loser_index, i, "loser_index", 1), "EloNow", 1) - toAdd), 
                         "assigning variable EloNow");
         }
         current_statement_begin__ = 21;
@@ -102,9 +102,9 @@ struct ProbFunction_functor__ {
                  const Eigen::Matrix<T2__, Eigen::Dynamic, Eigen::Dynamic>& presence,
                  const int& N,
                  const int& K,
-                 const std::vector<int>& Ai,
-                 const std::vector<int>& Bi, std::ostream* pstream__) const {
-        return ProbFunction(EloStart, k, presence, N, K, Ai, Bi, pstream__);
+                 const std::vector<int>& winner_index,
+                 const std::vector<int>& loser_index, std::ostream* pstream__) const {
+        return ProbFunction(EloStart, k, presence, N, K, winner_index, loser_index, pstream__);
     }
 };
 template <typename T0__, typename T1__>
@@ -113,8 +113,8 @@ cum_winprob(const Eigen::Matrix<T0__, Eigen::Dynamic, 1>& EloStart,
                 const T1__& k,
                 const int& n_interactions,
                 const int& n_ids,
-                const std::vector<int>& Ai,
-                const std::vector<int>& Bi, std::ostream* pstream__) {
+                const std::vector<int>& winner_index,
+                const std::vector<int>& loser_index, std::ostream* pstream__) {
     typedef typename boost::math::tools::promote_args<T0__, T1__>::type local_scalar_t__;
     typedef local_scalar_t__ fun_return_scalar_t__;
     const static bool propto__ = true;
@@ -160,53 +160,53 @@ cum_winprob(const Eigen::Matrix<T0__, Eigen::Dynamic, 1>& EloStart,
         }
         current_statement_begin__ = 35;
         for (int i = 1; i <= n_interactions; ++i) {
-            current_statement_begin__ = 37;
-            stan::math::assign(single_wp, (1 / (1 + stan::math::exp((get_base1(EloNow, get_base1(Bi, i, "Bi", 1), "EloNow", 1) - get_base1(EloNow, get_base1(Ai, i, "Ai", 1), "EloNow", 1))))));
-            current_statement_begin__ = 39;
+            current_statement_begin__ = 36;
+            stan::math::assign(single_wp, (1 / (1 + stan::math::exp((get_base1(EloNow, get_base1(loser_index, i, "loser_index", 1), "EloNow", 1) - get_base1(EloNow, get_base1(winner_index, i, "winner_index", 1), "EloNow", 1))))));
+            current_statement_begin__ = 38;
             stan::math::assign(toAdd, ((1 - single_wp) * k));
+            current_statement_begin__ = 40;
+            stan::model::assign(EloNow, 
+                        stan::model::cons_list(stan::model::index_uni(get_base1(winner_index, i, "winner_index", 1)), stan::model::nil_index_list()), 
+                        (get_base1(EloNow, get_base1(winner_index, i, "winner_index", 1), "EloNow", 1) + toAdd), 
+                        "assigning variable EloNow");
             current_statement_begin__ = 41;
             stan::model::assign(EloNow, 
-                        stan::model::cons_list(stan::model::index_uni(get_base1(Ai, i, "Ai", 1)), stan::model::nil_index_list()), 
-                        (get_base1(EloNow, get_base1(Ai, i, "Ai", 1), "EloNow", 1) + toAdd), 
-                        "assigning variable EloNow");
-            current_statement_begin__ = 42;
-            stan::model::assign(EloNow, 
-                        stan::model::cons_list(stan::model::index_uni(get_base1(Bi, i, "Bi", 1)), stan::model::nil_index_list()), 
-                        (get_base1(EloNow, get_base1(Bi, i, "Bi", 1), "EloNow", 1) - toAdd), 
+                        stan::model::cons_list(stan::model::index_uni(get_base1(loser_index, i, "loser_index", 1)), stan::model::nil_index_list()), 
+                        (get_base1(EloNow, get_base1(loser_index, i, "loser_index", 1), "EloNow", 1) - toAdd), 
                         "assigning variable EloNow");
         }
-        current_statement_begin__ = 45;
+        current_statement_begin__ = 44;
         for (int i = 1; i <= (n_ids - 1); ++i) {
-            current_statement_begin__ = 46;
+            current_statement_begin__ = 45;
             for (int j = (i + 1); j <= n_ids; ++j) {
-                current_statement_begin__ = 47;
+                current_statement_begin__ = 46;
                 stan::math::assign(single_wp, (1 / (1 + stan::math::exp((get_base1(EloNow, i, "EloNow", 1) - get_base1(EloNow, j, "EloNow", 1))))));
-                current_statement_begin__ = 48;
+                current_statement_begin__ = 47;
                 stan::model::assign(pairwise_winprobs, 
                             stan::model::cons_list(stan::model::index_uni(j), stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list())), 
                             single_wp, 
                             "assigning variable pairwise_winprobs");
-                current_statement_begin__ = 49;
+                current_statement_begin__ = 48;
                 stan::model::assign(pairwise_winprobs, 
                             stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(j), stan::model::nil_index_list())), 
                             (1.0 - single_wp), 
                             "assigning variable pairwise_winprobs");
             }
         }
-        current_statement_begin__ = 52;
+        current_statement_begin__ = 51;
         for (int i = 1; i <= n_ids; ++i) {
-            current_statement_begin__ = 53;
+            current_statement_begin__ = 52;
             stan::model::assign(pairwise_winprobs, 
                         stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list())), 
                         0.0, 
                         "assigning variable pairwise_winprobs");
-            current_statement_begin__ = 54;
+            current_statement_begin__ = 53;
             stan::model::assign(cumwinprobs, 
                         stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
                         sum(stan::model::rvalue(pairwise_winprobs, stan::model::cons_list(stan::model::index_uni(i), stan::model::cons_list(stan::model::index_omni(), stan::model::nil_index_list())), "pairwise_winprobs")), 
                         "assigning variable cumwinprobs");
         }
-        current_statement_begin__ = 56;
+        current_statement_begin__ = 55;
         return stan::math::promote_scalar<fun_return_scalar_t__>(cumwinprobs);
         }
     } catch (const std::exception& e) {
@@ -222,9 +222,9 @@ struct cum_winprob_functor__ {
                 const T1__& k,
                 const int& n_interactions,
                 const int& n_ids,
-                const std::vector<int>& Ai,
-                const std::vector<int>& Bi, std::ostream* pstream__) const {
-        return cum_winprob(EloStart, k, n_interactions, n_ids, Ai, Bi, pstream__);
+                const std::vector<int>& winner_index,
+                const std::vector<int>& loser_index, std::ostream* pstream__) const {
+        return cum_winprob(EloStart, k, n_interactions, n_ids, winner_index, loser_index, pstream__);
     }
 };
 template <typename T0__>
@@ -240,134 +240,134 @@ cumwinprob2steep(const Eigen::Matrix<T0__, Eigen::Dynamic, 1>& nds,
     int current_statement_begin__ = -1;
     try {
         {
-        current_statement_begin__ = 61;
+        current_statement_begin__ = 60;
         validate_non_negative_index("A1", "n_ids", n_ids);
         Eigen::Matrix<local_scalar_t__, Eigen::Dynamic, 1> A1(n_ids);
         stan::math::initialize(A1, DUMMY_VAR__);
         stan::math::fill(A1, DUMMY_VAR__);
-        current_statement_begin__ = 62;
+        current_statement_begin__ = 61;
         validate_non_negative_index("A2", "n_ids", n_ids);
         Eigen::Matrix<local_scalar_t__, Eigen::Dynamic, 1> A2(n_ids);
         stan::math::initialize(A2, DUMMY_VAR__);
         stan::math::fill(A2, DUMMY_VAR__);
-        current_statement_begin__ = 63;
+        current_statement_begin__ = 62;
         validate_non_negative_index("B1", "n_ids", n_ids);
         Eigen::Matrix<local_scalar_t__, Eigen::Dynamic, 1> B1(n_ids);
         stan::math::initialize(B1, DUMMY_VAR__);
         stan::math::fill(B1, DUMMY_VAR__);
-        current_statement_begin__ = 64;
+        current_statement_begin__ = 63;
         validate_non_negative_index("AB1", "n_ids", n_ids);
         Eigen::Matrix<local_scalar_t__, Eigen::Dynamic, 1> AB1(n_ids);
         stan::math::initialize(AB1, DUMMY_VAR__);
         stan::math::fill(AB1, DUMMY_VAR__);
-        current_statement_begin__ = 66;
+        current_statement_begin__ = 65;
         local_scalar_t__ sum_y(DUMMY_VAR__);
         (void) sum_y;  // dummy to suppress unused var warning
         stan::math::initialize(sum_y, DUMMY_VAR__);
         stan::math::fill(sum_y, DUMMY_VAR__);
-        current_statement_begin__ = 67;
+        current_statement_begin__ = 66;
         local_scalar_t__ sum_x2(DUMMY_VAR__);
         (void) sum_x2;  // dummy to suppress unused var warning
         stan::math::initialize(sum_x2, DUMMY_VAR__);
         stan::math::fill(sum_x2, DUMMY_VAR__);
-        current_statement_begin__ = 68;
+        current_statement_begin__ = 67;
         local_scalar_t__ sum_x(DUMMY_VAR__);
         (void) sum_x;  // dummy to suppress unused var warning
         stan::math::initialize(sum_x, DUMMY_VAR__);
         stan::math::fill(sum_x, DUMMY_VAR__);
-        current_statement_begin__ = 69;
+        current_statement_begin__ = 68;
         local_scalar_t__ sum_xy(DUMMY_VAR__);
         (void) sum_xy;  // dummy to suppress unused var warning
         stan::math::initialize(sum_xy, DUMMY_VAR__);
         stan::math::fill(sum_xy, DUMMY_VAR__);
-        current_statement_begin__ = 71;
+        current_statement_begin__ = 70;
         validate_non_negative_index("theranks", "n_ids", n_ids);
         Eigen::Matrix<local_scalar_t__, Eigen::Dynamic, 1> theranks(n_ids);
         stan::math::initialize(theranks, DUMMY_VAR__);
         stan::math::fill(theranks, DUMMY_VAR__);
-        current_statement_begin__ = 72;
+        current_statement_begin__ = 71;
         int r(0);
         (void) r;  // dummy to suppress unused var warning
         stan::math::fill(r, std::numeric_limits<int>::min());
-        current_statement_begin__ = 73;
+        current_statement_begin__ = 72;
         int s(0);
         (void) s;  // dummy to suppress unused var warning
         stan::math::fill(s, std::numeric_limits<int>::min());
-        current_statement_begin__ = 75;
+        current_statement_begin__ = 74;
         validate_non_negative_index("xsteep", "2", 2);
         Eigen::Matrix<local_scalar_t__, Eigen::Dynamic, 1> xsteep(2);
         stan::math::initialize(xsteep, DUMMY_VAR__);
         stan::math::fill(xsteep, DUMMY_VAR__);
-        current_statement_begin__ = 78;
+        current_statement_begin__ = 77;
         for (int i = 1; i <= n_ids; ++i) {
-            current_statement_begin__ = 79;
+            current_statement_begin__ = 78;
             stan::math::assign(r, 1);
-            current_statement_begin__ = 80;
+            current_statement_begin__ = 79;
             stan::math::assign(s, 1);
-            current_statement_begin__ = 81;
+            current_statement_begin__ = 80;
             for (int j = 1; j <= i; ++j) {
-                current_statement_begin__ = 82;
+                current_statement_begin__ = 81;
                 if (as_bool(logical_lt(get_base1(nds, j, "nds", 1), get_base1(nds, i, "nds", 1)))) {
-                    current_statement_begin__ = 83;
+                    current_statement_begin__ = 82;
                     stan::math::assign(r, (r + 1));
                 }
-                current_statement_begin__ = 85;
+                current_statement_begin__ = 84;
                 if (as_bool(logical_eq(get_base1(nds, j, "nds", 1), get_base1(nds, i, "nds", 1)))) {
-                    current_statement_begin__ = 86;
+                    current_statement_begin__ = 85;
                     stan::math::assign(s, (s + 1));
                 }
             }
-            current_statement_begin__ = 90;
+            current_statement_begin__ = 89;
             for (int j = (i + 1); j <= n_ids; ++j) {
-                current_statement_begin__ = 91;
+                current_statement_begin__ = 90;
                 if (as_bool(logical_lt(get_base1(nds, j, "nds", 1), get_base1(nds, i, "nds", 1)))) {
-                    current_statement_begin__ = 92;
+                    current_statement_begin__ = 91;
                     stan::math::assign(r, (r + 1));
                 }
-                current_statement_begin__ = 94;
+                current_statement_begin__ = 93;
                 if (as_bool(logical_eq(get_base1(nds, j, "nds", 1), get_base1(nds, i, "nds", 1)))) {
-                    current_statement_begin__ = 95;
+                    current_statement_begin__ = 94;
                     stan::math::assign(s, (s + 1));
                 }
             }
-            current_statement_begin__ = 98;
+            current_statement_begin__ = 97;
             stan::model::assign(theranks, 
                         stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
                         ((r + ((s - 1) * 0.5)) - 0.5), 
                         "assigning variable theranks");
         }
-        current_statement_begin__ = 102;
+        current_statement_begin__ = 101;
         stan::math::assign(sum_y, sum(nds));
-        current_statement_begin__ = 103;
+        current_statement_begin__ = 102;
         stan::math::assign(sum_x2, 0.0);
-        current_statement_begin__ = 104;
+        current_statement_begin__ = 103;
         for (int i = 1; i <= n_ids; ++i) {
-            current_statement_begin__ = 105;
+            current_statement_begin__ = 104;
             stan::math::assign(sum_x2, (sum_x2 + pow(get_base1(theranks, i, "theranks", 1), 2)));
         }
-        current_statement_begin__ = 107;
+        current_statement_begin__ = 106;
         stan::math::assign(sum_x, sum(theranks));
-        current_statement_begin__ = 108;
+        current_statement_begin__ = 107;
         stan::math::assign(sum_xy, sum(elt_multiply(nds, theranks)));
-        current_statement_begin__ = 110;
+        current_statement_begin__ = 109;
         stan::model::assign(xsteep, 
                     stan::model::cons_list(stan::model::index_uni(1), stan::model::nil_index_list()), 
                     (((sum_y * sum_x2) - (sum_x * sum_xy)) / ((n_ids * sum_x2) - pow(sum_x, 2))), 
                     "assigning variable xsteep");
-        current_statement_begin__ = 113;
+        current_statement_begin__ = 112;
         stan::math::assign(A1, subtract(theranks, mean(theranks)));
-        current_statement_begin__ = 114;
+        current_statement_begin__ = 113;
         stan::math::assign(B1, subtract(nds, mean(nds)));
-        current_statement_begin__ = 115;
+        current_statement_begin__ = 114;
         stan::math::assign(AB1, elt_multiply(A1, B1));
-        current_statement_begin__ = 116;
+        current_statement_begin__ = 115;
         stan::math::assign(A2, elt_multiply(A1, A1));
-        current_statement_begin__ = 117;
+        current_statement_begin__ = 116;
         stan::model::assign(xsteep, 
                     stan::model::cons_list(stan::model::index_uni(2), stan::model::nil_index_list()), 
                     (sum(AB1) / sum(A2)), 
                     "assigning variable xsteep");
-        current_statement_begin__ = 119;
+        current_statement_begin__ = 118;
         return stan::math::promote_scalar<fun_return_scalar_t__>(xsteep);
         }
     } catch (const std::exception& e) {
@@ -391,8 +391,8 @@ private:
         int N;
         int K;
         int n_rand;
-        std::vector<std::vector<int> > Ai;
-        std::vector<std::vector<int> > Bi;
+        std::vector<std::vector<int> > winner;
+        std::vector<std::vector<int> > loser;
         matrix_d presence;
         std::vector<int> y;
 public:
@@ -425,70 +425,70 @@ public:
         (void) DUMMY_VAR__;  // suppress unused var warning
         try {
             // initialize data block variables from context__
-            current_statement_begin__ = 125;
+            current_statement_begin__ = 124;
             context__.validate_dims("data initialization", "N", "int", context__.to_vec());
             N = int(0);
             vals_i__ = context__.vals_i("N");
             pos__ = 0;
             N = vals_i__[pos__++];
             check_greater_or_equal(function__, "N", N, 1);
-            current_statement_begin__ = 126;
+            current_statement_begin__ = 125;
             context__.validate_dims("data initialization", "K", "int", context__.to_vec());
             K = int(0);
             vals_i__ = context__.vals_i("K");
             pos__ = 0;
             K = vals_i__[pos__++];
             check_greater_or_equal(function__, "K", K, 1);
-            current_statement_begin__ = 127;
+            current_statement_begin__ = 126;
             context__.validate_dims("data initialization", "n_rand", "int", context__.to_vec());
             n_rand = int(0);
             vals_i__ = context__.vals_i("n_rand");
             pos__ = 0;
             n_rand = vals_i__[pos__++];
             check_greater_or_equal(function__, "n_rand", n_rand, 1);
-            current_statement_begin__ = 128;
-            validate_non_negative_index("Ai", "N", N);
-            validate_non_negative_index("Ai", "n_rand", n_rand);
-            context__.validate_dims("data initialization", "Ai", "int", context__.to_vec(N,n_rand));
-            Ai = std::vector<std::vector<int> >(N, std::vector<int>(n_rand, int(0)));
-            vals_i__ = context__.vals_i("Ai");
+            current_statement_begin__ = 127;
+            validate_non_negative_index("winner", "N", N);
+            validate_non_negative_index("winner", "n_rand", n_rand);
+            context__.validate_dims("data initialization", "winner", "int", context__.to_vec(N,n_rand));
+            winner = std::vector<std::vector<int> >(N, std::vector<int>(n_rand, int(0)));
+            vals_i__ = context__.vals_i("winner");
             pos__ = 0;
-            size_t Ai_k_0_max__ = N;
-            size_t Ai_k_1_max__ = n_rand;
-            for (size_t k_1__ = 0; k_1__ < Ai_k_1_max__; ++k_1__) {
-                for (size_t k_0__ = 0; k_0__ < Ai_k_0_max__; ++k_0__) {
-                    Ai[k_0__][k_1__] = vals_i__[pos__++];
+            size_t winner_k_0_max__ = N;
+            size_t winner_k_1_max__ = n_rand;
+            for (size_t k_1__ = 0; k_1__ < winner_k_1_max__; ++k_1__) {
+                for (size_t k_0__ = 0; k_0__ < winner_k_0_max__; ++k_0__) {
+                    winner[k_0__][k_1__] = vals_i__[pos__++];
                 }
             }
-            size_t Ai_i_0_max__ = N;
-            size_t Ai_i_1_max__ = n_rand;
-            for (size_t i_0__ = 0; i_0__ < Ai_i_0_max__; ++i_0__) {
-                for (size_t i_1__ = 0; i_1__ < Ai_i_1_max__; ++i_1__) {
-                    check_greater_or_equal(function__, "Ai[i_0__][i_1__]", Ai[i_0__][i_1__], 1);
+            size_t winner_i_0_max__ = N;
+            size_t winner_i_1_max__ = n_rand;
+            for (size_t i_0__ = 0; i_0__ < winner_i_0_max__; ++i_0__) {
+                for (size_t i_1__ = 0; i_1__ < winner_i_1_max__; ++i_1__) {
+                    check_greater_or_equal(function__, "winner[i_0__][i_1__]", winner[i_0__][i_1__], 1);
+                }
+            }
+            current_statement_begin__ = 128;
+            validate_non_negative_index("loser", "N", N);
+            validate_non_negative_index("loser", "n_rand", n_rand);
+            context__.validate_dims("data initialization", "loser", "int", context__.to_vec(N,n_rand));
+            loser = std::vector<std::vector<int> >(N, std::vector<int>(n_rand, int(0)));
+            vals_i__ = context__.vals_i("loser");
+            pos__ = 0;
+            size_t loser_k_0_max__ = N;
+            size_t loser_k_1_max__ = n_rand;
+            for (size_t k_1__ = 0; k_1__ < loser_k_1_max__; ++k_1__) {
+                for (size_t k_0__ = 0; k_0__ < loser_k_0_max__; ++k_0__) {
+                    loser[k_0__][k_1__] = vals_i__[pos__++];
+                }
+            }
+            size_t loser_i_0_max__ = N;
+            size_t loser_i_1_max__ = n_rand;
+            for (size_t i_0__ = 0; i_0__ < loser_i_0_max__; ++i_0__) {
+                for (size_t i_1__ = 0; i_1__ < loser_i_1_max__; ++i_1__) {
+                    check_greater_or_equal(function__, "loser[i_0__][i_1__]", loser[i_0__][i_1__], 1);
                 }
             }
             current_statement_begin__ = 129;
-            validate_non_negative_index("Bi", "N", N);
-            validate_non_negative_index("Bi", "n_rand", n_rand);
-            context__.validate_dims("data initialization", "Bi", "int", context__.to_vec(N,n_rand));
-            Bi = std::vector<std::vector<int> >(N, std::vector<int>(n_rand, int(0)));
-            vals_i__ = context__.vals_i("Bi");
-            pos__ = 0;
-            size_t Bi_k_0_max__ = N;
-            size_t Bi_k_1_max__ = n_rand;
-            for (size_t k_1__ = 0; k_1__ < Bi_k_1_max__; ++k_1__) {
-                for (size_t k_0__ = 0; k_0__ < Bi_k_0_max__; ++k_0__) {
-                    Bi[k_0__][k_1__] = vals_i__[pos__++];
-                }
-            }
-            size_t Bi_i_0_max__ = N;
-            size_t Bi_i_1_max__ = n_rand;
-            for (size_t i_0__ = 0; i_0__ < Bi_i_0_max__; ++i_0__) {
-                for (size_t i_1__ = 0; i_1__ < Bi_i_1_max__; ++i_1__) {
-                    check_greater_or_equal(function__, "Bi[i_0__][i_1__]", Bi[i_0__][i_1__], 1);
-                }
-            }
-            current_statement_begin__ = 130;
             validate_non_negative_index("presence", "N", N);
             validate_non_negative_index("presence", "K", K);
             context__.validate_dims("data initialization", "presence", "matrix_d", context__.to_vec(N,K));
@@ -502,7 +502,7 @@ public:
                     presence(j_1__, j_2__) = vals_r__[pos__++];
                 }
             }
-            current_statement_begin__ = 131;
+            current_statement_begin__ = 130;
             validate_non_negative_index("y", "N", N);
             context__.validate_dims("data initialization", "y", "int", context__.to_vec(N));
             y = std::vector<int>(N, int(0));
@@ -522,11 +522,11 @@ public:
             // validate, set parameter ranges
             num_params_r__ = 0U;
             param_ranges_i__.clear();
-            current_statement_begin__ = 134;
+            current_statement_begin__ = 133;
             validate_non_negative_index("EloStart_raw", "n_rand", n_rand);
             validate_non_negative_index("EloStart_raw", "K", K);
             num_params_r__ += (n_rand * K);
-            current_statement_begin__ = 135;
+            current_statement_begin__ = 134;
             validate_non_negative_index("k", "n_rand", n_rand);
             num_params_r__ += (1 * n_rand);
         } catch (const std::exception& e) {
@@ -546,7 +546,7 @@ public:
         (void) pos__; // dummy call to supress warning
         std::vector<double> vals_r__;
         std::vector<int> vals_i__;
-        current_statement_begin__ = 134;
+        current_statement_begin__ = 133;
         if (!(context__.contains_r("EloStart_raw")))
             stan::lang::rethrow_located(std::runtime_error(std::string("Variable EloStart_raw missing")), current_statement_begin__, prog_reader__());
         vals_r__ = context__.vals_r("EloStart_raw");
@@ -567,7 +567,7 @@ public:
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(std::runtime_error(std::string("Error transforming variable EloStart_raw: ") + e.what()), current_statement_begin__, prog_reader__());
         }
-        current_statement_begin__ = 135;
+        current_statement_begin__ = 134;
         if (!(context__.contains_r("k")))
             stan::lang::rethrow_located(std::runtime_error(std::string("Variable k missing")), current_statement_begin__, prog_reader__());
         vals_r__ = context__.vals_r("k");
@@ -612,14 +612,14 @@ public:
         try {
             stan::io::reader<local_scalar_t__> in__(params_r__, params_i__);
             // model parameters
-            current_statement_begin__ = 134;
+            current_statement_begin__ = 133;
             Eigen::Matrix<local_scalar_t__, Eigen::Dynamic, Eigen::Dynamic> EloStart_raw;
             (void) EloStart_raw;  // dummy to suppress unused var warning
             if (jacobian__)
                 EloStart_raw = in__.matrix_constrain(n_rand, K, lp__);
             else
                 EloStart_raw = in__.matrix_constrain(n_rand, K);
-            current_statement_begin__ = 135;
+            current_statement_begin__ = 134;
             std::vector<local_scalar_t__> k;
             size_t k_d_0_max__ = n_rand;
             k.reserve(k_d_0_max__);
@@ -630,18 +630,18 @@ public:
                     k.push_back(in__.scalar_lb_constrain(0.0));
             }
             // transformed parameters
-            current_statement_begin__ = 138;
+            current_statement_begin__ = 137;
             validate_non_negative_index("EloStart", "n_rand", n_rand);
             validate_non_negative_index("EloStart", "K", K);
             Eigen::Matrix<local_scalar_t__, Eigen::Dynamic, Eigen::Dynamic> EloStart(n_rand, K);
             stan::math::initialize(EloStart, DUMMY_VAR__);
             stan::math::fill(EloStart, DUMMY_VAR__);
             // transformed parameters block statements
-            current_statement_begin__ = 140;
+            current_statement_begin__ = 139;
             for (int r = 1; r <= n_rand; ++r) {
-                current_statement_begin__ = 141;
+                current_statement_begin__ = 140;
                 for (int i = 1; i <= K; ++i) {
-                    current_statement_begin__ = 142;
+                    current_statement_begin__ = 141;
                     stan::model::assign(EloStart, 
                                 stan::model::cons_list(stan::model::index_uni(r), stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list())), 
                                 (get_base1(EloStart_raw, r, i, "EloStart_raw", 1) - mean(stan::model::rvalue(EloStart_raw, stan::model::cons_list(stan::model::index_uni(r), stan::model::cons_list(stan::model::index_omni(), stan::model::nil_index_list())), "EloStart_raw"))), 
@@ -651,7 +651,7 @@ public:
             // validate transformed parameters
             const char* function__ = "validate transformed params";
             (void) function__;  // dummy to suppress unused var warning
-            current_statement_begin__ = 138;
+            current_statement_begin__ = 137;
             size_t EloStart_j_1_max__ = n_rand;
             size_t EloStart_j_2_max__ = K;
             for (size_t j_1__ = 0; j_1__ < EloStart_j_1_max__; ++j_1__) {
@@ -664,14 +664,14 @@ public:
                 }
             }
             // model body
-            current_statement_begin__ = 148;
+            current_statement_begin__ = 147;
             for (int r = 1; r <= n_rand; ++r) {
-                current_statement_begin__ = 149;
+                current_statement_begin__ = 148;
                 lp_accum__.add(normal_log<propto__>(get_base1(k, r, "k", 1), 0, 1));
-                current_statement_begin__ = 150;
+                current_statement_begin__ = 149;
                 lp_accum__.add(normal_log<propto__>(stan::model::rvalue(EloStart_raw, stan::model::cons_list(stan::model::index_uni(r), stan::model::cons_list(stan::model::index_omni(), stan::model::nil_index_list())), "EloStart_raw"), 0, 1));
-                current_statement_begin__ = 151;
-                lp_accum__.add(bernoulli_log<propto__>(y, ProbFunction(to_vector(stan::model::rvalue(EloStart, stan::model::cons_list(stan::model::index_uni(r), stan::model::cons_list(stan::model::index_omni(), stan::model::nil_index_list())), "EloStart")), get_base1(k, r, "k", 1), presence, N, K, stan::model::rvalue(Ai, stan::model::cons_list(stan::model::index_omni(), stan::model::cons_list(stan::model::index_uni(r), stan::model::nil_index_list())), "Ai"), stan::model::rvalue(Bi, stan::model::cons_list(stan::model::index_omni(), stan::model::cons_list(stan::model::index_uni(r), stan::model::nil_index_list())), "Bi"), pstream__)));
+                current_statement_begin__ = 150;
+                lp_accum__.add(bernoulli_log<propto__>(y, ProbFunction(to_vector(stan::model::rvalue(EloStart, stan::model::cons_list(stan::model::index_uni(r), stan::model::cons_list(stan::model::index_omni(), stan::model::nil_index_list())), "EloStart")), get_base1(k, r, "k", 1), presence, N, K, stan::model::rvalue(winner, stan::model::cons_list(stan::model::index_omni(), stan::model::cons_list(stan::model::index_uni(r), stan::model::nil_index_list())), "winner"), stan::model::rvalue(loser, stan::model::cons_list(stan::model::index_omni(), stan::model::cons_list(stan::model::index_uni(r), stan::model::nil_index_list())), "loser"), pstream__)));
             }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
@@ -761,18 +761,18 @@ public:
         if (!include_tparams__ && !include_gqs__) return;
         try {
             // declare and define transformed parameters
-            current_statement_begin__ = 138;
+            current_statement_begin__ = 137;
             validate_non_negative_index("EloStart", "n_rand", n_rand);
             validate_non_negative_index("EloStart", "K", K);
             Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> EloStart(n_rand, K);
             stan::math::initialize(EloStart, DUMMY_VAR__);
             stan::math::fill(EloStart, DUMMY_VAR__);
             // do transformed parameters statements
-            current_statement_begin__ = 140;
+            current_statement_begin__ = 139;
             for (int r = 1; r <= n_rand; ++r) {
-                current_statement_begin__ = 141;
+                current_statement_begin__ = 140;
                 for (int i = 1; i <= K; ++i) {
-                    current_statement_begin__ = 142;
+                    current_statement_begin__ = 141;
                     stan::model::assign(EloStart, 
                                 stan::model::cons_list(stan::model::index_uni(r), stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list())), 
                                 (get_base1(EloStart_raw, r, i, "EloStart_raw", 1) - mean(stan::model::rvalue(EloStart_raw, stan::model::cons_list(stan::model::index_uni(r), stan::model::cons_list(stan::model::index_omni(), stan::model::nil_index_list())), "EloStart_raw"))), 
@@ -795,38 +795,38 @@ public:
             }
             if (!include_gqs__) return;
             // declare and define generated quantities
-            current_statement_begin__ = 157;
+            current_statement_begin__ = 156;
             validate_non_negative_index("steepness", "n_rand", n_rand);
             Eigen::Matrix<double, Eigen::Dynamic, 1> steepness(n_rand);
             stan::math::initialize(steepness, DUMMY_VAR__);
             stan::math::fill(steepness, DUMMY_VAR__);
-            current_statement_begin__ = 158;
+            current_statement_begin__ = 157;
             validate_non_negative_index("cumwinprobs", "n_rand", n_rand);
             validate_non_negative_index("cumwinprobs", "K", K);
             Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> cumwinprobs(n_rand, K);
             stan::math::initialize(cumwinprobs, DUMMY_VAR__);
             stan::math::fill(cumwinprobs, DUMMY_VAR__);
             // generated quantities statements
-            current_statement_begin__ = 159;
+            current_statement_begin__ = 158;
             for (int r = 1; r <= n_rand; ++r) {
-                current_statement_begin__ = 160;
+                current_statement_begin__ = 159;
                 stan::model::assign(cumwinprobs, 
                             stan::model::cons_list(stan::model::index_uni(r), stan::model::cons_list(stan::model::index_omni(), stan::model::nil_index_list())), 
-                            to_row_vector(cum_winprob(to_vector(stan::model::rvalue(EloStart, stan::model::cons_list(stan::model::index_uni(r), stan::model::cons_list(stan::model::index_omni(), stan::model::nil_index_list())), "EloStart")), get_base1(k, r, "k", 1), N, K, stan::model::rvalue(Ai, stan::model::cons_list(stan::model::index_omni(), stan::model::cons_list(stan::model::index_uni(r), stan::model::nil_index_list())), "Ai"), stan::model::rvalue(Bi, stan::model::cons_list(stan::model::index_omni(), stan::model::cons_list(stan::model::index_uni(r), stan::model::nil_index_list())), "Bi"), pstream__)), 
+                            to_row_vector(cum_winprob(to_vector(stan::model::rvalue(EloStart, stan::model::cons_list(stan::model::index_uni(r), stan::model::cons_list(stan::model::index_omni(), stan::model::nil_index_list())), "EloStart")), get_base1(k, r, "k", 1), N, K, stan::model::rvalue(winner, stan::model::cons_list(stan::model::index_omni(), stan::model::cons_list(stan::model::index_uni(r), stan::model::nil_index_list())), "winner"), stan::model::rvalue(loser, stan::model::cons_list(stan::model::index_omni(), stan::model::cons_list(stan::model::index_uni(r), stan::model::nil_index_list())), "loser"), pstream__)), 
                             "assigning variable cumwinprobs");
-                current_statement_begin__ = 161;
+                current_statement_begin__ = 160;
                 stan::model::assign(steepness, 
                             stan::model::cons_list(stan::model::index_uni(r), stan::model::nil_index_list()), 
                             get_base1(cumwinprob2steep(to_vector(stan::model::rvalue(cumwinprobs, stan::model::cons_list(stan::model::index_uni(r), stan::model::cons_list(stan::model::index_omni(), stan::model::nil_index_list())), "cumwinprobs")), K, pstream__), 2, "cumwinprob2steep(to_vector(stan::model::rvalue(cumwinprobs, stan::model::cons_list(stan::model::index_uni(r), stan::model::cons_list(stan::model::index_omni(), stan::model::nil_index_list())), \"cumwinprobs\")), K, pstream__)", 1), 
                             "assigning variable steepness");
             }
             // validate, write generated quantities
-            current_statement_begin__ = 157;
+            current_statement_begin__ = 156;
             size_t steepness_j_1_max__ = n_rand;
             for (size_t j_1__ = 0; j_1__ < steepness_j_1_max__; ++j_1__) {
                 vars__.push_back(steepness(j_1__));
             }
-            current_statement_begin__ = 158;
+            current_statement_begin__ = 157;
             size_t cumwinprobs_j_2_max__ = K;
             size_t cumwinprobs_j_1_max__ = n_rand;
             for (size_t j_2__ = 0; j_2__ < cumwinprobs_j_2_max__; ++j_2__) {

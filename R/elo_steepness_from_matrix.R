@@ -1,20 +1,21 @@
 #' steepness based on Bayesian Elo-rating
 #'
 #' @param mat square interaction matrix
-#' @param algo character, either \code{"fixed_sd"} or \code{"original"}. This
-#'             determines which algorithim is used. Default is \code{"fixed_sd"},
-#'             which is a slight modification from Goffe et al's original code.
-#' @param n_rand numeric, number of randomized sequences. Default is 
-#'               \code{NULL}, which uses a rule of thumb to determine the 
+#' @param algo character, either \code{"fixed_sd"} or \code{"original"}.
+#'             This determines which algorithim is used. Default is
+#'             \code{"fixed_sd"}, which is a slight modification from
+#'             Goffe et al's original code.
+#' @param n_rand numeric, number of randomized sequences. Default is
+#'               \code{NULL}, which uses a rule of thumb to determine the
 #'               number (see below for more details).
 #' @param silent logical, suppress warnings
 #' @param static logical, treat the data as static (i.e. think of data in
 #'               matrix form). Default is \code{TRUE}. \code{FALSE} is not
 #'               yet supported.
 #' @param ... additional arguments for \code{sampling()}
-#' 
+#'
 #' @details The number of randomizations is set in the following way, unless
-#'          a specific number is provided. If there are more than 500 
+#'          a specific number is provided. If there are more than 500
 #'          observed interactions, \code{n_rand = 5}. If there are less than
 #'          100 interactions, \code{n_rand = 50}. In the remaining cases,
 #'          \code{n_rand = 20}.
@@ -32,7 +33,7 @@
 #' plot_steepness(res)
 #'
 #' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 3, cores = 4,
-#'                                  algo = "original", 
+#'                                  algo = "original",
 #'                                  iter = 3000, warmup = 2000, refresh = 0)
 #' plot_steepness(res)
 #' }
@@ -44,14 +45,14 @@ elo_steepness_from_matrix <- function(mat,
                                       static = TRUE,
                                       ...) {
   algo <- match.arg(algo)
-  
+
   # determine number of randomizations
   if (is.null(n_rand)) {
     if (sum(mat) > 500) n_rand <- 5
     if (sum(mat) <= 500 & sum(mat) > 100) n_rand <- 20
     if (sum(mat) <= 100) n_rand <- 50
   }
-  
+
   standat <- prep_data_for_rstan(mat = mat,
                                  n_rand = n_rand,
                                  silent = silent,

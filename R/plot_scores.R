@@ -69,7 +69,7 @@ plot_scores <- function(x,
   pmax <- max(unlist(lapply(pdata, function(x) max(x$y))))
   xl <- c(0, n_ids - 1)
   yl <- c(0, pmax * 1.05)
-  
+
   # deal with colors
   if (!isFALSE(color) & !isTRUE(color) & !is.null(color)) {
     cols <- NULL
@@ -86,10 +86,9 @@ plot_scores <- function(x,
 
   if (isTRUE(color)) {
     cols <- sample(hcl.colors(n = n_ids, "zissou", alpha = 0.7))
-  } 
+  }
   if (isFALSE(color)) {
-    cols <- sample(gray.colors(n = n_ids, start = 0.3, end = 0.9,
-                               alpha = 0.7))
+    cols <- sample(gray.colors(n = n_ids, start = 0.3, end = 0.9, alpha = 0.7))
   }
 
   border_cols <- rep("black", n_ids)

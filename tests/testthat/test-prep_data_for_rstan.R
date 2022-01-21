@@ -31,8 +31,8 @@ plist5b <- prep_data_for_rstan(mat)
 
 test_that("conversion to list for rstan works", {
   expect_true(plist$N == nobs)
-  expect_true(length(plist$Ai) == nobs)
-  expect_true(length(plist$Ai) == nrow(xseq))
+  expect_true(length(plist$winner) == nobs)
+  expect_true(length(plist$loser) == nrow(xseq))
   expect_true(length(plist$ids) == nids)
 
   expect_message(plist2 <- prep_data_for_rstan(mat2))

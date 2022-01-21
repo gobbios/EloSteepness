@@ -9,6 +9,8 @@ man/*.Rd
 src/*.gcda
 tests/testthat/Rplots.pdf
 .DS_Store
+_dump/
+vignette_data/
 
 # History files
 .Rhistory
@@ -51,3 +53,5 @@ vignettes/*.pdf
 .Renviron
 .Rproj.user
 inst/doc
+/doc/
+/Meta/

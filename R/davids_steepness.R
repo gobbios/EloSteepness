@@ -5,7 +5,7 @@
 #'
 #' @return a list or stan fit object
 #' @export
-#' @examples 
+#' @examples
 #' \dontrun{
 #' data(dommats, package = "EloRating")
 #' res <- davids_steepness(dommats$elephants, refresh = 0)

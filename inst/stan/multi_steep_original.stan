@@ -1,5 +1,5 @@
 functions {
-  real[] ProbFunction(real[] EloStart, real k, matrix presence, int N, int K, int[] Ai, int[] Bi, real diff_f) {
+  real[] ProbFunction(real[] EloStart, real k, matrix presence, int N, int K, int[] Ai, int[] loser, real diff_f) {
     real result[N];
     real toAdd;
     //real aux_mean = 0.0;
@@ -11,35 +11,33 @@ functions {
       // centering:
       EloNow = EloNow - dot_product(row(presence, i), EloNow) / sum(row(presence, i));
       // likelihood contribution:
-      result[i] = 1/(1 + exp(diff_f * (EloNow[Bi[i]] - EloNow[Ai[i]])));
+      result[i] = 1/(1 + exp(diff_f * (EloNow[loser[i]] - EloNow[Ai[i]])));
       // update addend:
       toAdd = (1 - result[i]) * k;
       // update:
       EloNow[Ai[i]] = EloNow[Ai[i]] + toAdd;
-      EloNow[Bi[i]] = EloNow[Bi[i]] - toAdd;
+      EloNow[loser[i]] = EloNow[loser[i]] - toAdd;
       }
     return result;
   }
 
-  vector cum_winprob(vector EloStart, real k, int n_interactions, int n_ids, int[] Ai, int[] Bi) {
+  vector cum_winprob(vector EloStart, real k, int n_interactions, int n_ids, int[] Ai, int[] loser) {
     real single_wp;
     real toAdd;
     matrix[n_ids, n_ids] pairwise_winprobs;
     vector[n_ids] cumwinprobs;
 
-    //real aux_mean = 0.0;
     vector[n_ids] EloNow;
     for (j in 1:n_ids) {
       EloNow[j] = EloStart[j];
     }
     for (i in 1:n_interactions) {
-      // result[i] = normal_cdf((EloNow[Ai[i]] - EloNow[Bi[i]]) / (200 * sqrt(2.0)), 0.0, 1.0);
-      single_wp = 1/(1 + exp(EloNow[Bi[i]] - EloNow[Ai[i]]));
-      // update addend:
+      single_wp = 1/(1 + exp(EloNow[loser[i]] - EloNow[Ai[i]]));
+      // update added:
       toAdd = (1 - single_wp) * k;
       // update:
       EloNow[Ai[i]] = EloNow[Ai[i]] + toAdd;
-      EloNow[Bi[i]] = EloNow[Bi[i]] - toAdd;
+      EloNow[loser[i]] = EloNow[loser[i]] - toAdd;
     }
 
     for (i in 1:(n_ids - 1)) {
@@ -126,8 +124,8 @@ data {
   int<lower=1> N; // number of encounters
   int<lower=1> K; // number of individuals
   int<lower=1> n_rand; // number of randomized sequences
-  int<lower=1> Ai[N, n_rand]; // winner's index
-  int<lower=1> Bi[N, n_rand]; // losers's index
+  int<lower=1> winner[N, n_rand]; // winner's index
+  int<lower=1> loser[N, n_rand]; // losers's index
   matrix[N, K] presence;
   int<lower=0> y[N]; // always 1
   real<lower=0> diff_f; // Elo Score difference factor
@@ -159,7 +157,7 @@ model {
     k_raw[r] ~ normal(0, 1);
     sigma_raw[r] ~ normal(0, 1);
     EloStart_raw[r, ] ~ normal(0, sigma_raw[r]);
-    y ~ bernoulli(ProbFunction(EloStart[r, ], k[r], presence, N, K, Ai[, r], Bi[, r], diff_f));
+    y ~ bernoulli(ProbFunction(EloStart[r, ], k[r], presence, N, K, winner[, r], loser[, r], diff_f));
   }
 
 }
@@ -171,8 +169,7 @@ generated quantities{
 
   for (r in 1:n_rand) {
     sigma[r] = sigma_raw[r]/diff_f;
-    cumwinprobs[r, ] = to_row_vector(cum_winprob(to_vector(EloStart[r, ]), k[r], N, K, Ai[, r], Bi[, r]));
+    cumwinprobs[r, ] = to_row_vector(cum_winprob(to_vector(EloStart[r, ]), k[r], N, K, winner[, r], loser[, r]));
     steepness[r] = cumwinprob2steep(to_vector(cumwinprobs[r, ]), K)[2];
-    //steepness[r] = cumwinprob2steep(cum_winprob(EloStart[r, ], k[r], N, K, Ai[, r], Bi[, r]), K)[2];
   }
 }
