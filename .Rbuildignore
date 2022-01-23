@@ -4,3 +4,7 @@ _dump/
 vignette_data/
 ^doc$
 ^Meta$
+run_vignette.R
+vignettes/tutorial.Rmd.original
+cache/
+vignettes/cache

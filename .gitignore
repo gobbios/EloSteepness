@@ -11,6 +11,7 @@ tests/testthat/Rplots.pdf
 .DS_Store
 _dump/
 vignette_data/
+figure/
 
 # History files
 .Rhistory
