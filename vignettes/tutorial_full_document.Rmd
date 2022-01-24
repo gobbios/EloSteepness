@@ -55,7 +55,7 @@ R.version$version.string
 If this returns at least 3.5.0 (or as in my case "\texttt{`r R.version$version.string`}") all is good.
 Otherwise you need to update `R`, which might be a good idea anyway.
 
-In order to get the package up an running you need a working installation of `rstan`.
+In order to get the package up and running you need a working installation of `rstan`.
 This in turn requires `stan` to be installed but this is taken care of during the setup of the `rstan` package.
 The easiest way of doing all this is to install the `brms` package.\footnote{\texttt{brms} is not actually required for \texttt{EloSteepness} to work, but it handles the installation of \texttt{rstan} and friends very conveniently.}
 If you already have `brms` (or `rstan`) then you are probably good to go.
@@ -104,6 +104,225 @@ And for good measure at this point it might be a good idea to restart your compu
 
 
 
+# data preparation
+
+The only thing you need to get going is a dominance interaction matrix.
+This is just a tabulation of dyadics dominance interactions where one individual is the winner and another individual is a loser. 
+By convention, winners are usually represented in the rows and losers in the columns.
+The important thing is that the matrix needs to be square, i.e. it needs the same number of columns and rows.
+The `R` functions in the package require that your matrix has column and row names, which should correspond to the individual ids.
+For the sake of this tutorial, we use example matrices that are included in the `EloRating` package.
+
+# an example with Bayesian Elo-rating
+
+We start with an example of dominance interactions between seven badgers.
+This data set has some peculiarities, which will become apparent while we work through the example.
+
+```{r setup, eval = FALSE}
+library(EloSteepness)
+```
+
+```{r}
+data("dommats", package = "EloRating")
+mat <- dommats$badgers
+```
+
+Here it is:
+
+```{r badgermatrix, fig.retina= 2, echo=FALSE, fig.width=6, fig.height=2.8, out.width="50%", fig.align="center", fig.cap="An example network of seven badgers."}
+par(family = "serif", mar = c(0.1, 1.6, 1.1, 0.1))
+EloSteepness:::plot_matrix(mat, greyout = 0)
+```
+
+First we apply the workhorse function of the package `elo_steepness_from_matrix()`.
+In essence, the function only requires you to specify which interaction matrix to use via `mat = `.
+There is one more important argument though, which determines the number of randomized sequences to be used, `n_rand = `.
+If this is not explicitly set, the function will determine the value by itself based on the number of interactions in the data set (more details on that are in the paper).
+Here we have `r sum(mat)` interactions so our rule of thumb suggests to use 20 randomizations.
+If you want to speed up the calculations I would suggest (at least for the sake of this tutorial) to use a smaller value here, e.g. `n_rand = 3`, like so:
+
+```{r, eval = FALSE}
+elo_res <- elo_steepness_from_matrix(mat = mat, n_rand = 3)
+```
+
+
+For the sake of this document, I'll keep the value at its default though (you don't need to run the next line unless you ignored the suggestion above).
+
+```{r elo_steep_01, eval = TRUE, cache=TRUE}
+elo_res <- elo_steepness_from_matrix(mat = mat, refresh = 0, cores = 4)
+```
+
+
+There are some more arguments for `elo_steepness_from_matrix()` that relate to `rstan`'s `sampling()` function.
+Unless you set them explicitly, they will remain at `sampling()`'s defaults.
+The most relevant are `refresh = `, which I set to 0 here simply to avoid printing intermediate output into this document.
+If you want to see some progress updates (`elo_steepness_from_matrix()` takes fairly long to complete...), it's a good idea to just don't set this argument.
+The other arguments relate to the number of iterations for sampling.
+`iter = ` and `warmup = ` determine the number of samples (defaults are 2000 and 1000, respectively).
+`chains = ` sets the number chains (default is 4).
+And `cores = ` determines the number of processor cores to use.
+Here the default is likely 1, but this depends on how your computer is set up.
+On my laptop I have 4 cores, so I can use `cores = 4`, which speeds things up substantially.
+
+So, depending on your computer's performance that step may take anything between less than a minute and several minutes (or even more...).
+
+Once this is done, we can obtain a numeric summary, which at this stage you probably only want to skim over.
+It is really just a summary of the things we will look at in more detail below and will give you an idea about whether anything went totally wrong.
+
+```{r}
+summary(elo_res)
+```
+
+If this worked, the first thing I'd do is to look at the posterior distribution of the steepness values.
+
+```{r elo01_plot1, fig.retina= 2, echo=2:2, fig.width=7, fig.height=4.7, out.width="70%", fig.align='center'}
+par(family = "serif")
+plot_steepness(elo_res)
+```
+
+The yellow area gives a visual summary of the posterior combined across all randomizations.
+The finer gray lines (20 in my case, corresponding to 20 randomized sequences) represent the posteriors for each individual randomization.
+By default, the plot also provides some summary statistics, which in this case shows that mean and median of the posterior correspond to very similar values.
+These summary statistics can be turned off by setting `print_numbers = FALSE`.
+I'd also note that the posterior is fairly wide, indicating that steepness in this example is unlikely to be greater than 0.8 or smaller than 0.5 (as seen by nearly no probability mass falling outside the interval between 0.5 and 0.8).
+
+To get some 'hard numbers' on the uncertainty, we can use yet another function:
+
+```{r}
+p <- steepness_precis(elo_res, quantiles = c(0.045, 0.25, 0.75, 0.955))
+round(p, 3)
+```
+
+Here the same numbers are returned as in the plot (mean, median, standard deviation and median absolute deviation).
+In addition, it provides quantiles of the posterior and the ones I specified above are the default ones (so if you leave the argument not-specified you'll get the same output).
+These quantiles show that only 4.5% of posterior samples provided steepness values below $`r sprintf("%.2f", p$q045[1])`$ and 4.5 % above $`r sprintf("%.2f", p$q955[1])`$ (the 89% credible interval).
+This by and large confirms the visual assessment.
+If you want to report interquartile-range, this is also included via the 25% and 75% quantiles ($`r sprintf("%.2f", p$q250[1])`$ and $`r sprintf("%.2f", p$q750[1])`$).
+
+The final two numbers represent measures of variation (coefficient of variation) across the randomizations, and are calculated only for the mean and median.
+I'm not sure yet how to interpret those (other than 'smaller is better'), but they are here to be explicit about the fact that we use and combine different interaction sequences to obtain our steepness distribution, and that each interaction sequence will result in slightly different posteriors.
+
+And if you want to create your own plots or get your own numeric summaries, you can extract all steepness values (i.e. the samples which form the basis for the plots and summaries above) by accessing:
+
+```{r, eval = FALSE}
+elo_res$steepness
+```
+
+This is a matrix with one column for each randomization (i.e. `n_rand`) and one row for each sample.
+So you could for example draw a histogram if you feel this is what you want (I don't show the actual histogram here though).
+
+```{r, eval=FALSE}
+hist(elo_res$steepness, xlim = c(0, 1))
+```
+
+And if you want to dig into the actual `rstan` object, this is available via:
+
+```{r, eval = FALSE}
+elo_res$stanfit
+```
+
+
+## individual scores
+
+As far as steepness is concerned, this is it (more or less).
+But then, what is actually also really interesting is to look at the underlying individual scores on which the steepness calculation is based.
+In the case of Elo-rating, these are cumulative winning probabilities (see paper for more details).
+
+We can explore those visually and numerically.
+First, we define a set of seven colors, so that individuals will appear with the same colors across the different plots.
+And then use `plot_scores()` to visualise the posteriors.
+
+```{r elo01_plot2, fig.retina= 2, echo=2:3, fig.width=7, fig.height=4.7, out.width="70%", fig.align='center'}
+par(family = "serif")
+my_colors <- hcl.colors(n = 7, palette = "zissou1", alpha = 0.7)
+plot_scores(elo_res, color = my_colors)
+```
+
+This shows the posterior distributions of individual cumulative winning probabilities. Numerically, we can get a summary via:
+
+```{r}
+my_scores <- scores(elo_res, quantiles = c(0.045, 0.955))
+```
+
+```{r, eval=FALSE}
+my_scores
+```
+
+```{r, results='asis', echo=FALSE}
+knitr::kable(my_scores, digits = 3)
+```
+
+These numbers reflect the same summaries of the individual posteriors as above, i.e. central tendencies (mean and median), spread (SD, MAD, quantiles) and variation across the different randomized sequences.
+
+
+There are two things that I wanted to point out, which are nicely illustrated in this particular example.
+
+The first thing is how data density *can* inform (un)certainty of individual scores.
+There is one individual *d*, which only has one observed interaction (a loss against *f*).
+If we focus on *d* we see can several things.
+
+```{r elo01_plot3, fig.retina= 2, echo=2:2, fig.width=7, fig.height=4.7, out.width="70%", fig.align='center'}
+par(family = "serif")
+plot_scores(elo_res, color = my_colors, subset_ids = "d")
+```
+
+For one, its posterior is pretty wide, ranging from almost 0 to about 5, with its 'peak' at about 2 (median is `r sprintf("%.2f", my_scores$median[my_scores$id == "d"])` to be precise).
+And this makes sense, because we have very little data for *d* (just one observation), which leads to the wide posterior.
+Also, this one observation was a loss, which shifts the peak to below the average value (a naive view would suggest that an individual for which we have no knowledge is average).
+The average is 3 in this case ($(n - 1)/2$), which you can verify by `mean(my_scores$mean)`.
+The fact that *d*'s peak is shifted fairly far below 3 is probably due to the loss of *d* being against *f*, which is a fairly low-rated individual itself (because it lost most of its interactions).
+
+In contrast to *d*, individual *a*'s posterior is the narrowest of all individuals.
+
+```{r elo01_plot4, fig.retina= 2, echo=2:2, fig.width=7, fig.height=4.7, out.width="70%", fig.align='center'}
+par(family = "serif")
+plot_scores(elo_res, color = my_colors, subset_ids = "a")
+```
+
+*a* does, however, not have the largest number of observations as one might suspect.
+But, *a* never lost an interaction but won all of them, so it seems fair to say that we should expect a high rating for it (or rather cumulative winning probability) with fairly little uncertainty.
+
+The second thing I wish to point in the example are individuals *b* and *c*. 
+
+```{r elo01_plot5, fig.retina= 2, echo=2:2, fig.width=7, fig.height=4.7, out.width="70%", fig.align='center'}
+par(family = "serif")
+plot_scores(elo_res, color = my_colors, subset_ids = c("b", "c"))
+```
+
+Their posteriors overlap extensively, although *b* has a slightly higher mean/median.
+The interesting thing here is that these two are close in rank/rating whatever way you look at it.
+And their *dyadic* relationship is far from clear-cut (out of 8 interactions, *b* won 5 and *c* won 3), so it makes sense that these two overlap with a slight 'advantage' for *b*.
+
+Let me just repeat here that this is a specific example.
+But in my view it nicely illustrates how the idea of considering individual ratings as posterior *distributions* makes a lot of characteristics of dominance relationships explicit that we otherwise could only intuit.
+
+## combining steepness and individual scores
+
+The last way of visualizing steepness is to combine steepness with the individual scores.
+Here is my attempt at doing this:
+
+```{r elo01_plot6, fig.retina= 2, echo=2:2, fig.width=7, fig.height=4.7, out.width="70%", fig.align='center'}
+par(family = "serif")
+plot_steepness_regression(elo_res, color = my_colors, width_fac = 0.5)
+```
+
+
+This puts together everything.
+It provides the individual posteriors alongside the steepness slope.
+Remember, steepness at its core is the slope of regressing scores/ratings on their ordinal ranks.
+The one thing that this figure illustrates which is hard to visualize differently, is that in each of the posterior draws the ordinal ranks are calculated afresh.
+And here we plot the mean rank across all samples for each individual along the horizontal rank axis.
+Coming back to individuals *b* and *c*, whose posteriors overlap substantially: there are a lot of posterior samples in which *b* has rank 2, but there is also a substantial amount of samples in which *c* is ranked second.
+This is the reason that these two individuals come close to each other along the horizontal axis.
+
+And you may have noticed the `width_fac=` argument.
+This is just a visual adjustment of how 'high' the highest individual posterior extends (along the horizontal axis).
+
+To tie this all together.
+If you want to report steepness for your own data set, I think the most important information is the posterior of the steepness itself (`plot_steepness()` and `steepness_precis()`).
+How you actually report this depends a bit on context I suppose.
+For a scientific paper, I would recommend a combination of point estimate (median of the posterior), some credible intervals (for example 89% and 50%) and visual display (perhaps in the supplement).
+This should give a reader all the relevant information.
 
 
 ## more on data density

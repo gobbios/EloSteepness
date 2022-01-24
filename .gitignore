@@ -12,6 +12,7 @@ tests/testthat/Rplots.pdf
 _dump/
 vignette_data/
 figure/
+vignettes/pdf_files/tutorial_full_document_files/*.*
 
 # History files
 .Rhistory
