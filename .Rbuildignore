@@ -6,6 +6,5 @@ vignette_data/
 ^Meta$
 run_vignette.R
 vignettes/tutorial.Rmd.original
-vignettes/tutorial.Rmd
 cache/
 vignettes/cache

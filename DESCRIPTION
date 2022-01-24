@@ -1,7 +1,7 @@
 Package: EloSteepness
 Title: Bayesian Dominance Hierarchy Steepness Via Elo Rating and David's Scores
 Version: 0.3.0
-Date: 2022-01-21
+Date: 2022-01-24
 Authors@R: c(
   person(given="Christof", 
          family="Neumann", 
@@ -40,4 +40,3 @@ Suggests:
     knitr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-VignetteBuilder: knitr
