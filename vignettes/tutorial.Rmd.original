@@ -43,67 +43,6 @@ Another batch of functions in the package relate to method evaluation.
 These are currently ignored in this document.
 They are relevant for replicating the simulations and analyses presented in the paper.
 
-# installing `EloSteepness`
-
-The first requirement is that you use a fairly recent version of `R`, i.e. at least `R 3.5.0`, no way around that.
-To find which version you have, do this:
-
-```{r}
-R.version$version.string
-```
-
-If this returns at least 3.5.0 (or as in my case "\texttt{`r R.version$version.string`}") all is good.
-Otherwise you need to update `R`, which might be a good idea anyway.
-
-In order to get the package up and running you need a working installation of `rstan`.
-This in turn requires `stan` to be installed but this is taken care of during the setup of the `rstan` package.
-The easiest way of doing all this is to install the `brms` package.\footnote{\texttt{brms} is not actually required for \texttt{EloSteepness} to work, but it handles the installation of \texttt{rstan} and friends very conveniently.}
-If you already have `brms` (or `rstan`) then you are probably good to go.
-If not, then execute the following command and if asked for whether you want to install packages *from source* select 'no' (unless you know what you are doing of course).
-
-```{r, eval = FALSE}
-install.packages("brms")
-```
-
-The only other thing you need are two more packages, `EloRating` and `aniDom`, which are easy to install:
-
-```{r, eval = FALSE}
-install.packages("EloRating")
-install.packages("aniDom")
-```
-
-With this done, you can install `EloSteepness`.
-For the moment, this works only via a local file that can be downloaded here [https://owncloud.dpz.eu/index.php/s/N8VW9a9QIVIuIqZ](https://owncloud.dpz.eu/index.php/s/N8VW9a9QIVIuIqZ).
-In the near future I will make the package publicly available via GitHub and hopefully also via CRAN.
-
-Which file to choose from the three in the folder depends on your OS and your level of adventurousness. 
-Download the one you need (don't unpack it!), and remember the path you saved it to...
-
-If you are on Windows, go for the `.zip` file and run (and don't forget to change the path):
-```{r, eval = FALSE}
-install.packages("C:/where/i/saved/my/file/EloSteepness_0.2.0.zip", 
-                 repos = NULL, type = "win.binary")
-```
-
-If you are on MacOS, go for the `.tgz` file and run (and don't forget to change the path):
-```{r, eval = FALSE}
-install.packages("~/where/i/saved/my/file/EloSteepness_0.2.0.tgz", 
-                 repos = NULL, type = "mac.binary")
-```
-
-And finally, if you are on Linux and/or feel adventurous take the `.tar.gz` file:
-```{r, eval = FALSE}
-install.packages("~/Documents/EloSteepness_0.2.0.tar.gz", 
-                 repos = NULL, type = "source")
-```
-
-And for good measure at this point it might be a good idea to restart your computer, or at least restart R (or RStudio).
-
-
-
-
-
-
 # data preparation
 
 The only thing you need to get going is a dominance interaction matrix.

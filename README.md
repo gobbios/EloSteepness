@@ -1,4 +1,11 @@
 
+`EloSteepness` is a package that allows estimating steepness of dominance hierarchies from interaction networks.
+It does so by estimating Bayesian Elo-ratings, from which the steepness metric can be calculated.
+The major difference from classic approaches is that we obtain posterior steepness *distributions*, not point estimates.
+More details on the theoretical background can be found in the accompanying preprint/paper.
+
+Below are the instructions to install `EloSteepness`.
+
 ## Installation
 
 In order to get the package up an running you need a working installation of [`rstan`](https://mc-stan.org/).
@@ -30,6 +37,42 @@ For this to work you'll need the `devtools` package (which you can get via `inst
 2) from local file
 
 Here you download the package as a file and then install it from there. 
-Which file to choose from the three in the folder depends on your OS and your level of adventurousness. 
-Download the one you need (don't unpack it!), and remember the path you saved it to...
+Start by downloading the package file [from here](https://github.com/gobbios/EloSteepness/releases/latest).
+Choose the file `EloSteepness_0.3.0.tar.gz` for download (don't unpack it!), and remember the path you saved it to...
+Then depending on what OS you use, adapt to your needs and run one of the following lines (don't forget to change the path and use the correct file name):
 
+```
+# something like this on MacOS or Linux
+install.packages("~/Downloads/EloSteepness_0.3.0.tar.gz",  
+                 repos = NULL, type = "source")
+```
+
+```
+# something like this on Windows
+install.packages("C:/Users/myname/Downloads/EloSteepness_0.3.0.tar.gz",  
+                 repos = NULL, type = "source")
+```
+
+Depending on your hardware, this can take up to several minutes to complete.
+After this is done, I would again recommend to restart R.
+
+To check whether the installation worked, try to open the tutorial that comes with the package.
+
+`vignette("tutorial", package = "EloSteepness")`
+
+
+If you have trouble with this, you might also try one of these options.
+
+If you are on Windows, download the `EloSteepness_0.3.0.zip` file and run (and don't forget to change the path and use the correct file name):
+```
+install.packages("C:/Users/myname/Downloads/EloSteepness_0.3.0.zip", 
+                 repos = NULL, type = "win.binary")
+```
+
+If you are on MacOS, download the `EloSteepness_0.3.0.tgz` file and run (and don't forget to change the path and use the correct file name):
+```
+install.packages("~/Downloads/EloSteepness_0.3.0.tgz", 
+                 repos = NULL, type = "mac.binary")
+```
+
+And finally, if you are just interested in the tutorial, [you can find it here](https://github.com/gobbios/EloSteepness/blob/main/vignettes/pdf_files/tutorial.pdf).

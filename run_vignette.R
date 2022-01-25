@@ -20,4 +20,7 @@ file.rename(from = "tutorial.pdf", to = "pdf_files/tutorial.pdf")
 file.remove("tutorial.Rmd")
 file.remove(list.files("tutorial_files", recursive = TRUE, full.names = TRUE))
 
+
 setwd(old_wd)
+
+devtools::build_vignettes(install = FALSE)
