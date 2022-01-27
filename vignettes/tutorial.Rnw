@@ -1,8 +1,9 @@
 \documentclass{article}
 \usepackage{pdfpages}
-%\VignetteIndexEntry{`EloSteepness` - a brief tutorial}
+%\VignetteIndexEntry{EloSteepness - a brief tutorial}
 %\VignettePackage{EloSteepness}
 %\VignetteEncoding{UTF-8}
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 \includepdf[pages=-, fitpaper=true]{pdf_files/tutorial.pdf}
 \end{document}

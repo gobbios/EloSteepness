@@ -129,12 +129,12 @@ To get some 'hard numbers' on the uncertainty, we can use yet another function:
 
 ```{r}
 p <- steepness_precis(elo_res, quantiles = c(0.045, 0.25, 0.75, 0.955))
-round(p, 3)
+round(p, 2)
 ```
 
 Here the same numbers are returned as in the plot (mean, median, standard deviation and median absolute deviation).
 In addition, it provides quantiles of the posterior and the ones I specified above are the default ones (so if you leave the argument not-specified you'll get the same output).
-These quantiles show that only 4.5% of posterior samples provided steepness values below $`r sprintf("%.2f", p$q045[1])`$ and 4.5 % above $`r sprintf("%.2f", p$q955[1])`$ (the 89% credible interval).
+These quantiles show that only 4.5% of posterior samples provided steepness values below $`r sprintf("%.2f", p$q045[1])`$ and 4.5 % above $`r sprintf("%.2f", p$q955[1])`$ (the 91% credible interval).
 This by and large confirms the visual assessment.
 If you want to report interquartile-range, this is also included via the 25% and 75% quantiles ($`r sprintf("%.2f", p$q250[1])`$ and $`r sprintf("%.2f", p$q750[1])`$).
 
@@ -333,8 +333,6 @@ x <- cbind(# elo_res_doubled$ids,
 x[, ] <- sprintf("%.2f", x)
 ```
 
-
-
 ```{r, echo=FALSE, eval = FALSE}
 diff(as.numeric(steepness_precis(elo_res_half)[1, c("q045", "q955")]))
 diff(as.numeric(steepness_precis(elo_res)[1, c("q045", "q955")]))
@@ -369,8 +367,6 @@ r2 <- elo_steepness_from_matrix(mat = m2, n_rand = 10, cores = 4)
 r5 <- elo_steepness_from_matrix(mat = m5, n_rand = 10, cores = 4)
 ```
 
-
-
 ```{r simu_elo_ex_plot1, fig.retina= 2, eval = TRUE, echo=2:15, fig.width=9, fig.height=5.8, out.width="90%", fig.align='center'}
 par(mfrow = c(2, 3), family = "serif", mar = c(3.5, 2.5, 1, 1))
 mycols <- hcl.colors(6, palette = "Dark 2", alpha = 0.7)
@@ -383,11 +379,6 @@ plot_scores(r1, color = mycols)
 plot_scores(r2, color = mycols)
 plot_scores(r5, color = mycols)
 ```
-
-
-
-
-
 
 
 
@@ -406,8 +397,6 @@ We use again the badgers data set to illustrate.
 
 Given the results of the method comparison in the paper, I would recommend not to interpret the steepness value (based on Bayesian David's scores) of this exercise as meaningful given that there are still a substantial amount of unknown relationships in this data set.
 
-
-
 ```{r}
 data("dommats", package = "EloRating")
 mat <- dommats$badgers
@@ -425,11 +414,9 @@ par(family = "serif", mar = c(3.5, 2.5, 1, 1))
 plot_steepness(david_res)
 ```
 
-
 ```{r}
 summary(david_res)
 ```
-
 
 The other functions that are available for Elo-rating based steepness are also available for the David's score-based steepness:
 
@@ -437,13 +424,10 @@ The other functions that are available for Elo-rating based steepness are also a
 round(steepness_precis(david_res), 2)
 ```
 
-
 ```{r david_steep_01_plot2, fig.retina= 2, fig.height=4.5, fig.width=7, out.width="70%", fig.align='center', echo=2:2}
 par(family = "serif", mar = c(3.5, 2.5, 1, 1))
 plot_scores(david_res)
 ```
-
-
 
 ```{r, eval=FALSE}
 scores(david_res)
@@ -458,9 +442,3 @@ knitr::kable(my_scores, digits = 3)
 par(family = "serif", mgp = c(2, 0.8, 0), mar = c(3.5, 3.5, 1, 1), tcl = -0.4)
 plot_steepness_regression(david_res, width_fac = 1)
 ```
-
-
-
-
-
-

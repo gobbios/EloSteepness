@@ -10,11 +10,10 @@ src/*.gcda
 tests/testthat/Rplots.pdf
 .DS_Store
 _dump/
-vignette_data/
-figure/
 vignettes/pdf_files/tutorial_files
-vignettes/cache
-
+vignettes/tutorial_files/
+vignettes/tutorial_cache/
+run_vignettes.R
 
 # History files
 .Rhistory
