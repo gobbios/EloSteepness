@@ -52,7 +52,10 @@ The easiest way of getting this done (unless you have it already) is to use:
 ```
 install.packages("tinytex")
 tinytex::install_tinytex()
+<<<<<<< HEAD
 tinytex:::install_yihui_pkgs()
+=======
+>>>>>>> 264f026d9677e4fe036f31168865af995ef1aedd
 ```
 
 You can skip this step if you are happy with downloading the tutorial manually [here](https://github.com/gobbios/EloSteepness/blob/main/vignettes/pdf_files/tutorial.pdf).
