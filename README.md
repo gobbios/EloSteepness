@@ -45,7 +45,18 @@ If that gives positive feedback then you are set.
 If not, you need to install more stuff (on MacOS you need the `Xcode` command line tools (e.g. [here](https://mac.install.guide/commandlinetools/4.html)), and on Windows the `Rtools` [here](https://cran.r-project.org/bin/windows/Rtools/rtools40.html)).
 
 I've also seen cases where problems arose because the version of `devtools` was outdated, so even if you have it installed already it might be a good idea to update the package (also with `install.packages("devtools")`).
-Then run this:
+
+Finally, in order to make the tutorial accessible from within R, you need $\LaTeX$.
+The easiest way of getting this done (unless you have it already) is to use:
+
+```
+install.packages("tinytex")
+tinytex::install_tinytex()
+```
+
+You can skip this step if you are happy with downloading the tutorial manually [here](https://github.com/gobbios/EloSteepness/blob/main/vignettes/pdf_files/tutorial.pdf).
+
+Then run this (and set `build_vignettes = FALSE` if you don't want to *install* the tutorial):
 
 ```
 devtools::install_github("gobbios/EloSteepness", build_vignettes = TRUE, ref = "HEAD")
