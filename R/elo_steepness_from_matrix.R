@@ -2,7 +2,7 @@
 #'
 #' @param mat square interaction matrix
 #' @param algo character, either \code{"fixed_sd"} or \code{"original"}.
-#'             This determines which algorithim is used. Default is
+#'             This determines which algorithm is used. Default is
 #'             \code{"fixed_sd"}, which is a slight modification from
 #'             Goffe et al's original code.
 #' @param n_rand numeric, number of randomized sequences. Default is
@@ -59,6 +59,7 @@ elo_steepness_from_matrix <- function(mat,
                                  for_elo_model = TRUE)
 
   if (silent) {
+    op_ori <- options()$warn
     options(warn = -1)
   }
   if (algo == "original") {
@@ -69,7 +70,7 @@ elo_steepness_from_matrix <- function(mat,
   }
 
   if (silent) {
-    options(warn = 0)
+    options(warn = op_ori)
   }
 
   issues <- c(divergent = NA, energy = NA, depth = NA)
