@@ -10,7 +10,7 @@
 #'        between rank distance and interaction propensity. If 1 there is a
 #'        strong relationship: dyads closer in rank interact more often.
 #' @param sequential logical, default is \code{TRUE}. See details.
-#' @importFrom stats runif pnorm
+#' @importFrom stats runif pnorm rbinom
 #' @importFrom utils combn
 #' @return a list with the first item being the interactions in sequence form
 #'         (\code{$sequence}). The second item (\code{$matrix}) is the 
