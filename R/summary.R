@@ -1,9 +1,10 @@
 #' summary
 #'
-#' @param object result from \code{\link{elo_steepness_from_matrix}} or
+#' @param object result from \code{\link{elo_steepness_from_matrix}},
+#'        \code{\link{elo_steepness_from_sequence}} or
 #'        \code{\link{davids_steepness}}
 #' @param ... further arguments passed to or from other methods (ignored)
-#' @importFrom EloRating prunk
+#' @importFrom EloRating prunk creatematrix
 #'
 #' @export
 summary.elo_steepness <- function(object, ...) {
@@ -27,28 +28,38 @@ summary.elo_steepness <- function(object, ...) {
       sum(object$diagnostics[[2]]),
       "\n")
 
-  m <- object$mat
+  
+  if (object$sequence_supplied) {
+    m <- creatematrix(winners = object$mat[, "winner"], losers = object$mat[, "loser"])
+  } else {
+    m <- object$mat
+  }
+  
+  n_id <- length(object$ids)
 
   cat("matrix with",
       sum(m), "interactions between",
-      ncol(m), "individuals", "\n")
+      n_id, "individuals", "\n")
 
-  cat(sprintf("%.1f", round(sum(m) / ncol(m), 2)),
-      "interactons per individual\n")
+  cat(sprintf("%.1f", round(sum(m) / n_id, 2)),
+      "interactions per individual\n")
+  cat(sprintf("%.1f", round(sum(m) / ((n_id - 1) * n_id * 0.5), 2)),
+      "interactions per dyad\n")
   x <- as.numeric(prunk(m)[1])
+  
   cat("proportion of unknown relationships:", sprintf("%.3f", x), "\n")
 
   cat("------------------------------------------\n")
 
-  xres <- steepness_precis(object)
+  xres <- steepness_precis(object, quantiles = c(0.055, 0.25, 0.5, 0.75, 0.945))
 
   cat("mean steepness is", sprintf("%.2f", xres$mean[1]),
       paste0("(SD=", sprintf("%.2f", xres$sd[1]), ")"), "\n")
   cat("median steepness is", sprintf("%.2f", xres$mean[1]),
       paste0("(MAD=", sprintf("%.2f", xres$mad[1]), ")"), "\n")
   cat("89% credible interval is between",
-      sprintf("%.2f", xres$q045[1]), "and",
-      sprintf("%.2f", xres$q955[1]), "\n")
+      sprintf("%.2f", xres$q055[1]), "and",
+      sprintf("%.2f", xres$q945[1]), "\n")
 }
 
 #' @export
@@ -70,19 +81,21 @@ summary.david_steepness <- function(object, ...) {
       ncol(m), "individuals", "\n")
 
   cat(sprintf("%.1f", round(sum(m) / ncol(m), 2)),
-      "interactons per individual\n")
+      "interactions per individual\n")
+  cat(sprintf("%.1f", round(sum(m) / ((ncol(m) - 1) * ncol(m) * 0.5), 2)),
+      "interactions per dyad\n")
   x <- as.numeric(prunk(m)[1])
   cat("proportion of unknown relationships:", sprintf("%.3f", x), "\n")
 
   cat("------------------------------------------\n")
 
-  xres <- steepness_precis(object)
+  xres <- steepness_precis(object, quantiles = c(0.055, 0.25, 0.5, 0.75, 0.945))
 
   cat("mean steepness is", sprintf("%.2f", xres$mean[1]),
       paste0("(SD=", sprintf("%.2f", xres$sd[1]), ")"), "\n")
   cat("median steepness is", sprintf("%.2f", xres$mean[1]),
       paste0("(MAD=", sprintf("%.2f", xres$mad[1]), ")"), "\n")
   cat("89% credible interval is between",
-      sprintf("%.2f", xres$q045[1]), "and",
-      sprintf("%.2f", xres$q955[1]), "\n")
+      sprintf("%.2f", xres$q055[1]), "and",
+      sprintf("%.2f", xres$q945[1]), "\n")
 }

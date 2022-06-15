@@ -84,8 +84,9 @@ elo_steepness_from_sequence <- function(winner,
               ids = standat$ids,
               diagnostics = issues,
               stanfit = res,
-              mat = data.frame(winner = w, loser = l),
-              algo = algo)
+              mat = data.frame(winner = winner, loser = loser),
+              algo = algo,
+              sequence_supplied = TRUE)
   class(res) <- "elo_steepness"
   res
 }

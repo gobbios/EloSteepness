@@ -1,6 +1,7 @@
 #' numeric summary of steepness
 #'
-#' @param x result from \code{\link{elo_steepness_from_matrix}} or
+#' @param x result from \code{\link{elo_steepness_from_matrix}},
+#'        \code{\link{elo_steepness_from_sequence}} or
 #'        \code{\link{davids_steepness}}
 #' @param quantiles numeric, the quantiles to be returned
 #'
@@ -15,7 +16,7 @@
 #' steepness_precis(res)
 #' }
 
-steepness_precis <- function(x, quantiles = c(0.045, 0.25, 0.75, 0.955)) {
+steepness_precis <- function(x, quantiles = c(0.055, 0.25, 0.75, 0.945)) {
   if (!"steepness" %in% names(x)) {
     stop("wrong input object")
   }

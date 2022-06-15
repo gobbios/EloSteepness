@@ -94,7 +94,9 @@ elo_steepness_from_matrix <- function(mat,
               diagnostics = issues,
               stanfit = res,
               mat = mat,
-              algo = algo)
+              algo = algo,
+              sequence_supplied = FALSE
+              )
   class(res) <- "elo_steepness"
   res
 }
