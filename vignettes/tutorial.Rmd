@@ -7,7 +7,6 @@ output:
   rmarkdown::pdf_document:
     toc: true
     toc_depth: 2
-    citation_package: biblatex
 editor_options: 
   chunk_output_type: console
 urlcolor: blue
@@ -32,10 +31,10 @@ header-includes:
   - \usepackage{makecell}
   - \usepackage{xcolor}
 biblio-style: apa
-bibliography: "`r system.file('extdata/refs.bib', package = 'EloSteepness')`"
-
-
+bibliography: refs.bib
 ---
+
+<!-- bibliography: "`r system.file('extdata/refs.bib', package = 'EloSteepness')`" -->
 
 <!-- knit: (function(inputFile, encoding, ...) { -->
 <!--     rmarkdown::render(inputFile, encoding = encoding, output_dir = "pdf_files/") -->
