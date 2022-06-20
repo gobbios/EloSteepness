@@ -5,7 +5,7 @@ src/*.cc
 src/*.hpp
 src/EloSteepness.so
 src/EloSteepness.dll
-man/*.Rd
+# man/*.Rd
 src/*.gcda
 tests/testthat/Rplots.pdf
 .DS_Store
