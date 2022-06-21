@@ -11,3 +11,4 @@ cache/
 vignettes/cache
 vignettes/tutorial_cache/
 vignettes/tutorial_files/
+^\.github$

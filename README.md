@@ -1,3 +1,6 @@
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/gobbios/EloSteepness/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/gobbios/EloSteepness/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
 `EloSteepness` is a package that allows estimating steepness of dominance hierarchies from interaction networks.
 It does so by estimating Bayesian Elo-ratings, from which the steepness metric can be calculated.
@@ -46,8 +49,12 @@ If not, you need to install more stuff (on MacOS you need the `Xcode` command li
 
 I've also seen cases where problems arose because the version of `devtools` was outdated, so even if you have it installed already it might be a good idea to update the package (also with `install.packages("devtools")`).
 
-Finally, in order to make the tutorial accessible from within R, you need $\LaTeX$.
-The easiest way of getting this done (unless you have it already) is to use:
+Next, you need to decide whether or not you want to build the vignettes alongside installing the package.
+
+#### 1a) directly from GitHub - with vignettes
+
+In order to make the tutorial accessible from within R, you need two more things: $\LaTeX$ and `pandoc`.
+The easiest way of getting the former done (unless you have it already) is to use:
 
 ```
 install.packages("tinytex")
@@ -55,27 +62,68 @@ tinytex::install_tinytex()
 tinytex:::install_yihui_pkgs()
 ```
 
-You can skip this step if you are happy with downloading the tutorial manually [here](https://github.com/gobbios/EloSteepness/blob/main/documents/tutorial.pdf).
-
-Then run this (and set `build_vignettes = FALSE` if you don't want to *install* the tutorial):
+Next, install [`pandoc`](https://pandoc.org/installing.html).
+If you are using `RStudio` you can skip this latter step (`pandoc` comes with RStudio), and proceed directly to:
 
 ```
-devtools::install_github("gobbios/EloSteepness", build_vignettes = TRUE, ref = "HEAD")
+devtools::install_github("gobbios/EloSteepness", build_vignettes = TRUE, dependencies = TRUE)
 ```
 
-This might take several minutes to complete.
-To check whether the installation worked, restart R and try to open the tutorial that comes with the package.
+This will take several minutes. 
+
+To check whether the installation worked, restart R/RStudio and try to open the tutorial that comes with the package.
 
 ```
 vignette("tutorial", package = "EloSteepness")
 ```
 
 
+
+
+#### 1b) directly from GitHub - without vignettes
+
+If you are happy with downloading the tutorial manually [here](https://github.com/gobbios/EloSteepness/blob/main/documents/tutorial.pdf), things should be a little simpler:
+
+```
+devtools::install_github("gobbios/EloSteepness", build_vignettes = FALSE)
+```
+
+This still might take several minutes to complete.
+
+
 ### 2) from local file
 
 Here you download the package as a single file and then install it from there. 
 Start by downloading the package file [from here](https://github.com/gobbios/EloSteepness/releases/latest).
-Choose the file `EloSteepness_0.4.0.tar.gz` for download (don't unpack it!), and remember the path you saved it to...
+
+
+If you are on Windows, download the `EloSteepness_0.4.0.zip` file and run (and don't forget to change the path and use the correct file name):
+
+```
+install.packages("C:/Users/myname/Downloads/EloSteepness_0.4.0.zip", 
+                 dependencies = TRUE, 
+                 repos = NULL, type = "win.binary")
+```
+
+If you are on MacOS, download the `EloSteepness_0.4.0.tgz` file and run (and don't forget to change the path and use the correct file name):
+
+```
+install.packages("~/Downloads/EloSteepness_0.4.0.tgz", 
+                 dependencies = TRUE, 
+                 repos = NULL, type = "mac.binary")
+```
+
+Depending on your hardware, this can take up to several minutes to complete.
+After this is done, I would again recommend to restart R.
+
+To check whether the installation worked, try to open the tutorial.
+
+```
+vignette("tutorial", package = "EloSteepness")
+```
+
+
+If this didn't work or you feel a bit more adventurous, choose the file `EloSteepness_0.4.0.tar.gz` for download (don't unpack it!), and remember the path you saved it to...
 Then depending on what OS you use, adapt to your needs and run one of the following code chunks (don't forget to change the path and use the correct file name):
 
 ```
@@ -90,31 +138,8 @@ install.packages("C:/Users/myname/Downloads/EloSteepness_0.4.0.tar.gz",
                  repos = NULL, type = "source")
 ```
 
-Depending on your hardware, this can take up to several minutes to complete.
-After this is done, I would again recommend to restart R.
-
-To check whether the installation worked, try to open the tutorial that comes with the package.
-
-```
-vignette("tutorial", package = "EloSteepness")
-```
 
 
-If you have trouble with this, you might also try one of these options.
-
-If you are on Windows, download the `EloSteepness_0.4.0.zip` file and run (and don't forget to change the path and use the correct file name):
-
-```
-install.packages("C:/Users/myname/Downloads/EloSteepness_0.3.0.zip", 
-                 repos = NULL, type = "win.binary")
-```
-
-If you are on MacOS, download the `EloSteepness_0.4.0.tgz` file and run (and don't forget to change the path and use the correct file name):
-
-```
-install.packages("~/Downloads/EloSteepness_0.4.0.tgz", 
-                 repos = NULL, type = "mac.binary")
-```
 
 And finally, if you are just interested in the tutorial, [you can find it here](https://github.com/gobbios/EloSteepness/blob/main/documents/tutorial.pdf).
 
