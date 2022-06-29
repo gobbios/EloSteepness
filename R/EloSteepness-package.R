@@ -8,7 +8,8 @@
 #' @useDynLib EloSteepness, .registration = TRUE
 #' @import methods
 #' @import Rcpp
+#' @import rstantools
 #' @importFrom rstan sampling
-#'
+#' @importFrom RcppParallel RcppParallelLibs CxxFlags
 #'
 NULL

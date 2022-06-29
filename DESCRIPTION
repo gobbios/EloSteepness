@@ -10,10 +10,9 @@ Authors@R: c(
          comment=c(ORCID="0000-0002-0236-1219"))
   )
 Maintainer: Christof Neumann <christofneumann1@gmail.com>
-Description: Obtain Bayesian posterior distributions of dominance hierarchy steepness. Steepness estimation is based on Bayesian implementations of either Elo-rating or David's scores.
+Description: Obtain Bayesian posterior distributions of dominance hierarchy steepness (Neumann and Fischer (2022) <doi:10.1101/2022.01.28.478016>). Steepness estimation is based on Bayesian implementations of either Elo-rating or David's scores. 
 License: GPL (>= 2)
 Encoding: UTF-8
-LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
 Biarch: true
@@ -43,3 +42,5 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
+URL: https://github.com/gobbios/EloSteepness
+BugReports: https://github.com/gobbios/EloSteepness/issues
