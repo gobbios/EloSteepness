@@ -19,10 +19,11 @@ a data.frame with one line per individual
 numeric summaries of individual Elo-ratings or David's scores
 }
 \examples{
+\dontrun{
 data("bonobos", package = "EloRating")
 res <- davids_steepness(bonobos, refresh = 0)
 scores(res)
-\dontrun{
+
 data("dommats", package = "EloRating")
 m <- dommats$badgers
 res <- elo_steepness_from_matrix(m, n_rand = 2, refresh = 0)

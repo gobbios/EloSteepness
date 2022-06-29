@@ -39,12 +39,13 @@ a plot
 plot individual scores (either Elo or David)
 }
 \examples{
+\dontrun{
 data("bonobos", package = "EloRating")
 res <- davids_steepness(bonobos, refresh = 0)
 plot_scores(res)
 plot_scores(res, color = FALSE)
 plot_scores(res, adjustpar = 0.3)
-\dontrun{
+
 res <- elo_steepness_from_matrix(bonobos, n_rand = 1)
 plot_scores(res)
 }
