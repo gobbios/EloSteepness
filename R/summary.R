@@ -17,17 +17,23 @@ summary.elo_steepness <- function(object, ...) {
   }
   nrand <- ncol(object$steepness)
   cat("steepness based on Bayesian Elo-ratings\n")
-  cat("---------------------------------------\n")
   cat("(using", a, "standard deviation of starting ratings)\n")
-  cat("number of randomized sequences:", nrand, "\n")
-
+  cat("---------------------------------------\n")
+  if (object$sequence_supplied) {
+    cat("data supplied in sequence format:\n")
+    cat("no sequence randomization performed\n")
+  } else {
+    cat("data supplied in matrix format:\n")
+    cat("number of randomized sequences:", nrand, "\n")
+  }
+  cat("---------------------------------------\n")
   cat("total number of posterior samples generated:",
       length(object$steepness),
       "\n")
   cat("number of samples with issues:",
       sum(object$diagnostics[[2]]),
       "\n")
-
+  cat("---------------------------------------\n")
   
   if (object$sequence_supplied) {
     m <- creatematrix(winners = object$mat[, "winner"], losers = object$mat[, "loser"])

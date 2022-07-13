@@ -82,11 +82,13 @@ plot_steepness_regression <- function(x,
   }
 
   plot(0, 0, type = "n", xlim = c(1, n * (1 + axis_extend)), ylim = c(0, n - 1),
-       las = 1, xlab = "mean ordinal rank", ylab = ylab,
+       las = 1, xlab = "", ylab = "",
        axes = FALSE, yaxs = "i")
-  axis(1, at = 1:n)
-  axis(2, at = 0:(n - 1), las = 1)
+  axis(1, at = 1:n, mgp = c(2, 0.7, 0), tcl = -0.3)
+  axis(2, at = 0:(n - 1), las = 1, mgp = c(2, 0.7, 0), tcl = -0.3)
   box(bty = "l")
+  title(xlab = "mean ordinal rank", line = 1.8)
+  title(ylab = ylab, line = 1.8)
 
   xlines <- t(sapply(sample(nrow(scores), 1000), function(x) {
     coefficients(lm(scores[x, ] ~ rranks[x, ]))
