@@ -1,13 +1,14 @@
 #' plot individual scores (either Elo or David)
 #'
-#' @param x result from \code{\link{elo_steepness_from_matrix}} or
+#' @param x result from \code{\link{elo_steepness_from_matrix}},
+#'        \code{\link{elo_steepness_from_sequence}} or
 #'        \code{\link{davids_steepness}}
 #' @param adjustpar numeric, parameter for smoothing posterior of individual
 #'        scores
-#' @param color logical, default is \code{TRUE} where individuals get color-
-#'        coded. If \code{FALSE}: a gray scale is used. It is also possible
-#'        to hand over a vector with colors, which then must be correspond
-#'        in length to the number of individuals.
+#' @param color logical, default is \code{TRUE} where individuals get 
+#'        color-coded. If \code{FALSE}: a gray scale is used. It is 
+#'        also possible to hand over a vector with colors, which then 
+#'        must correspond in length to the number of individuals.
 #' @param subset_ids character, plot only those individual codes. Default is
 #'        \code{NULL}, i.e. all individuals are included in the plot.
 #' @param include_others logical, should other IDs (those \emph{not} in

@@ -12,7 +12,7 @@
 #' @param static logical, treat the data as static (i.e. think of data in
 #'               matrix form). Default is \code{TRUE}. \code{FALSE} is not
 #'               yet supported.
-#' @param ... additional arguments for \code{sampling()}
+#' @param ... additional arguments for \code{\link[rstan]{sampling}()}
 #'
 #' @details The number of randomizations is set in the following way, unless
 #'          a specific number is provided. If there are more than 500
@@ -20,21 +20,42 @@
 #'          100 interactions, \code{n_rand = 50}. In the remaining cases,
 #'          \code{n_rand = 20}.
 #'
-#' @importFrom rstan sampling extract get_bfmi
-#' @importFrom rstan get_divergent_iterations get_max_treedepth_iterations
-#' @return a list
+#' @importFrom rstan sampling extract
+#' 
+#' @return a list with results of the modelling fitting, containing the following list items:
+#' \describe{
+#'   \item{\code{steepness}}{a matrix with the posterior samples for steepness.
+#'                    Each column corresponds to one randomization (as
+#'                    set via \code{n_rand}). Each row is one iteration.}
+#'   \item{\code{cumwinprobs}}{an array with posterior cumulative winning
+#'         probabilities for each individual.}
+#'   \item{\code{ids}}{a character vector with individual ID codes as supplied 
+#'         in \code{mat}}
+#'   \item{\code{diagnostics}}{a list with information regarding sampling problems}
+#'   \item{\code{stanfit}}{the actual \code{\link[rstan]{stanfit}} object}
+#'   \item{\code{mat}}{the input matrix}
+#'   \item{\code{algo}}{character, describing whether the original fitting 
+#'         algorithm was used (\code{"original"}) or the one with fixed SD
+#'         of start ratings (\code{"fixed_sd"})}
+#'   \item{\code{sequence_supplied}}{logical, were data supplied as matrix
+#'         (\code{FALSE}) or as sequence via winner/loser vector (\code{TRUE})}
+#' }
+
 #' @export
 #'
 #' @examples
 #' data(dommats, package = "EloRating")
-#' \dontrun{
-#' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 3, cores = 4,
-#'                                  iter = 3000, warmup = 2000, refresh = 0)
+#' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 2,
+#'                                  iter = 1000, warmup = 500, refresh = 0)
 #' plot_steepness(res)
 #'
-#' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 3, cores = 4,
-#'                                  algo = "original",
-#'                                  iter = 3000, warmup = 2000, refresh = 0)
+#' \dontrun{
+#' # use the original algorithm of Goffe et al 2018
+#' # will produce warnings re divergent iterations and low effective sample sizes
+#' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 2,
+#'                                  algo = "original", seed = 1,
+#'                                  iter = 1000, warmup = 500, refresh = 0)
+#' res$diagnostics
 #' plot_steepness(res)
 #' }
 
