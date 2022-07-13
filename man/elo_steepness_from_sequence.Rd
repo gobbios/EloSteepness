@@ -27,7 +27,8 @@ Goffe et al's original code.}
 \item{...}{additional arguments for \code{sampling()}}
 }
 \value{
-a list
+a list with results of the modelling fitting
+(see \code{\link{elo_steepness_from_matrix}}) for details
 }
 \description{
 for interaction data with known sequence of observations

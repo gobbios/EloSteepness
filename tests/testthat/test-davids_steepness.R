@@ -8,7 +8,7 @@ mat <- simple_steep_gen(n_ind = nids,
                         rank_bias = 0)
 mat <- mat$matrix
 
-res0 <- davids_steepness(mat, refresh = 0, chains = 2)
+res0 <- davids_steepness(mat, refresh = 0, chains = 2, silent = TRUE)
 
 
 test_that("david_steepness produces sensible results", {

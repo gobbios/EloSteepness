@@ -12,7 +12,9 @@
 #' @param ... additional arguments for \code{sampling()}
 #'
 #'
-#' @return a list
+#' @return a list with results of the modelling fitting
+#'         (see \code{\link{elo_steepness_from_matrix}}) for details
+#'         
 #' @export
 #'
 #' @examples

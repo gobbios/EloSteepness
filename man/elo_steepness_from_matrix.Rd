@@ -49,7 +49,7 @@ of start ratings (\code{"fixed_sd"})}
 }
 }
 \description{
-steepness based on Bayesian Elo-rating
+for interaction data with unknown sequence of observations
 }
 \details{
 The number of randomizations is set in the following way, unless

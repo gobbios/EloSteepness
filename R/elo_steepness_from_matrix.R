@@ -1,4 +1,6 @@
 #' steepness based on Bayesian Elo-rating
+#' 
+#' for interaction data with unknown sequence of observations
 #'
 #' @param mat square interaction matrix
 #' @param algo character, either \code{"fixed_sd"} or \code{"original"}.
