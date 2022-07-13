@@ -9,7 +9,6 @@ elo_steepness_from_matrix(
   algo = c("fixed_sd", "original"),
   n_rand = NULL,
   silent = FALSE,
-  static = TRUE,
   ...
 )
 }
@@ -25,11 +24,7 @@ Goffe et al's original code.}
 \code{NULL}, which uses a rule of thumb to determine the
 number (see below for more details).}
 
-\item{silent}{logical, suppress warnings}
-
-\item{static}{logical, treat the data as static (i.e. think of data in
-matrix form). Default is \code{TRUE}. \code{FALSE} is not
-yet supported.}
+\item{silent}{logical, suppress warnings (default is \code{FALSE})}
 
 \item{...}{additional arguments for \code{\link[rstan]{sampling}()}}
 }
@@ -77,5 +72,11 @@ res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 2,
                                  iter = 1000, warmup = 500, refresh = 0)
 res$diagnostics
 plot_steepness(res)
+
+# warnings can be suppressed but will still be available
+res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 2,
+                                 algo = "original", seed = 1, silent = TRUE,
+                                 iter = 1000, warmup = 500, refresh = 0)
+res$diagnostics
 }
 }

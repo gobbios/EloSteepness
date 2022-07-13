@@ -2,20 +2,22 @@
 % Please edit documentation in R/davids_steepness.R
 \name{davids_steepness}
 \alias{davids_steepness}
-\title{David's scores and steepness with Bayesian flavour}
+\title{David's scores and steepness with Bayesian flavor}
 \usage{
-davids_steepness(mat, ...)
+davids_steepness(mat, silent = FALSE, ...)
 }
 \arguments{
 \item{mat}{square interaction matrix}
 
-\item{...}{arguments for \code{rstan::sampling}}
+\item{silent}{logical, suppress warnings (default is \code{FALSE})}
+
+\item{...}{additional arguments for \code{\link[rstan]{sampling}()}}
 }
 \value{
 a list or stan fit object
 }
 \description{
-David's scores and steepness with Bayesian flavour
+David's scores and steepness with Bayesian flavor
 }
 \examples{
 \dontrun{

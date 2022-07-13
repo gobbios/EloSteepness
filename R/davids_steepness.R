@@ -1,7 +1,8 @@
-#' David's scores and steepness with Bayesian flavour
+#' David's scores and steepness with Bayesian flavor
 #'
 #' @param mat square interaction matrix
-#' @param ... arguments for \code{rstan::sampling}
+#' @param silent logical, suppress warnings (default is \code{FALSE})
+#' @param ... additional arguments for \code{\link[rstan]{sampling}()}
 #'
 #' @return a list or stan fit object
 #' @export
@@ -12,25 +13,27 @@
 #' plot_steepness(res)
 #' }
 
-davids_steepness <- function(mat, ...) {
+davids_steepness <- function(mat, 
+                             silent = FALSE,
+                             ...) {
+  
   standat <- prep_data_for_rstan(mat = mat,
                                  for_elo_model = FALSE)
+  
+  if (silent) {
+    res <- suppressWarnings(sampling(stanmodels$ds_steep, data = standat, ...))
+  } else {
+    res <- sampling(stanmodels$ds_steep, data = standat, ...)
+  }
+  
 
-  res <- sampling(stanmodels$ds_steep, data = standat, ...)
-
-  issues <- c(divergent = NA, energy = NA, depth = NA)
-  # check_energy
-  issues["energy"] <- sum(get_bfmi(res) < 0.2)
-  # divergent iterations
-  issues["divergent"] <- sum(get_divergent_iterations(res))
-  # tree depth
-  issues["depth"] <- sum(sum(get_max_treedepth_iterations(res)))
-
-  issues <- list(has_issues = any(issues > 0), issues)
-
+  # extract any sampling issues
+  issues <- sampler_diagnostics(res)
+  
   # steepness values
   xres <- extract(res, "xsteep")$xsteep[, 2, drop = FALSE]
-  # cum win probs
+  
+  # cumulative winning probabilities
   norm_ds <- extract(res, "normds")$normds
 
   res <- list(steepness = xres,

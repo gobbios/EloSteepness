@@ -31,7 +31,10 @@ summary.elo_steepness <- function(object, ...) {
       length(object$steepness),
       "\n")
   cat("number of samples with issues:",
-      sum(object$diagnostics[[2]]),
+      sum(object$diagnostics$per_sample),
+      "\n")
+  cat("number of parameters with issues:",
+      sum(object$diagnostics$per_parameter),
       "\n")
   cat("---------------------------------------\n")
   
@@ -77,9 +80,13 @@ summary.david_steepness <- function(object, ...) {
       length(object$steepness),
       "\n")
   cat("number of samples with issues:",
-      sum(object$diagnostics[[2]]),
+      sum(object$diagnostics$per_sample),
       "\n")
-
+  cat("number of parameters with issues:",
+      sum(object$diagnostics$per_parameter),
+      "\n")
+  cat("---------------------------------------\n")
+  
   m <- object$mat
 
   cat("matrix with",

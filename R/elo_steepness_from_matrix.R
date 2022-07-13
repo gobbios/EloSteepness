@@ -8,10 +8,7 @@
 #' @param n_rand numeric, number of randomized sequences. Default is
 #'               \code{NULL}, which uses a rule of thumb to determine the
 #'               number (see below for more details).
-#' @param silent logical, suppress warnings
-#' @param static logical, treat the data as static (i.e. think of data in
-#'               matrix form). Default is \code{TRUE}. \code{FALSE} is not
-#'               yet supported.
+#' @param silent logical, suppress warnings (default is \code{FALSE})
 #' @param ... additional arguments for \code{\link[rstan]{sampling}()}
 #'
 #' @details The number of randomizations is set in the following way, unless
@@ -40,7 +37,7 @@
 #'   \item{\code{sequence_supplied}}{logical, were data supplied as matrix
 #'         (\code{FALSE}) or as sequence via winner/loser vector (\code{TRUE})}
 #' }
-
+#' 
 #' @export
 #'
 #' @examples
@@ -57,13 +54,18 @@
 #'                                  iter = 1000, warmup = 500, refresh = 0)
 #' res$diagnostics
 #' plot_steepness(res)
+#' 
+#' # warnings can be suppressed but will still be available
+#' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 2,
+#'                                  algo = "original", seed = 1, silent = TRUE,
+#'                                  iter = 1000, warmup = 500, refresh = 0)
+#' res$diagnostics
 #' }
 
 elo_steepness_from_matrix <- function(mat,
                                       algo = c("fixed_sd", "original"),
                                       n_rand = NULL,
                                       silent = FALSE,
-                                      static = TRUE,
                                       ...) {
   algo <- match.arg(algo)
 
@@ -79,30 +81,23 @@ elo_steepness_from_matrix <- function(mat,
                                  silent = silent,
                                  for_elo_model = TRUE)
 
-  if (silent) {
-    op_ori <- options()$warn
-    options(warn = -1)
-  }
   if (algo == "original") {
-    res <- sampling(stanmodels$multi_steep_original, data = standat, ...)
+    if (silent) {
+      res <- suppressWarnings(sampling(stanmodels$multi_steep_original, data = standat, ...))
+    } else {
+      res <- sampling(stanmodels$multi_steep_original, data = standat, ...)
+    }
   }
   if (algo == "fixed_sd") {
-    res <- sampling(stanmodels$multi_steep_fixed_sd, data = standat, ...)
+    if (silent) {
+      res <- suppressWarnings(sampling(stanmodels$multi_steep_fixed_sd, data = standat, ...))
+    } else {
+      res <- sampling(stanmodels$multi_steep_fixed_sd, data = standat, ...)
+    }
   }
 
-  if (silent) {
-    options(warn = op_ori)
-  }
-
-  issues <- c(divergent = NA, energy = NA, depth = NA)
-  # check_energy
-  issues["energy"] <- sum(get_bfmi(res) < 0.2)
-  # divergent iterations
-  issues["divergent"] <- sum(get_divergent_iterations(res))
-  # tree depth
-  issues["depth"] <- sum(sum(get_max_treedepth_iterations(res)))
-
-  issues <- list(has_issues = any(issues > 0), issues)
+  # extract any sampling issues
+  issues <- sampler_diagnostics(res)
 
   # steepness values
   xres <- extract(res, "steepness")$steepness

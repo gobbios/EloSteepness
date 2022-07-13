@@ -8,7 +8,7 @@
 #'             This determines which algorithm is used. Default is
 #'             \code{"fixed_sd"}, which is a slight modification from
 #'             Goffe et al's original code.
-#' @param silent logical, suppress warnings
+#' @param silent logical, suppress warnings (default is \code{FALSE})
 #' @param ... additional arguments for \code{sampling()}
 #'
 #'
@@ -49,31 +49,24 @@ elo_steepness_from_sequence <- function(winner,
   standat$y <- rep(1, standat$N)
   standat$ids <- ids
 
-  if (silent) {
-    op_ori <- options()$warn
-    options(warn = -1)
-  }
   if (algo == "original") {
-    res <- sampling(stanmodels$multi_steep_original, data = standat, ...)
+    if (silent) {
+      res <- suppressWarnings(sampling(stanmodels$multi_steep_original, data = standat, ...))
+    } else {
+      res <- sampling(stanmodels$multi_steep_original, data = standat, ...)
+    }
   }
   if (algo == "fixed_sd") {
-    res <- sampling(stanmodels$multi_steep_fixed_sd, data = standat, ...)
+    if (silent) {
+      res <- suppressWarnings(sampling(stanmodels$multi_steep_fixed_sd, data = standat, ...))
+    } else {
+      res <- sampling(stanmodels$multi_steep_fixed_sd, data = standat, ...)
+    }
   }
 
-  if (silent) {
-    options(warn = op_ori)
-  }
-
-  issues <- c(divergent = NA, energy = NA, depth = NA)
-  # check_energy
-  issues["energy"] <- sum(get_bfmi(res) < 0.2)
-  # divergent iterations
-  issues["divergent"] <- sum(get_divergent_iterations(res))
-  # tree depth
-  issues["depth"] <- sum(sum(get_max_treedepth_iterations(res)))
-
-  issues <- list(has_issues = any(issues > 0), issues)
-
+  # extract any sampling issues
+  issues <- sampler_diagnostics(res)
+  
   # steepness values
   xres <- extract(res, "steepness")$steepness
   # cum win probs

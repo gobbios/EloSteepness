@@ -22,7 +22,7 @@ This determines which algorithm is used. Default is
 \code{"fixed_sd"}, which is a slight modification from
 Goffe et al's original code.}
 
-\item{silent}{logical, suppress warnings}
+\item{silent}{logical, suppress warnings (default is \code{FALSE})}
 
 \item{...}{additional arguments for \code{sampling()}}
 }
