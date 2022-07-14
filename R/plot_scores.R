@@ -23,16 +23,17 @@
 #' @importFrom grDevices hcl.colors gray.colors
 #'
 #' @examples
-#' \dontrun{
-#' data("bonobos", package = "EloRating")
-#' res <- davids_steepness(bonobos, refresh = 0)
+#' data(dommats, package = "EloRating")
+#' 
+#' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 1,
+#'                                  silent = TRUE, refresh = 0,
+#'                                  iter = 1000, warmup = 500)
+#' plot_scores(res)
+#' 
+#' res <- davids_steepness(dommats$elephants, refresh = 0)
 #' plot_scores(res)
 #' plot_scores(res, color = FALSE)
 #' plot_scores(res, adjustpar = 0.3)
-#' 
-#' res <- elo_steepness_from_matrix(bonobos, n_rand = 1)
-#' plot_scores(res)
-#' }
 
 plot_scores <- function(x,
                         adjustpar = 4,

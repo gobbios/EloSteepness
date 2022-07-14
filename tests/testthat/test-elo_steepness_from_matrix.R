@@ -72,12 +72,12 @@ test_that("warnings are generated or captured", {
   s <- EloRating:::mat2seq(dommats$elephants)
   # create a seed to be used for sampling
   xseed <- sample(10000000, 1)
-  
+
   # warnings are stored AND returned (silent = FALSE)
   expect_warning(res1 <- elo_steepness_from_sequence(winner = s$winner,
                                                      loser = s$loser,
                                                      algo = "original",
-                                                     iter = 400, 
+                                                     iter = 400,
                                                      warmup = 200,
                                                      cores = 2,
                                                      seed = xseed,
@@ -85,12 +85,12 @@ test_that("warnings are generated or captured", {
                                                      silent = FALSE))
   expect_true(res1$diagnostics$has_issues)
   # res1$diagnostics
-  
+
   # warnings are only stored in function output (silent = TRUE)
   res2 <- elo_steepness_from_sequence(winner = s$winner,
                                       loser = s$loser,
                                       algo = "original",
-                                      iter = 400, 
+                                      iter = 400,
                                       warmup = 200,
                                       cores = 2,
                                       seed = xseed,
@@ -99,5 +99,3 @@ test_that("warnings are generated or captured", {
   # res2$diagnostics
   expect_identical(res1$diagnostics, res2$diagnostics)
 })
-
-

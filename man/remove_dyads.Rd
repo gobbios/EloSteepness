@@ -29,7 +29,9 @@ comprises \code{max_out + 1} matrices (subject to the \code{stop_at}
 specification).}
 }
 \value{
-a list
+a list with two items. \code{$summary} is a data frame with an
+overview. \code{matrices} contains the actual interaction
+matrices with increasing proportion of unknown relationships.
 }
 \description{
 remove interactions from matrix to increase sparseness
@@ -37,7 +39,9 @@ remove interactions from matrix to increase sparseness
 \examples{
 data(bonobos)
 res <- remove_dyads(bonobos)
+res$summary
 length(res$matrices)
+lapply(res$matrices, prunk)
 
 res <- remove_dyads(bonobos, max_out = 2)
 # first plus two randomly selected = 3 matrices

@@ -9,19 +9,14 @@ plot_matrix(mat, greyout = NULL, prunkcol = NULL)
 \arguments{
 \item{mat}{square matrix}
 
-\item{greyout}{numeric, the values to be greyed out}
+\item{greyout}{numeric, the values to be grayed out}
 
-\item{prunkcol}{color value which if set to some color highlight unknown
-relationships with rectangles of that colour.}
+\item{prunkcol}{color value, which if set to some color will highlight
+unknown relationships with rectangles of that color.}
 }
 \value{
 a plot
 }
 \description{
 a helper function
-}
-\examples{
-data("bonobos", package = "EloRating")
-EloSteepness:::plot_matrix(bonobos)
-EloSteepness:::plot_matrix(bonobos, greyout = 0, prunkcol = "red")
 }

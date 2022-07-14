@@ -1,6 +1,9 @@
 #' plot steepness regression
+#' 
+#' visually combine individual scores with group-level steepness
 #'
-#' @param x result from \code{\link{elo_steepness_from_matrix}} or
+#' @param x result from \code{\link{elo_steepness_from_matrix}},
+#'        \code{\link{elo_steepness_from_sequence}} or
 #'        \code{\link{davids_steepness}}
 #' @param adjust numeric, parameter for smoothing posterior of individual scores
 #' @param color logical, default is \code{TRUE} where individuals get color-
@@ -22,11 +25,10 @@
 #' @importFrom graphics box
 #'
 #' @examples
-#' \dontrun{
 #' data("bonobos", package = "EloRating")
-#' res <- davids_steepness(bonobos, refresh = 0)
+#' res <- davids_steepness(bonobos, refresh = 0, iter = 1000)
 #' plot_steepness_regression(res, width_fac = 0.5)
-#' }
+
 
 plot_steepness_regression <- function(x,
                                       adjust = 3,

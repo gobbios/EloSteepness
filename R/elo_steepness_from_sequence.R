@@ -1,5 +1,5 @@
 #' steepness based on Bayesian Elo-rating
-#' 
+#'
 #' for interaction data with known sequence of observations
 #'
 #' @param winner character (or factor) of winning individuals
@@ -12,19 +12,18 @@
 #' @param ... additional arguments for \code{sampling()}
 #'
 #'
-#' @return a list with results of the modelling fitting
+#' @return a list with results of the model fitting
 #'         (see \code{\link{elo_steepness_from_matrix}}) for details
-#'         
+#'       
 #' @export
 #'
 #' @examples
 #' data(adv, package = "EloRating")
-#' \dontrun{
-#' res <- elo_steepness_from_sequence(winner = adv$winner, loser = adv$loser, cores = 4,
-#'                                    iter = 3000, warmup = 2000, refresh = 0)
+#' res <- elo_steepness_from_sequence(winner = adv$winner, loser = adv$loser,
+#'                                    cores = 2, iter = 1000, warmup = 500,
+#'                                    seed = 1, refresh = 0)
 #' plot_steepness(res)
 #'
-#' }
 
 elo_steepness_from_sequence <- function(winner,
                                         loser,
@@ -32,9 +31,10 @@ elo_steepness_from_sequence <- function(winner,
                                         silent = FALSE,
                                         ...) {
   algo <- match.arg(algo)
-  
+
   # prepare data for Stan
-  # not outsourced to dedicated function (yet) (as is the case for the matrix versions via prep_data_for_rstan)
+  # not outsourced to dedicated function (yet) (as is the case for the 
+  #   matrix versions via prep_data_for_rstan)
   # all individuals
   ids <- unique(c(as.character(winner), as.character(loser)))
   # indices of winners and losers
@@ -53,14 +53,16 @@ elo_steepness_from_sequence <- function(winner,
 
   if (algo == "original") {
     if (silent) {
-      res <- suppressWarnings(sampling(stanmodels$multi_steep_original, data = standat, ...))
+      res <- suppressWarnings(sampling(stanmodels$multi_steep_original,
+                                       data = standat, ...))
     } else {
       res <- sampling(stanmodels$multi_steep_original, data = standat, ...)
     }
   }
   if (algo == "fixed_sd") {
     if (silent) {
-      res <- suppressWarnings(sampling(stanmodels$multi_steep_fixed_sd, data = standat, ...))
+      res <- suppressWarnings(sampling(stanmodels$multi_steep_fixed_sd,
+                                       data = standat, ...))
     } else {
       res <- sampling(stanmodels$multi_steep_fixed_sd, data = standat, ...)
     }
@@ -68,7 +70,7 @@ elo_steepness_from_sequence <- function(winner,
 
   # extract any sampling issues
   issues <- sampler_diagnostics(res)
-  
+
   # steepness values
   xres <- extract(res, "steepness")$steepness
   # cum win probs

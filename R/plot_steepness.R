@@ -1,6 +1,7 @@
 #' plot steepness density
 #'
-#' @param x result from \code{\link{elo_steepness_from_matrix}} or
+#' @param x result from \code{\link{elo_steepness_from_matrix}},
+#'        \code{\link{elo_steepness_from_sequence}} or
 #'        \code{\link{davids_steepness}}
 #' @param adjustpar numeric, parameter for smoothing posterior of individual
 #'        scores
@@ -14,10 +15,10 @@
 #' @importFrom grDevices hcl.colors
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("dommats", package = "EloRating")
-#' m <- dommats$badgers
-#' res <- elo_steepness_from_matrix(m, n_rand = 5, refresh = 0)
+#' m <- dommats$elephants
+#' res <- elo_steepness_from_matrix(m, n_rand = 5, refresh = 0, cores = 2)
 #' plot_steepness(res)
 #' }
 
@@ -34,8 +35,9 @@ plot_steepness <- function(x, adjustpar = 1.5, print_numbers = TRUE) {
        xaxs = "i", yaxs = "i", ylab = "", xlab = "",
        las = 1, axes = FALSE, ann = FALSE)
   polygon(pd, col = hcl.colors(3, "zissou1")[2], lwd = 3)
-  invisible(lapply(pdata, function(x) points(x$x, x$y, type = "l",
-                                             col = "grey", lwd = 0.5)))
+  invisible(lapply(pdata, function(x) {
+    points(x$x, x$y, type = "l", col = "grey", lwd = 0.5)
+    }))
 
   if (print_numbers) {
     text(0.03, ymax * 0.35,

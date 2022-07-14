@@ -31,6 +31,8 @@ knitr::opts_chunk$set(
 )
 library(xtable)
 compile_start <- Sys.time()
+# store original pars to satisfy CRAN (needs to be restored at the end)
+ori_pars <- par(no.readonly = TRUE)
 ```
 
 ```{r, echo=FALSE}
@@ -347,7 +349,7 @@ What is interesting here is that the overlap between adjacent individuals does n
 
 
 ```{r, echo=FALSE}
-x <- cbind(# elo_res_doubled$ids, 
+x <- cbind(# elo_res_doubled$ids,
       scores(elo_res_half)[, 7] - scores(elo_res_half)[, 6],
       scores(elo_res)[, 7] - scores(elo_res)[, 6],
       scores(elo_res_doubled)[, 7] - scores(elo_res_doubled)[, 6])
@@ -438,9 +440,9 @@ The remaining functions also work the same way (I won't show the results of `sum
 ```{r babsteep, echo = 2:10, cache=TRUE, eval=TRUE}
 # babseq <- elo_steepness_from_sequence(winner = s$Winner, loser = s$Loser, refresh = 100, cores = 4)
 s <- baboons1[1:200, ]
-babseq <- elo_steepness_from_sequence(winner = s$Winner, 
+babseq <- elo_steepness_from_sequence(winner = s$Winner,
                                       loser = s$Loser,
-                                      refresh = 0, 
+                                      refresh = 0,
                                       cores = 2)
 ```
 
@@ -464,11 +466,11 @@ par(family = "serif")
 # extract number of interactions
 ints <- table(c(s$Winner, s$Loser))
 ints <- ints[order(names(ints))]
-# get the scores for all individuals 
+# get the scores for all individuals
 the_scores <- scores(babseq)
 the_scores <- the_scores[order(the_scores$id), ]
 
-plot(as.numeric(ints), the_scores$q955 - the_scores$q045, 
+plot(as.numeric(ints), the_scores$q955 - the_scores$q045,
      xlab = "interactions", ylab = "width of credible interval", las = 1)
 ```
 
@@ -535,5 +537,11 @@ plot_steepness_regression(david_res, width_fac = 1)
 
 
 This document took `r round(as.numeric(difftime(time2 = compile_start, time1 = Sys.time(), units = "mins")), 1)` minutes to compile.
+
+```{r, echo=FALSE, include=FALSE}
+# reset original par
+par(ori_pars)
+```
+
 
 # References

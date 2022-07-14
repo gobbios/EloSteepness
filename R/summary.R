@@ -5,6 +5,8 @@
 #'        \code{\link{davids_steepness}}
 #' @param ... further arguments passed to or from other methods (ignored)
 #' @importFrom EloRating prunk creatematrix
+#' @return Nothing returned. Called for side effects of textual output 
+#'         to console.
 #'
 #' @export
 summary.elo_steepness <- function(object, ...) {
@@ -37,13 +39,14 @@ summary.elo_steepness <- function(object, ...) {
       sum(object$diagnostics$per_parameter),
       "\n")
   cat("---------------------------------------\n")
-  
+
   if (object$sequence_supplied) {
-    m <- creatematrix(winners = object$mat[, "winner"], losers = object$mat[, "loser"])
+    m <- creatematrix(winners = object$mat[, "winner"],
+                      losers = object$mat[, "loser"])
   } else {
     m <- object$mat
   }
-  
+
   n_id <- length(object$ids)
 
   cat("matrix with",
@@ -55,7 +58,7 @@ summary.elo_steepness <- function(object, ...) {
   cat(sprintf("%.1f", round(sum(m) / ((n_id - 1) * n_id * 0.5), 2)),
       "interactions per dyad\n")
   x <- as.numeric(prunk(m)[1])
-  
+
   cat("proportion of unknown relationships:", sprintf("%.3f", x), "\n")
 
   cat("------------------------------------------\n")
@@ -71,6 +74,7 @@ summary.elo_steepness <- function(object, ...) {
       sprintf("%.2f", xres$q945[1]), "\n")
 }
 
+#' @rdname summary.elo_steepness
 #' @export
 summary.david_steepness <- function(object, ...) {
   cat("steepness based on Bayesian David's scores\n")
@@ -86,7 +90,7 @@ summary.david_steepness <- function(object, ...) {
       sum(object$diagnostics$per_parameter),
       "\n")
   cat("---------------------------------------\n")
-  
+
   m <- object$mat
 
   cat("matrix with",

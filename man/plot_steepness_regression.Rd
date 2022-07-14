@@ -13,7 +13,8 @@ plot_steepness_regression(
 )
 }
 \arguments{
-\item{x}{result from \code{\link{elo_steepness_from_matrix}} or
+\item{x}{result from \code{\link{elo_steepness_from_matrix}},
+\code{\link{elo_steepness_from_sequence}} or
 \code{\link{davids_steepness}}}
 
 \item{adjust}{numeric, parameter for smoothing posterior of individual scores}
@@ -36,12 +37,10 @@ lowest rank).}
 a plot
 }
 \description{
-plot steepness regression
+visually combine individual scores with group-level steepness
 }
 \examples{
-\dontrun{
 data("bonobos", package = "EloRating")
-res <- davids_steepness(bonobos, refresh = 0)
+res <- davids_steepness(bonobos, refresh = 0, iter = 1000)
 plot_steepness_regression(res, width_fac = 0.5)
-}
 }

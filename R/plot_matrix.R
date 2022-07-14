@@ -3,17 +3,12 @@
 #' a helper function
 #'
 #' @param mat square matrix
-#' @param greyout numeric, the values to be greyed out
-#' @param prunkcol color value which if set to some color highlight unknown
-#'                 relationships with rectangles of that colour.
+#' @param greyout numeric, the values to be grayed out
+#' @param prunkcol color value, which if set to some color will highlight
+#'                 unknown relationships with rectangles of that color.
 #' @importFrom graphics rect
 #'
 #' @return a plot
-#'
-#' @examples
-#' data("bonobos", package = "EloRating")
-#' EloSteepness:::plot_matrix(bonobos)
-#' EloSteepness:::plot_matrix(bonobos, greyout = 0, prunkcol = "red")
 
 plot_matrix <- function(mat, greyout = NULL, prunkcol = NULL) {
   n <- ncol(mat)
@@ -29,7 +24,7 @@ plot_matrix <- function(mat, greyout = NULL, prunkcol = NULL) {
   diag(mat) <- ""
   plot(0, 0, "n", xlim = c(0.5, n + 0.5), ylim = c(n + 0.5, 0.5),
        ann = FALSE, axes = FALSE)
-  xmat <- sapply(seq_len(n), function(x)rep(x, n))
+  xmat <- sapply(seq_len(n), function(x) rep(x, n))
   ymat <- t(xmat)
 
   text(xmat, ymat, mat, col = colmat, adj = c(0.5, 0))

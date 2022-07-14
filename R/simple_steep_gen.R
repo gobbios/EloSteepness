@@ -71,7 +71,8 @@ simple_steep_gen <- function(n_ind,
   
   if (sequential) {
     for (k in seq_len(n_int)) {
-      x <- dyad_weights[sample(d, size = 1, prob = dyad_weights[, "final"]), 1:2]
+      x <- dyad_weights[sample(x = d, size = 1, 
+                               prob = dyad_weights[, "final"]), 1:2]
       if (runif(1, 0, 1) > (steep + 1) / 2) {
         x <- rev(x)
       }
@@ -89,12 +90,15 @@ simple_steep_gen <- function(n_ind,
   if (!sequential) {
     # determine interactions per dyad
     d2 <- factor(d, levels = d)
-    n_per_dyad <- table(sample(d2, n_int, replace = TRUE, prob = dyad_weights[, "final"]))
+    n_per_dyad <- table(sample(x = d2, size = n_int, replace = TRUE, 
+                               prob = dyad_weights[, "final"]))
     for (i in seq_along(d)) {
-      m[dyad_weights[i, 1], dyad_weights[i, 2]] <- sum(rbinom(n_per_dyad[i], 1, (steep + 1)/2))
-      m[dyad_weights[i, 2], dyad_weights[i, 1]] <- n_per_dyad[i] - m[dyad_weights[i, 1], dyad_weights[i, 2]]
+      m[dyad_weights[i, 1], dyad_weights[i, 2]] <- 
+        sum(rbinom(n_per_dyad[i], 1, (steep + 1)/2))
+      m[dyad_weights[i, 2], dyad_weights[i, 1]] <-
+        n_per_dyad[i] - m[dyad_weights[i, 1], dyad_weights[i, 2]]
     }
-    
+
     colnames(m) <- paste0("i_", seq_len(n_ind))
     rownames(m) <- colnames(m)
     s <- mat2seq(m)[sample(seq_len(n_int)), ]

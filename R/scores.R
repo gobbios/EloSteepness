@@ -6,18 +6,19 @@
 #'
 #' @importFrom stats quantile sd
 #'
-#' @return a data.frame with one line per individual
+#' @return a data.frame with one line per individual, providing
+#'         summaries of posteriors for individual scores
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data("bonobos", package = "EloRating")
-#' res <- davids_steepness(bonobos, refresh = 0)
+#' res <- davids_steepness(bonobos, refresh = 0, cores = 2)
 #' scores(res)
-#' 
+#'
 #' data("dommats", package = "EloRating")
-#' m <- dommats$badgers
-#' res <- elo_steepness_from_matrix(m, n_rand = 2, refresh = 0)
+#' m <- dommats$elephants
+#' res <- elo_steepness_from_matrix(m, n_rand = 1, refresh = 0, cores = 2)
 #' scores(res)
 #' }
 

@@ -7,7 +7,8 @@
 plot_steepness(x, adjustpar = 1.5, print_numbers = TRUE)
 }
 \arguments{
-\item{x}{result from \code{\link{elo_steepness_from_matrix}} or
+\item{x}{result from \code{\link{elo_steepness_from_matrix}},
+\code{\link{elo_steepness_from_sequence}} or
 \code{\link{davids_steepness}}}
 
 \item{adjustpar}{numeric, parameter for smoothing posterior of individual
@@ -23,10 +24,10 @@ a plot
 plot steepness density
 }
 \examples{
-\dontrun{
+\donttest{
 data("dommats", package = "EloRating")
-m <- dommats$badgers
-res <- elo_steepness_from_matrix(m, n_rand = 5, refresh = 0)
+m <- dommats$elephants
+res <- elo_steepness_from_matrix(m, n_rand = 5, refresh = 0, cores = 2)
 plot_steepness(res)
 }
 }

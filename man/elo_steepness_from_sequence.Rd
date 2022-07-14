@@ -27,7 +27,7 @@ Goffe et al's original code.}
 \item{...}{additional arguments for \code{sampling()}}
 }
 \value{
-a list with results of the modelling fitting
+a list with results of the model fitting
 (see \code{\link{elo_steepness_from_matrix}}) for details
 }
 \description{
@@ -35,10 +35,9 @@ for interaction data with known sequence of observations
 }
 \examples{
 data(adv, package = "EloRating")
-\dontrun{
-res <- elo_steepness_from_sequence(winner = adv$winner, loser = adv$loser, cores = 4,
-                                   iter = 3000, warmup = 2000, refresh = 0)
+res <- elo_steepness_from_sequence(winner = adv$winner, loser = adv$loser,
+                                   cores = 2, iter = 1000, warmup = 500,
+                                   seed = 1, refresh = 0)
 plot_steepness(res)
 
-}
 }

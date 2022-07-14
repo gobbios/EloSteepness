@@ -18,7 +18,8 @@ issues. Default is \code{FALSE}, i.e. do print messages.}
 \code{TRUE}). If \code{FALSE}, prep for David's score steepness.}
 }
 \value{
-a list
+a list that is formatted so that it can be handed over to the
+respective Stan models
 }
 \description{
 prepare data for stan call

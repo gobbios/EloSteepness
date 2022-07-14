@@ -8,7 +8,8 @@
 #'        \code{TRUE}). If \code{FALSE}, prep for David's score steepness.
 #' @importFrom utils getFromNamespace
 #'
-#' @return a list
+#' @return a list that is formatted so that it can be handed over to the
+#'         respective Stan models
 #'
 prep_data_for_rstan <- function(mat,
                                 n_rand = 1,

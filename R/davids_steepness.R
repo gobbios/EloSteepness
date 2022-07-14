@@ -4,14 +4,27 @@
 #' @param silent logical, suppress warnings (default is \code{FALSE})
 #' @param ... additional arguments for \code{\link[rstan]{sampling}()}
 #'
-#' @return a list or stan fit object
+#' @return a list with results of the modelling fitting, containing the 
+#'         following list items:
+#' \describe{
+#'   \item{\code{steepness}}{a one-column matrix with the posterior samples 
+#'         for steepness. Each row is one iteration.}
+#'   \item{\code{norm_ds}}{an matrix with posterior normalized
+#'         David's scores for each individual. Each column is one individual.
+#'         Each row is one iteration.}
+#'   \item{\code{ids}}{a character vector with individual ID codes as supplied
+#'         in \code{mat}}
+#'   \item{\code{diagnostics}}{a list with information regarding sampling 
+#'         problems}
+#'   \item{\code{stanfit}}{the actual \code{\link[rstan]{stanfit}} object}
+#'   \item{\code{mat}}{the input matrix}
+#' }
+#' 
 #' @export
 #' @examples
-#' \dontrun{
 #' data(dommats, package = "EloRating")
 #' res <- davids_steepness(dommats$elephants, refresh = 0)
 #' plot_steepness(res)
-#' }
 
 davids_steepness <- function(mat, 
                              silent = FALSE,

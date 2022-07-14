@@ -5,16 +5,17 @@
 #'        \code{\link{davids_steepness}}
 #' @param quantiles numeric, the quantiles to be returned
 #'
-#' @return a data.frame with one row
+#' @return a data.frame with one row providing a summary of the
+#'         steepness posterior
 #' @export
 #'
 #' @examples
-#' \dontrun{
-#' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 10,
-#'                                  cores = 4,
-#'                                  iter = 3000, warmup = 2000, refresh = 0)
+#' data(dommats, package = "EloRating")
+#'
+#' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 1, iter = 1000,
+#'                                  silent = TRUE, refresh = 0)
 #' steepness_precis(res)
-#' }
+
 
 steepness_precis <- function(x, quantiles = c(0.055, 0.25, 0.75, 0.945)) {
   if (!"steepness" %in% names(x)) {

@@ -2,9 +2,12 @@
 % Please edit documentation in R/summary.R
 \name{summary.elo_steepness}
 \alias{summary.elo_steepness}
+\alias{summary.david_steepness}
 \title{summary}
 \usage{
 \method{summary}{elo_steepness}(object, ...)
+
+\method{summary}{david_steepness}(object, ...)
 }
 \arguments{
 \item{object}{result from \code{\link{elo_steepness_from_matrix}},
@@ -12,6 +15,10 @@
 \code{\link{davids_steepness}}}
 
 \item{...}{further arguments passed to or from other methods (ignored)}
+}
+\value{
+Nothing returned. Called for side effects of textual output
+to console.
 }
 \description{
 summary
