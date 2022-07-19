@@ -22,8 +22,12 @@
 #'          If the function call produces warnings about divergent transitions,
 #'          large Rhat values or low effective sample sizes, increase the
 #'          number of iterations (via \code{iter=}) and/or adjust the 
-#'          sampling controls
-#'           (e.g. via \code{control = list(adapt_delta = 0.9)}).
+#'          sampling controls (e.g. 
+#'          via \code{control = list(adapt_delta = 0.9)}).
+#'          
+#'          
+#'           
+#'          
 #'
 #' @importFrom rstan sampling extract
 #' 
@@ -56,25 +60,20 @@
 #'                                  iter = 1000, warmup = 500, refresh = 0)
 #' plot_steepness(res)
 #'
-#' \dontrun{
-#' # use the original algorithm of Goffe et al 2018
+#' \donttest{
+#' # use the original underlying algorithm by Goffe et al 2018
 #' # will warn about divergent iterations and low effective sample sizes
-#' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 1,
-#'                                  algo = "original", 
-#'                                  iter = 1000, warmup = 500, refresh = 0)
-#' res$diagnostics
-#' plot_steepness(res)
+#' # but warnings can be caught/suppressed by setting silent = TRUE
 #' 
-#' # warnings can be suppressed but will still be available
 #' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 1,
 #'                                  algo = "original", silent = TRUE,
 #'                                  iter = 1000, warmup = 500, refresh = 0)
 #' res$diagnostics
 #' 
 #' # or the sampling can be tweaked to achieve better convergence:
-#' # (this still might produce some divergent transitions though)
+#' # (this still might produce some divergent transitions on occasion)
 #' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 1, cores = 2,
-#'                                  algo = "original", silent = FALSE,
+#'                                  algo = "original", silent = TRUE,
 #'                                  iter = 5000, warmup = 1000, refresh = 0,
 #'                                  control = list(adapt_delta = 0.99))
 #' res$diagnostics

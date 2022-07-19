@@ -14,17 +14,16 @@
 #' @examples
 #' log(3)
 #' catch_warnings(log(3))
-#' \dontrun{
+#'
 #' # produces warning
-#' log(-3)
+#' # log(-3)
 #' # catch it
 #' catch_warnings(log(-3))
 #'
 #' # produces error
-#' log("x")
+#' # log("x")
 #' # catch it
 #' catch_warnings(log("x"))
-#' }
 
 catch_warnings <- function(expr) {
   w2 <- NULL

@@ -1,7 +1,7 @@
 Package: EloSteepness
 Title: Bayesian Dominance Hierarchy Steepness via Elo Rating and David's Scores
-Version: 0.4.2
-Date: 2022-07-13
+Version: 0.4.3
+Date: 2022-07-19
 Authors@R: c(
   person(given="Christof", 
          family="Neumann", 
