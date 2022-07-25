@@ -5,8 +5,6 @@ _dump/
 vignette_data/
 ^doc$
 ^Meta$
-run_vignettes.R
-vignettes/tutorial.Rmd.original
 cache/
 vignettes/cache
 vignettes/tutorial_cache/

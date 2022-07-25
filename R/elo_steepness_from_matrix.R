@@ -74,7 +74,7 @@
 #' # (this still might produce some divergent transitions on occasion)
 #' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 1, cores = 2,
 #'                                  algo = "original", silent = TRUE,
-#'                                  iter = 5000, warmup = 1000, refresh = 0,
+#'                                  iter = 3000, warmup = 500, refresh = 0,
 #'                                  control = list(adapt_delta = 0.99))
 #' res$diagnostics
 #' }

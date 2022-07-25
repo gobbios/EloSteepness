@@ -18,7 +18,8 @@
 #' \donttest{
 #' data("dommats", package = "EloRating")
 #' m <- dommats$elephants
-#' res <- elo_steepness_from_matrix(m, n_rand = 5, refresh = 0, cores = 2)
+#' res <- elo_steepness_from_matrix(m, n_rand = 3, refresh = 0, cores = 2, 
+#'                                  iter = 1000, warmup = 500)
 #' plot_steepness(res)
 #' }
 
