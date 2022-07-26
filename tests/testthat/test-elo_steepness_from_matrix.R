@@ -1,4 +1,5 @@
 
+
 x <- simple_steep_gen(n_ind = 5, n_int = 50, steep = runif(1, 0, 1))$matrix
 res1 <- elo_steepness_from_matrix(x,
                                   algo = "fixed_sd",
@@ -74,7 +75,7 @@ test_that("warnings are generated or captured", {
   xseed <- sample(10000000, 1)
 
   # warnings are stored AND returned (silent = FALSE)
-  expect_warning(res1 <- elo_steepness_from_sequence(winner = s$winner,
+  suppressWarnings(expect_warning(res1 <- elo_steepness_from_sequence(winner = s$winner,
                                                      loser = s$loser,
                                                      algo = "original",
                                                      iter = 400,
@@ -82,7 +83,8 @@ test_that("warnings are generated or captured", {
                                                      cores = 2,
                                                      seed = xseed,
                                                      refresh = 0,
-                                                     silent = FALSE))
+                                                     open_progress = FALSE,
+                                                     silent = FALSE)))
   expect_true(res1$diagnostics$has_issues)
   # res1$diagnostics
 
@@ -95,6 +97,7 @@ test_that("warnings are generated or captured", {
                                       cores = 2,
                                       seed = xseed,
                                       refresh = 0,
+                                      open_progress = FALSE,
                                       silent = TRUE)
   # res2$diagnostics
   expect_identical(res1$diagnostics, res2$diagnostics)

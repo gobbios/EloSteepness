@@ -1,5 +1,5 @@
-nids <- sample(5:12, 1)
-nobs <- round(nids ^ runif(1, 2.2, 2.6))
+nids <- sample(5:8, 1)
+nobs <- round(nids ^ runif(1, 2.2, 2.3))
 
 mat <- simple_steep_gen(n_ind = nids,
                         n_int = nobs,
