@@ -56,8 +56,10 @@
 #'
 #' @examples
 #' data(dommats, package = "EloRating")
+#' # using small numbers for iterations etc to speed up running time
 #' res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 1, cores = 2,
-#'                                  iter = 1000, warmup = 500, refresh = 0)
+#'                                  iter = 1000, warmup = 500, 
+#'                                  refresh = 0, chains = 2, seed = 1)
 #' plot_steepness(res)
 #'
 #' \donttest{
