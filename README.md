@@ -1,6 +1,8 @@
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/EloSteepness)](https://CRAN.R-project.org/package=EloSteepness)
 [![R-CMD-check](https://github.com/gobbios/EloSteepness/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/gobbios/EloSteepness/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/gobbios/EloSteepness/branch/main/graph/badge.svg)](https://app.codecov.io/gh/gobbios/EloSteepness?branch=main)
+
 <!-- badges: end -->
 
 `EloSteepness` is a package that allows estimating steepness of dominance hierarchies from interaction networks.
@@ -12,10 +14,29 @@ Below are the instructions to install `EloSteepness`.
 
 ## Installation
 
-In order to get the package up an running you need a fairly recent version of R (I'd recommend at least v4.0).
+In order to get the package up and running you need a fairly recent version of R (I'd recommend at least v4.0).
 You also need a working installation of [`rstan`](https://mc-stan.org/).
-This in turn requires `Stan` to be installed but this is taken care of during the setup of the `rstan` package.
-The easiest way of doing all this is to [install the `brms` package](https://github.com/paul-buerkner/brms#how-do-i-install-brms). (`brms` is not actually required for `EloSteepness` to work, but it handles the installation of `rstan` and friends very conveniently.)
+Since the package is on CRAN now, installation should be easy with a simple call to:
+
+`install.packages("EloSteepness")`
+
+This also should take care of installing all necessary dependencies, including `Stan`.
+If you run the following code and it results in a figure, you are good to go.
+
+```
+library("EloSteepness")
+data(dommats, package = "EloRating")
+# using small numbers for iterations etc to speed up running time
+set.seed(123)
+res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 3, cores = 2,
+                                 iter = 1000, warmup = 500, 
+                                 refresh = 0, chains = 2, seed = 1)
+plot_steepness(res)
+summary(res)
+```
+
+If this failed, you can try the following:
+The easiest way of installing `Stan` is to [install the `brms` package](https://github.com/paul-buerkner/brms#how-do-i-install-brms). (`brms` is not actually required for `EloSteepness` to work, but it handles the installation of `rstan` and friends very conveniently.)
 If you don't want to deal with `brms`, you can also try to install `rstan` by itself ([see here for instructions](https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started)).
 If you already have `brms` (or `rstan`) then you are probably good to go.
 If not, then execute the following command and if asked for whether you want to install packages *from source* select 'no' (unless you know what you are doing of course).
