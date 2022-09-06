@@ -55,7 +55,7 @@ jobs:
               if (system.file(package = "BH") != "") remove.packages("BH")
               if (system.file(package = "StanHeaders") != "") remove.packages("StanHeaders")
               if (system.file(package = "rstan") != "") remove.packages("rstan")
-              remotes::install_cran("BH")
+              install.packages("BH")
               install.packages("StanHeaders", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
               install.packages("rstan", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
             }
