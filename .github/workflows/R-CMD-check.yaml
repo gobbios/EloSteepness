@@ -50,6 +50,16 @@ jobs:
       - name: Install dependencies for code coverage
         run: |
           install.packages("covr")
+          if (.Platform$OS.type == "windows") {
+            if (as.numeric(R.version$major) + as.numeric(R.version$minor)/10 >= 4.2) {
+              if (system.file(package = "BH") != "") remove.packages("BH")
+              if (system.file(package = "StanHeaders") != "") remove.packages("StanHeaders")
+              if (system.file(package = "rstan") != "") remove.packages("rstan")
+              remotes::install_cran("BH")
+              install.packages("StanHeaders", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
+              install.packages("rstan", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
+            }
+          }
         shell: Rscript {0}
         
       - uses: r-lib/actions/check-r-package@v2
