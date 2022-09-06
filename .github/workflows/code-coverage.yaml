@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [main, master]
 
-name: R-CMD-check
+name: code-coverage
 
 jobs:
   R-CMD-check:
@@ -18,11 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: macOS-latest,   r: 'release'}
-          - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
-          - {os: ubuntu-latest,   r: 'oldrel-1'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -49,19 +45,10 @@ jobs:
       
       - name: Install dependencies for code coverage
         run: |
-          if (.Platform$OS.type == "windows") {
-            if (as.numeric(R.version$major) + as.numeric(R.version$minor)/10 >= 4.2) {
-              if (system.file(package = "BH") != "") remove.packages("BH")
-              if (system.file(package = "StanHeaders") != "") remove.packages("StanHeaders")
-              if (system.file(package = "rstan") != "") remove.packages("rstan")
-              install.packages("BH")
-              install.packages("StanHeaders", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
-              install.packages("rstan", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
-            }
-          }
+          install.packages("covr")
         shell: Rscript {0}
-        
-      - uses: r-lib/actions/check-r-package@v2
-        with:
-          error-on: '"error"'
 
+
+      - name: Test coverage
+        run: covr::codecov(quiet = FALSE)
+        shell: Rscript {0}
