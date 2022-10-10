@@ -4,11 +4,17 @@
 #'
 #' @param winner character (or factor) of winning individuals
 #' @param loser character (or factor) of losing individuals
-#' @param algo character, either \code{"fixed_sd"} or \code{"original"}.
-#'             This determines which algorithm is used. Default is
+#' @param algo character, either \code{"fixed_sd"}, \code{"original"}, or
+#'             \code{"fixed_k"}.This determines which algorithm
+#'             to estimate Elo-ratings is used. Default is
 #'             \code{"fixed_sd"}, which is a slight modification from
-#'             Goffe et al's original code.
+#'             Goffe et al's original code. \code{"fixed_k"} fixes the k 
+#'             parameter ('shift coefficient' in Goffe et al) to
+#'             the set value rather than estimating it from the data.
 #' @param silent logical, suppress warnings (default is \code{FALSE})
+#' @param k numeric, provides a fixed k parameter. This only has effects if
+#'          \code{algo = "fixed_k"}. At its default \code{NULL} a value of
+#'          0.4 is used.
 #' @param ... additional arguments for \code{sampling()}
 #'
 #'
@@ -27,8 +33,9 @@
 
 elo_steepness_from_sequence <- function(winner,
                                         loser,
-                                        algo = c("fixed_sd", "original"),
+                                        algo = c("fixed_sd", "original", "fixed_k"),
                                         silent = FALSE,
+                                        k = NULL,
                                         ...) {
   algo <- match.arg(algo)
 
@@ -67,6 +74,17 @@ elo_steepness_from_sequence <- function(winner,
       res <- sampling(stanmodels$multi_steep_fixed_sd, data = standat, ...)
     }
   }
+  if (algo == "fixed_k") {
+    if (is.null(k)) k <- 0.4
+    standat$k <- k
+    dim(standat$k) <- 1
+    if (silent) {
+      res <- suppressWarnings(sampling(stanmodels$multi_steep_fixed_sd_fixed_k,
+                                       data = standat, ...))
+    } else {
+      res <- sampling(stanmodels$multi_steep_fixed_sd_fixed_k, data = standat, ...)
+    }
+  }
 
   # extract any sampling issues
   issues <- sampler_diagnostics(res)
@@ -75,9 +93,16 @@ elo_steepness_from_sequence <- function(winner,
   xres <- extract(res, "steepness")$steepness
   # cum win probs
   cumwinprobs <- extract(res, "cumwinprobs")$cumwinprobs
-
+  # k values
+  if (algo == "fixed_k") {
+    kvals <- k
+  } else {
+    kvals <- extract(res, "k")$k
+  }
+  
   res <- list(steepness = xres,
               cumwinprobs = cumwinprobs,
+              k = kvals,
               ids = standat$ids,
               diagnostics = issues,
               stanfit = res,

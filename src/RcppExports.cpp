@@ -14,11 +14,13 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 
 RcppExport SEXP _rcpp_module_boot_stan_fit4ds_steep_mod();
 RcppExport SEXP _rcpp_module_boot_stan_fit4multi_steep_fixed_sd_mod();
+RcppExport SEXP _rcpp_module_boot_stan_fit4multi_steep_fixed_sd_fixed_k_mod();
 RcppExport SEXP _rcpp_module_boot_stan_fit4multi_steep_original_mod();
 
 static const R_CallMethodDef CallEntries[] = {
     {"_rcpp_module_boot_stan_fit4ds_steep_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4ds_steep_mod, 0},
     {"_rcpp_module_boot_stan_fit4multi_steep_fixed_sd_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4multi_steep_fixed_sd_mod, 0},
+    {"_rcpp_module_boot_stan_fit4multi_steep_fixed_sd_fixed_k_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4multi_steep_fixed_sd_fixed_k_mod, 0},
     {"_rcpp_module_boot_stan_fit4multi_steep_original_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4multi_steep_original_mod, 0},
     {NULL, NULL, 0}
 };

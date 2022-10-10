@@ -7,8 +7,9 @@
 elo_steepness_from_sequence(
   winner,
   loser,
-  algo = c("fixed_sd", "original"),
+  algo = c("fixed_sd", "original", "fixed_k"),
   silent = FALSE,
+  k = NULL,
   ...
 )
 }
@@ -17,12 +18,19 @@ elo_steepness_from_sequence(
 
 \item{loser}{character (or factor) of losing individuals}
 
-\item{algo}{character, either \code{"fixed_sd"} or \code{"original"}.
-This determines which algorithm is used. Default is
+\item{algo}{character, either \code{"fixed_sd"}, \code{"original"}, or
+\code{"fixed_k"}.This determines which algorithm
+to estimate Elo-ratings is used. Default is
 \code{"fixed_sd"}, which is a slight modification from
-Goffe et al's original code.}
+Goffe et al's original code. \code{"fixed_k"} fixes the k
+parameter ('shift coefficient' in Goffe et al) to
+the set value rather than estimating it from the data.}
 
 \item{silent}{logical, suppress warnings (default is \code{FALSE})}
+
+\item{k}{numeric, provides a fixed k parameter. This only has effects if
+\code{algo = "fixed_k"}. At its default \code{NULL} a value of
+0.4 is used.}
 
 \item{...}{additional arguments for \code{sampling()}}
 }

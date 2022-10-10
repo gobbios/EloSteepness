@@ -6,25 +6,33 @@
 \usage{
 elo_steepness_from_matrix(
   mat,
-  algo = c("fixed_sd", "original"),
+  algo = c("fixed_sd", "original", "fixed_k"),
   n_rand = NULL,
   silent = FALSE,
+  k = NULL,
   ...
 )
 }
 \arguments{
 \item{mat}{square interaction matrix}
 
-\item{algo}{character, either \code{"fixed_sd"} or \code{"original"}.
-This determines which algorithm is used. Default is
+\item{algo}{character, either \code{"fixed_sd"}, \code{"original"}, or
+\code{"fixed_k"}.This determines which algorithm
+to estimate Elo-ratings is used. Default is
 \code{"fixed_sd"}, which is a slight modification from
-Goffe et al's original code.}
+Goffe et al's original code. \code{"fixed_k"} fixes the k
+parameter ('shift coefficient' in Goffe et al) to
+the set value rather than estimating it from the data.}
 
 \item{n_rand}{numeric, number of randomized sequences. Default is
 \code{NULL}, which uses a rule of thumb to determine the
 number (see below for more details).}
 
 \item{silent}{logical, suppress warnings (default is \code{FALSE})}
+
+\item{k}{numeric, provides a fixed k parameter. This only has effects if
+\code{algo = "fixed_k"}. At its default \code{NULL} a value of
+0.4 is used.}
 
 \item{...}{additional arguments for \code{\link[rstan]{sampling}()}}
 }
@@ -37,6 +45,7 @@ Each column corresponds to one randomization (as
 set via \code{n_rand}). Each row is one iteration.}
 \item{\code{cumwinprobs}}{an array with posterior cumulative winning
 probabilities for each individual.}
+\item{\code{k}}{an array with posterior k values.}
 \item{\code{ids}}{a character vector with individual ID codes as supplied
 in \code{mat}}
 \item{\code{diagnostics}}{a list with information regarding sampling
@@ -60,12 +69,11 @@ observed interactions, \code{n_rand = 5}. If there are less than
 100 interactions, \code{n_rand = 50}. In the remaining cases,
 \code{n_rand = 20}.
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{     If the function call produces warnings about divergent transitions,
-     large Rhat values or low effective sample sizes, increase the
-     number of iterations (via \code{iter=}) and/or adjust the 
-     sampling controls (e.g. 
-     via \code{control = list(adapt_delta = 0.9)}).
-}\if{html}{\out{</div>}}
+If the function call produces warnings about divergent transitions,
+large Rhat values or low effective sample sizes, increase the
+number of iterations (via \code{iter=}) and/or adjust the
+sampling controls (e.g.
+via \code{control = list(adapt_delta = 0.9)}).
 }
 \examples{
 data(dommats, package = "EloRating")

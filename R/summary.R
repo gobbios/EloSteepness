@@ -17,9 +17,11 @@ summary.elo_steepness <- function(object, ...) {
   } else {
     a <- "estimated"
   }
+  if (object$algo == "fixed_k") a <- "fixed"
+  
   nrand <- ncol(object$steepness)
   cat("steepness based on Bayesian Elo-ratings\n")
-  cat("(using", a, "standard deviation of starting ratings)\n")
+  cat("(using", a, "standard deviation of start ratings)\n")
   cat("---------------------------------------\n")
   if (object$sequence_supplied) {
     cat("data supplied in sequence format:\n")
@@ -60,7 +62,15 @@ summary.elo_steepness <- function(object, ...) {
   x <- as.numeric(prunk(m)[1])
 
   cat("proportion of unknown relationships:", sprintf("%.3f", x), "\n")
-
+  if (object$algo == "fixed_k") {
+    cat("k value was fixed at", object$k, "\n")
+  } else {
+    kvals <- as.numeric(object$k)
+    kout <- sprintf("%.2f", quantile(kvals, probs = c(0.055, 0.5, 0.945)))
+    cat("k value was estimated with median =", kout[2], 
+        paste0("(89% CI: ", kout[1], "-", kout[3], ")"), "\n")
+  }
+  
   cat("------------------------------------------\n")
 
   xres <- steepness_precis(object, quantiles = c(0.055, 0.25, 0.5, 0.75, 0.945))

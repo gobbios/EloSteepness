@@ -11,7 +11,7 @@ res2 <- capture.output(summary(res))
 
 
 test_that("summaries produce textual output", {
-  expect_true(length(res1) == 18 & length(res2) == 14)
+  expect_true(length(res1) == 19 & length(res2) == 14)
   expect_true(grepl("ratings", res1[1]))
   expect_true(grepl("scores", res2[1]))
 })
