@@ -1,5 +1,7 @@
-#' plot individual scores (either Elo or David)
-#'
+#' plot posteriors of individual scores 
+#' 
+#' either summed winning probabilities or David's scores
+#' 
 #' @param x result from \code{\link{elo_steepness_from_matrix}},
 #'        \code{\link{elo_steepness_from_sequence}} or
 #'        \code{\link{davids_steepness}}

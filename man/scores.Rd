@@ -2,22 +2,29 @@
 % Please edit documentation in R/scores.R
 \name{scores}
 \alias{scores}
-\title{numeric summaries of individual Elo-ratings or David's scores}
+\title{numeric summaries of individual scores}
 \usage{
-scores(x, quantiles = c(0.045, 0.955))
+scores(x, quantiles = c(0.045, 0.955), elo_scores = FALSE)
 }
 \arguments{
-\item{x}{result from \code{\link{elo_steepness_from_matrix}} or
+\item{x}{result from \code{\link{elo_steepness_from_matrix}},
+\code{\link{elo_steepness_from_sequence}} or
 \code{\link{davids_steepness}}}
 
 \item{quantiles}{numeric, the quantiles to be returned}
+
+\item{elo_scores}{logical, with default \code{FALSE}.
+If \code{TRUE} Elo-ratings are returned,
+rather than the default summed winning probabilities. This
+argument has no consequences if \code{x} is the result of
+\code{\link{davids_steepness}}.}
 }
 \value{
 a data.frame with one line per individual, providing
 summaries of posteriors for individual scores
 }
 \description{
-numeric summaries of individual Elo-ratings or David's scores
+either based on summed winning probabilities or David's scores
 }
 \examples{
 \donttest{
@@ -27,7 +34,8 @@ scores(res)
 
 data("dommats", package = "EloRating")
 m <- dommats$elephants
-res <- elo_steepness_from_matrix(m, n_rand = 1, refresh = 0, cores = 2)
+res <- elo_steepness_from_matrix(m, n_rand = 1, refresh = 0,
+                                 iter = 1000, warmup = 500)
 scores(res)
 }
 }

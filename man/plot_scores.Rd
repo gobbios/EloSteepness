@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_scores.R
 \name{plot_scores}
 \alias{plot_scores}
-\title{plot individual scores (either Elo or David)}
+\title{plot posteriors of individual scores}
 \usage{
 plot_scores(
   x,
@@ -37,7 +37,7 @@ This only has an effect if \code{subset_ids} is different from
 a plot
 }
 \description{
-plot individual scores (either Elo or David)
+either summed winning probabilities or David's scores
 }
 \examples{
 data(dommats, package = "EloRating")
