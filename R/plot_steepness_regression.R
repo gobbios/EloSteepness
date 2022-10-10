@@ -44,7 +44,7 @@ plot_steepness_regression <- function(x,
     for (i in seq_len(ncol(scores))) {
       scores[, i] <- y[, , i]
     }
-    ylab <- "cumulative Elo winning probability"
+    ylab <- "summed Elo winning probability"
     correct_object <- TRUE
   }
   if ("norm_ds" %in% names(x)) {

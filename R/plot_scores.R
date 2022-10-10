@@ -49,7 +49,7 @@ plot_scores <- function(x,
     for (i in seq_len(ncol(res))) {
       res[, i] <- y[, , i]
     }
-    xlab <- "cumulative Elo winning probability"
+    xlab <- "summed Elo winning probability"
     correct_object <- TRUE
   }
   if ("norm_ds" %in% names(x)) {
