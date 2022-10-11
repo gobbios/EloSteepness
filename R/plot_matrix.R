@@ -6,11 +6,12 @@
 #' @param greyout numeric, the values to be grayed out
 #' @param prunkcol color value, which if set to some color will highlight
 #'                 unknown relationships with rectangles of that color.
+#' @param label_col color values for column and row labels
 #' @importFrom graphics rect
 #'
 #' @return a plot
 
-plot_matrix <- function(mat, greyout = NULL, prunkcol = NULL) {
+plot_matrix <- function(mat, greyout = NULL, prunkcol = NULL, label_col = "black") {
   n <- ncol(mat)
   colmat <- mat
   colmat[, ] <- "black"
@@ -30,8 +31,8 @@ plot_matrix <- function(mat, greyout = NULL, prunkcol = NULL) {
   text(xmat, ymat, mat, col = colmat, adj = c(0.5, 0))
 
   cn <- colnames(mat)
-  text(rep(0, n), seq_len(n), cn, xpd = TRUE, font = 2, adj = c(0.5, 0))
-  text(seq_len(n), rep(0, n), cn, xpd = TRUE, font = 2, adj = c(0.5, 0))
+  text(rep(0, n), seq_len(n), cn, xpd = TRUE, font = 2, adj = c(0.5, 0), col = label_col)
+  text(seq_len(n), rep(0, n), cn, xpd = TRUE, font = 2, adj = c(0.5, 0), col = label_col)
 
   if (!is.null(prunkcol)) {
     pmat <- apply(mat, 2, as.numeric)

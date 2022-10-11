@@ -46,7 +46,7 @@ davids_steepness <- function(mat,
   # steepness values
   xres <- extract(res, "xsteep")$xsteep[, 2, drop = FALSE]
   
-  # cumulative winning probabilities
+  # normalized DS (equivalent to summed winning probabilities in Elo model)
   norm_ds <- extract(res, "normds")$normds
 
   res <- list(steepness = xres,

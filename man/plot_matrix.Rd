@@ -4,7 +4,7 @@
 \alias{plot_matrix}
 \title{plot (rather than print) a matrix}
 \usage{
-plot_matrix(mat, greyout = NULL, prunkcol = NULL)
+plot_matrix(mat, greyout = NULL, prunkcol = NULL, label_col = "black")
 }
 \arguments{
 \item{mat}{square matrix}
@@ -13,6 +13,8 @@ plot_matrix(mat, greyout = NULL, prunkcol = NULL)
 
 \item{prunkcol}{color value, which if set to some color will highlight
 unknown relationships with rectangles of that color.}
+
+\item{label_col}{color values for column and row labels}
 }
 \value{
 a plot
