@@ -31,7 +31,10 @@
 #'          sampling controls (e.g. 
 #'          via \code{control = list(adapt_delta = 0.9)}).
 #'          
-#'          
+#' If the argument \code{seed = } is supplied, its value will be passed to
+#'          \code{\link[rstan]{sampling}()} to ensure reproducibility of the 
+#'          MCMC sampling, but the same seed will then also apply 
+#'          to the randomization of the interaction sequence order(s).
 #'           
 #'          
 #'
@@ -95,6 +98,11 @@ elo_steepness_from_matrix <- function(mat,
                                       k = NULL,
                                       ...) {
   algo <- match.arg(algo)
+  # catch additional arguments to check whether seed is supplied
+  xargs <- list(...)
+  if ("seed" %in% names(xargs)) {
+    set.seed(xargs$seed)
+  }
 
   # determine number of randomizations
   if (is.null(n_rand)) {
@@ -107,6 +115,11 @@ elo_steepness_from_matrix <- function(mat,
                                  n_rand = n_rand,
                                  silent = silent,
                                  for_elo_model = TRUE)
+
+  # reset seed
+  if ("seed" %in% names(xargs)) {
+    set.seed(NULL)
+  }
 
   if (algo == "original") {
     if (silent) {
@@ -126,8 +139,8 @@ elo_steepness_from_matrix <- function(mat,
   }
   if (algo == "fixed_k") {
     if (is.null(k)) k <- 0.4
-    standat$k <- k
-    dim(standat$k) <- 1
+    standat$k <- rep(k, n_rand)
+    if (n_rand == 1) dim(standat$k) <- 1
     if (silent) {
       res <- suppressWarnings(sampling(stanmodels$multi_steep_fixed_sd_fixed_k,
                                        data = standat, ...))

@@ -6,6 +6,7 @@ res1 <- elo_steepness_from_matrix(x,
                                   n_rand = 2,
                                   refresh = 0,
                                   cores = 2,
+                                  iter = 800,
                                   silent = TRUE)
 
 test_that("steepness is between 0 and 1", {
@@ -19,6 +20,7 @@ res2 <- elo_steepness_from_matrix(x,
                                   n_rand = 2,
                                   refresh = 0,
                                   cores = 2,
+                                  iter = 800,
                                   silent = TRUE)
 
 test_that("steepness is between 0 and 1", {
@@ -101,4 +103,50 @@ test_that("warnings are generated or captured", {
                                       silent = TRUE)
   # res2$diagnostics
   expect_identical(res1$diagnostics, res2$diagnostics)
+})
+
+
+# test implementation that uses fixed k
+s <- EloRating:::mat2seq(dommats$elephants)
+res1 <- elo_steepness_from_sequence(winner = s$winner,
+                                    loser = s$loser,
+                                    algo = "fixed_k",
+                                    iter = 400,
+                                    warmup = 200,
+                                    cores = 2,
+                                    refresh = 0,
+                                    open_progress = FALSE,
+                                    k = 1.2,
+                                    silent = TRUE)
+
+res2 <- elo_steepness_from_matrix(mat = dommats$elephants,
+                                  algo = "fixed_k",
+                                  iter = 400,
+                                  warmup = 200,
+                                  chains = 2,
+                                  cores = 2,
+                                  refresh = 0,
+                                  n_rand = 1,
+                                  open_progress = FALSE,
+                                  k = 1.2,
+                                  silent = TRUE)
+
+res3 <- elo_steepness_from_matrix(mat = dommats$elephants,
+                                  algo = "fixed_k",
+                                  iter = 400,
+                                  warmup = 200,
+                                  seed = 1,
+                                  chains = 2,
+                                  cores = 2,
+                                  refresh = 0,
+                                  n_rand = 4,
+                                  open_progress = FALSE,
+                                  k = NULL,
+                                  silent = TRUE)
+
+
+test_that("k is not a parameter in the model", {
+  expect_false("k" %in% res1$stanfit@model_pars)
+  expect_false("k" %in% res2$stanfit@model_pars)
+  expect_false("k" %in% res3$stanfit@model_pars)
 })

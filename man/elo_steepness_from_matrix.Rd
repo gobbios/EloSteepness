@@ -74,6 +74,11 @@ large Rhat values or low effective sample sizes, increase the
 number of iterations (via \code{iter=}) and/or adjust the
 sampling controls (e.g.
 via \code{control = list(adapt_delta = 0.9)}).
+
+If the argument \code{seed = } is supplied, its value will be passed to
+\code{\link[rstan]{sampling}()} to ensure reproducibility of the
+MCMC sampling, but the same seed will then also apply
+to the randomization of the interaction sequence order(s).
 }
 \examples{
 data(dommats, package = "EloRating")
