@@ -91,7 +91,7 @@ elo_steepness_from_sequence <- function(winner,
 
   # steepness values
   xres <- extract(res, "steepness")$steepness
-  # cum win probs
+  # summed winning probabilities (formerly: cumulative win probs)
   cumwinprobs <- extract(res, "cumwinprobs")$cumwinprobs
   # k values
   if (algo == "fixed_k") {

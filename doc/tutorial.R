@@ -31,7 +31,8 @@ EloSteepness:::plot_matrix(mat, greyout = 0)
 set.seed(12345)
 
 ## ----elo_steep_01, cache=TRUE-------------------------------------------------
-elo_res <- elo_steepness_from_matrix(mat = mat, n_rand = 2, refresh = 0, cores = 2, iter = 1000, seed = 1)
+elo_res <- elo_steepness_from_matrix(mat = mat, n_rand = 2, refresh = 0, 
+                                     cores = 2, iter = 1000, seed = 1)
 
 ## -----------------------------------------------------------------------------
 summary(elo_res)
@@ -97,8 +98,10 @@ mat1["f", "d"] <- 1 # just make sure that 'd' keeps its one loss to 'f'
 mat2 <- mat * 2
 
 ## ----elo_steep_02, cache=TRUE-------------------------------------------------
-elo_res_half <- elo_steepness_from_matrix(mat = mat1, n_rand = 2, refresh = 0, cores = 2, iter = 1000, seed = 2)
-elo_res_doubled <- elo_steepness_from_matrix(mat = mat2, n_rand = 2, refresh = 0, cores = 2, iter = 1000, seed = 3)
+elo_res_half <- elo_steepness_from_matrix(mat = mat1, n_rand = 2, refresh = 0, 
+                                          cores = 2, iter = 1000, seed = 2)
+elo_res_doubled <- elo_steepness_from_matrix(mat = mat2, n_rand = 2, refresh = 0, 
+                                             cores = 2, iter = 1000, seed = 3)
 
 ## ----elo02_plot1, fig.retina= 2, echo=2:10, fig.width=9, fig.height=6.5, out.width="90%", fig.align='center'----
 par(mfrow = c(2, 3), family = "serif")
@@ -112,14 +115,19 @@ plot_scores(elo_res_doubled, color = my_colors)
 
 ## ----simu_elo_ex_1, cache=TRUE------------------------------------------------
 set.seed(123)
+
 # generate matrices
 m1 <- simple_steep_gen(n_ind = 6, n_int = 40, steep = 0.9)$matrix
 m2 <- m1 * 2
 m5 <- m1 * 5
+
 # calculate steepness
-r1 <- elo_steepness_from_matrix(mat = m1, n_rand = 2, cores = 2, iter = 1000, seed = 1, refresh = 0)
-r2 <- elo_steepness_from_matrix(mat = m2, n_rand = 2, cores = 2, iter = 1000, seed = 2, refresh = 0)
-r5 <- elo_steepness_from_matrix(mat = m5, n_rand = 2, cores = 2, iter = 1000, seed = 3, refresh = 0)
+r1 <- elo_steepness_from_matrix(mat = m1, n_rand = 2, cores = 2, iter = 1000, 
+                                seed = 1, refresh = 0)
+r2 <- elo_steepness_from_matrix(mat = m2, n_rand = 2, cores = 2, iter = 1000,
+                                seed = 2, refresh = 0)
+r5 <- elo_steepness_from_matrix(mat = m5, n_rand = 2, cores = 2, iter = 1000, 
+                                seed = 3, refresh = 0)
 
 ## ----simu_elo_ex_plot1, fig.retina= 2, echo=2:15, fig.width=9, fig.height=5.8, out.width="90%", fig.align='center'----
 par(mfrow = c(2, 3), family = "serif", mar = c(3.5, 2.5, 1, 1))

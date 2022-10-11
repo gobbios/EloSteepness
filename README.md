@@ -119,18 +119,18 @@ Here you download the package as a single file and then install it from there.
 Start by downloading the package file [from here](https://github.com/gobbios/EloSteepness/releases/latest).
 
 
-If you are on Windows, download the `EloSteepness_0.4.0.zip` file and run (and don't forget to change the path and use the correct file name):
+If you are on Windows, download the `EloSteepness_0.4.6.zip` file and run (and don't forget to change the path and use the correct file name):
 
 ```
-install.packages("C:/Users/myname/Downloads/EloSteepness_0.4.0.zip", 
+install.packages("C:/Users/myname/Downloads/EloSteepness_0.4.6.zip", 
                  dependencies = TRUE, 
                  repos = NULL, type = "win.binary")
 ```
 
-If you are on MacOS, download the `EloSteepness_0.4.0.tgz` file and run (and don't forget to change the path and use the correct file name):
+If you are on MacOS, download the `EloSteepness_0.4.6.tgz` file and run (and don't forget to change the path and use the correct file name):
 
 ```
-install.packages("~/Downloads/EloSteepness_0.4.0.tgz", 
+install.packages("~/Downloads/EloSteepness_0.4.6.tgz", 
                  dependencies = TRUE, 
                  repos = NULL, type = "mac.binary")
 ```
@@ -145,18 +145,18 @@ vignette("tutorial", package = "EloSteepness")
 ```
 
 
-If this didn't work or you feel a bit more adventurous, choose the file `EloSteepness_0.4.0.tar.gz` for download (don't unpack it!), and remember the path you saved it to...
+If this didn't work or you feel a bit more adventurous, choose the file `EloSteepness_0.4.6.tar.gz` for download (don't unpack it!), and remember the path you saved it to...
 Then depending on what OS you use, adapt to your needs and run one of the following code chunks (don't forget to change the path and use the correct file name):
 
 ```
 # something like this on MacOS or Linux
-install.packages("~/Downloads/EloSteepness_0.4.0.tar.gz",  
+install.packages("~/Downloads/EloSteepness_0.4.6.tar.gz",  
                  repos = NULL, type = "source")
 ```
 
 ```
 # something like this on Windows
-install.packages("C:/Users/myname/Downloads/EloSteepness_0.4.0.tar.gz",  
+install.packages("C:/Users/myname/Downloads/EloSteepness_0.4.6.tar.gz",  
                  repos = NULL, type = "source")
 ```
 
@@ -169,5 +169,5 @@ And finally, if you are just interested in the tutorial, [you can find it here](
 ## First steps
 
 Please refer to the tutorial to go through some examples.
-Either download it [here](https://github.com/gobbios/EloSteepness/blob/main/documents/tutorial.pdf) or use `vignette("tutorial", package = "EloSteepness")` to launch it directly from R.
+Either [download it here](https://github.com/gobbios/EloSteepness/blob/main/documents/tutorial.pdf) or use `vignette("tutorial", package = "EloSteepness")` to launch it directly from R.
 
