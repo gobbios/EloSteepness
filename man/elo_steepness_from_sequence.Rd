@@ -44,8 +44,8 @@ for interaction data with known sequence of observations
 \examples{
 data(adv, package = "EloRating")
 res <- elo_steepness_from_sequence(winner = adv$winner, loser = adv$loser,
-                                   cores = 2, iter = 1000, warmup = 500,
-                                   seed = 1, refresh = 0)
+                                   cores = 1, chains = 2, iter = 1000, 
+                                   warmup = 500, seed = 1, refresh = 0)
 plot_steepness(res)
 
 }
