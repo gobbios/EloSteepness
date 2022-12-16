@@ -8,7 +8,7 @@
 `EloSteepness` is a package that allows estimating steepness of dominance hierarchies from interaction networks.
 It does so by estimating Bayesian Elo-ratings, from which the steepness metric can be calculated.
 The major difference from classic approaches is that we obtain posterior steepness *distributions*, not point estimates.
-More details on the theoretical background can be found in the accompanying [preprint/paper](https://doi.org/10.1101/2022.01.28.478016).
+More details on the theoretical background can be found in the accompanying [paper](https://doi.org/10.1111/2041-210X.14021) (preprint is [here](https://doi.org/10.1101/2022.01.28.478016)).
 
 Below are the instructions to install `EloSteepness`.
 
