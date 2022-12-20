@@ -11,3 +11,4 @@ vignettes/tutorial_cache/
 vignettes/tutorial_files/
 ^\.github$
 _build_check_steps.R
+.DS_Store

@@ -5,27 +5,27 @@ devtools::clean_vignettes()
 devtools::document()
 devtools::clean_dll()
 
-
-
 withr::with_envvar(c("NOT_CRAN" = "true"),
                    devtools::build_vignettes()
 )
 
-# may have to remove '/doc' from gitignore at this point
+# remove '/doc/' from gitignore at this point
 
 # size reductions of PDF vignettes
 tools::compactPDF("doc/tutorial.pdf", gs_quality = "ebook")
 
-
+# build source package
 withr::with_envvar(c("NOT_CRAN" = "true"),
                    devtools::build(args = c('--compact-vignettes=both'))
 )
 
-
+# check source package (update file name if applicable)
 withr::with_envvar(c("NOT_CRAN" = "true"),
-                   devtools::check_built("../EloSteepness_0.4.6.tar.gz", args = "--as-cran")
+                   devtools::check_built("../EloSteepness_0.4.7.tar.gz", args = "--as-cran")
 )
 
 # then upload .tar.gz to wincheck
 # https://win-builder.r-project.org/upload.aspx
-
+# download zip for github release
+# create mac binary for release too
+devtools::build(binary = TRUE)

@@ -50,7 +50,7 @@ suppressPackageStartupMessages(library(EloSteepness))
 These networks can either be static, i.e. we don't know the sequence in which the interactions occurred, or we have temporal information, i.e., we known the sequence in which the interactions occurred/were observed.
 From such data we estimate Bayesian Elo-ratings, from which the steepness metric can be calculated.
 The major difference from classic approaches is that we obtain posterior steepness *distributions*, not point estimates.
-More details on the theoretical background can be found in the accompanying preprint/paper [@neumann2022].
+More details on the theoretical background can be found in the accompanying paper [@neumann2022a] (preprinted here: @neumann2022).
 
 Also included in this package is a version of steepness that is based on David's scores, but also with a Bayesian flavor.
 It turns out that the performance of this approach is somewhat below that of the Elo-based steepness, but still better than the classical algorithms.
