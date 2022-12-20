@@ -18,5 +18,8 @@ test_that("removal of dyads stops at specified value", {
   expect_true(rev(r0$summary$prunk)[1] <= rem)
   # interaction-wise removal should end in more interactions removed
   #   compared to dyad-wise removal
-  expect_true(mean(r1$summary$n_int) < mean(r2$summary$n_int))
+  # but this is not strictly / *always* true, 
+  #   so this 'test' is probabilistic rather than deterministic 
+  #   and hence not a good *test*
+  # expect_true(mean(r1$summary$n_int) < mean(r2$summary$n_int))
 })
