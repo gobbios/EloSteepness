@@ -21,7 +21,7 @@ withr::with_envvar(c("NOT_CRAN" = "true"),
 
 # check source package (update file name if applicable)
 withr::with_envvar(c("NOT_CRAN" = "true"),
-                   devtools::check_built("../EloSteepness_0.4.7.tar.gz", args = "--as-cran")
+                   devtools::check_built("../EloSteepness_0.5.0.tar.gz", args = "--as-cran")
 )
 
 # then upload .tar.gz to wincheck

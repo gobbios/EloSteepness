@@ -17,7 +17,8 @@ unknown relationships with rectangles of that color.}
 \item{label_col}{color values for column and row labels}
 }
 \value{
-a plot
+a plot and an invisible list with coordinates and
+content of the matrix to be plotted
 }
 \description{
 a helper function

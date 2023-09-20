@@ -1,7 +1,7 @@
 Package: EloSteepness
 Title: Bayesian Dominance Hierarchy Steepness via Elo Rating and David's Scores
-Version: 0.4.7
-Date: 2022-12-20
+Version: 0.5.0
+Date: 2023-09-21
 Authors@R: c(
   person(given="Christof", 
          family="Neumann", 
@@ -10,7 +10,7 @@ Authors@R: c(
          comment=c(ORCID="0000-0002-0236-1219"))
   )
 Maintainer: Christof Neumann <christofneumann1@gmail.com>
-Description: Obtain Bayesian posterior distributions of dominance hierarchy steepness (Neumann and Fischer (2022) <doi:10.1111/2041-210X.14021>). Steepness estimation is based on Bayesian implementations of either Elo-rating or David's scores. 
+Description: Obtain Bayesian posterior distributions of dominance hierarchy steepness (Neumann and Fischer (2023) <doi:10.1111/2041-210X.14021>). Steepness estimation is based on Bayesian implementations of either Elo-rating or David's scores. 
 License: GPL (>= 2)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

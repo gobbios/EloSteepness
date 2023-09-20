@@ -50,7 +50,7 @@ suppressPackageStartupMessages(library(EloSteepness))
 These networks can either be static, i.e. we don't know the sequence in which the interactions occurred, or we have temporal information, i.e., we known the sequence in which the interactions occurred/were observed.
 From such data we estimate Bayesian Elo-ratings, from which the steepness metric can be calculated.
 The major difference from classic approaches is that we obtain posterior steepness *distributions*, not point estimates.
-More details on the theoretical background can be found in the accompanying paper [@neumann2022a] (preprinted here: @neumann2022).
+More details on the theoretical background can be found in the accompanying paper [@neumann2023] (preprinted here: @neumann2022).
 
 Also included in this package is a version of steepness that is based on David's scores, but also with a Bayesian flavor.
 It turns out that the performance of this approach is somewhat below that of the Elo-based steepness, but still better than the classical algorithms.
@@ -98,7 +98,7 @@ mat <- dommats$badgers
 Here it is:
 
 ```{r badgermatrix, fig.retina= 2, echo=FALSE, fig.width=6, fig.height=2.8, out.width="50%", fig.align="center", fig.cap="An example network of seven badgers."}
-par(family = "serif", mar = c(0.1, 1.6, 1.1, 0.1))
+par(family = "serif", mar = c(0.1, 1.6, 1.1, 0.1), cex = 1.3)
 EloSteepness:::plot_matrix(mat, greyout = 0)
 ```
 

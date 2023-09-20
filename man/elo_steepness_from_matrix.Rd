@@ -84,7 +84,7 @@ to the randomization of the interaction sequence order(s).
 data(dommats, package = "EloRating")
 # using small numbers for iterations etc to speed up running time
 res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 1, cores = 2,
-                                 iter = 1000, warmup = 500, 
+                                 iter = 800, warmup = 300, 
                                  refresh = 0, chains = 2, seed = 1)
 plot_steepness(res)
 
@@ -100,9 +100,10 @@ res$diagnostics
 
 # or the sampling can be tweaked to achieve better convergence:
 # (this still might produce some divergent transitions on occasion)
-res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 1, cores = 2,
-                                 algo = "original", silent = TRUE,
-                                 iter = 3000, warmup = 500, refresh = 0,
+# (and the number of iterations should be set higher)
+res <- elo_steepness_from_matrix(dommats$elephants, n_rand = 1, chains = 2,
+                                 algo = "original", silent = TRUE, seed = 1,
+                                 iter = 1000, warmup = 500, refresh = 0,
                                  control = list(adapt_delta = 0.99))
 res$diagnostics
 }

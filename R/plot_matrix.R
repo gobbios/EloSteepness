@@ -9,7 +9,8 @@
 #' @param label_col color values for column and row labels
 #' @importFrom graphics rect
 #'
-#' @return a plot
+#' @return a plot and an invisible list with coordinates and 
+#'         content of the matrix to be plotted
 
 plot_matrix <- function(mat, greyout = NULL, prunkcol = NULL, label_col = "black") {
   n <- ncol(mat)
@@ -49,4 +50,6 @@ plot_matrix <- function(mat, greyout = NULL, prunkcol = NULL, label_col = "black
       }
     }
   }
+  
+  invisible(list(xmat = xmat, ymat = ymat, content = mat))
 }
