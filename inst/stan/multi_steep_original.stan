@@ -1,6 +1,6 @@
 functions {
-  real[] ProbFunction(real[] EloStart, real k, matrix presence, int N, int K, int[] Ai, int[] loser, real diff_f) {
-    real result[N];
+  array[] real ProbFunction(array[] real EloStart, real k, matrix presence, int N, int K, array[] int Ai, array[] int loser, real diff_f) {
+    array[N] real result;
     real toAdd;
     //real aux_mean = 0.0;
     vector[K] EloNow;
@@ -21,7 +21,7 @@ functions {
     return result;
   }
 
-  vector cum_winprob(vector EloStart, real k, int n_interactions, int n_ids, int[] Ai, int[] loser) {
+  vector cum_winprob(vector EloStart, real k, int n_interactions, int n_ids, array[] int Ai, array[] int loser) {
     real single_wp;
     real toAdd;
     matrix[n_ids, n_ids] pairwise_winprobs;
@@ -124,22 +124,22 @@ data {
   int<lower=1> N; // number of encounters
   int<lower=1> K; // number of individuals
   int<lower=1> n_rand; // number of randomized sequences
-  int<lower=1> winner[N, n_rand]; // winner's index
-  int<lower=1> loser[N, n_rand]; // losers's index
+  array[N, n_rand] int<lower=1> winner; // winner's index
+  array[N, n_rand] int<lower=1> loser; // losers's index
   matrix[N, K] presence;
-  int<lower=0> y[N]; // always 1
+  array[N] int<lower=0> y; // always 1
   real<lower=0> diff_f; // Elo Score difference factor
 }
 
 parameters {
-  real EloStart_raw[n_rand, K];
-  real<lower=0.0> k_raw[n_rand];
-  real<lower=0.0> sigma_raw[n_rand];
+  array[n_rand, K] real EloStart_raw;
+  array[n_rand] real<lower=0.0> k_raw;
+  array[n_rand] real<lower=0.0> sigma_raw;
 }
 
 transformed parameters {
-  real EloStart[n_rand, K];
-  real<lower=0.0> k[n_rand];
+  array[n_rand, K] real EloStart;
+  array[n_rand] real<lower=0.0> k;
   for (r in 1:n_rand) {
     for (i in 1:K) {
       EloStart[r, i] = EloStart_raw[r, i] - mean(EloStart_raw[r, ]);
@@ -163,7 +163,7 @@ model {
 }
 
 generated quantities{
-  real<lower=0.0> sigma[n_rand];
+  array[n_rand] real<lower=0.0> sigma;
   vector[n_rand] steepness;
   matrix[n_rand, K] cumwinprobs;
 

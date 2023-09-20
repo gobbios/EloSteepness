@@ -109,8 +109,8 @@ data {
   int<lower=0> N; // number of interactions
   int<lower=0> K; // number of dyads
   int I; // number of individuals
-  int interactions[N]; // interactions, 1/0
-  int dyad[N]; // actual dyad
+  array[N] int interactions; // interactions, 1/0
+  array[N] int dyad; // actual dyad
 }
 
 parameters{

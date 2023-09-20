@@ -1,6 +1,6 @@
 functions {
-  real[] ProbFunction(vector EloStart, real k, matrix presence, int N, int K, int[] winner_index, int[] loser_index) {
-    real result[N];
+  array[] real ProbFunction(vector EloStart, real k, matrix presence, int N, int K, array[] int winner_index, array[] int loser_index) {
+    array[N] real result;
     real toAdd;
 
     vector[K] EloNow;
@@ -21,7 +21,7 @@ functions {
     return result;
   }
 
-  vector cum_winprob(vector EloStart, real k, int n_interactions, int n_ids, int[] winner_index, int[] loser_index) {
+  vector cum_winprob(vector EloStart, real k, int n_interactions, int n_ids, array[] int winner_index, array[] int loser_index) {
     real single_wp;
     real toAdd;
     matrix[n_ids, n_ids] pairwise_winprobs;
@@ -124,15 +124,15 @@ data {
   int<lower=1> N; // number of encounters
   int<lower=1> K; // number of individuals
   int<lower=1> n_rand; // number of randomized sequences
-  int<lower=1> winner[N, n_rand]; // winner's index
-  int<lower=1> loser[N, n_rand]; // losers's index
+  array[N, n_rand] int<lower=1> winner; // winner's index
+  array[N, n_rand] int<lower=1> loser; // losers's index
   matrix[N, K] presence;
-  real<lower=0> k[n_rand];
-  int<lower=0> y[N]; // outcome, i.e. winner always wins -> all values are 1
+  array[n_rand] real<lower=0> k;
+  array[N] int<lower=0> y; // outcome, i.e. winner always wins -> all values are 1
 }
 parameters {
   matrix[n_rand, K] EloStart_raw;
-  // real<lower=0.0> k[n_rand];
+  // array[n_rand] real<lower=0.0> k;
 }
 transformed parameters {
   matrix[n_rand, K] EloStart;
