@@ -19,42 +19,59 @@ export(upward_steepness)
 import(Rcpp)
 import(methods)
 import(rstantools)
-importFrom(EloRating,DS)
-importFrom(EloRating,creatematrix)
-importFrom(EloRating,mat2seq)
-importFrom(EloRating,prunk)
-importFrom(RcppParallel,CxxFlags)
-importFrom(RcppParallel,RcppParallelLibs)
-importFrom(aniDom,estimate_uncertainty_by_repeatability)
-importFrom(grDevices,adjustcolor)
-importFrom(grDevices,gray.colors)
-importFrom(grDevices,grey)
-importFrom(grDevices,hcl.colors)
-importFrom(graphics,axis)
-importFrom(graphics,box)
-importFrom(graphics,points)
-importFrom(graphics,polygon)
-importFrom(graphics,rect)
-importFrom(graphics,text)
-importFrom(graphics,title)
-importFrom(rstan,Rhat)
-importFrom(rstan,ess_bulk)
-importFrom(rstan,ess_tail)
-importFrom(rstan,extract)
-importFrom(rstan,get_bfmi)
-importFrom(rstan,get_divergent_iterations)
-importFrom(rstan,get_max_treedepth_iterations)
-importFrom(rstan,sampling)
-importFrom(stats,coefficients)
-importFrom(stats,density)
-importFrom(stats,lm)
-importFrom(stats,mad)
-importFrom(stats,median)
-importFrom(stats,pnorm)
-importFrom(stats,quantile)
-importFrom(stats,rbinom)
-importFrom(stats,runif)
-importFrom(stats,sd)
-importFrom(utils,combn)
-importFrom(utils,getFromNamespace)
+importFrom(EloRating,
+  DS,
+  creatematrix,
+  mat2seq,
+  prunk
+)
+importFrom(RcppParallel,
+  CxxFlags,
+  RcppParallelLibs
+)
+importFrom(grDevices,
+  adjustcolor,
+  gray.colors,
+  grey,
+  hcl.colors
+)
+importFrom(graphics,
+  axis,
+  box,
+  points,
+  polygon,
+  rect,
+  text,
+  title
+)
+importFrom(lme4,
+  VarCorr,
+  lmer
+)
+importFrom(rstan,
+  Rhat,
+  ess_bulk,
+  ess_tail,
+  extract,
+  get_bfmi,
+  get_divergent_iterations,
+  get_max_treedepth_iterations,
+  sampling
+)
+importFrom(stats,
+  coefficients,
+  density,
+  lm,
+  mad,
+  median,
+  pnorm,
+  quantile,
+  rbinom,
+  runif,
+  sd
+)
+importFrom(utils,
+  combn,
+  getFromNamespace
+)
 useDynLib(EloSteepness, .registration = TRUE)

@@ -8,3 +8,20 @@
 \description{
 Dominance Hierarchy Steepness Via Elo Rating
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/gobbios/EloSteepness}
+  \item Report bugs at \url{https://github.com/gobbios/EloSteepness/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Christof Neumann \email{christofneumann1@gmail.com} (\href{https://orcid.org/0000-0002-0236-1219}{ORCID})
+
+Authors:
+\itemize{
+  \item Christof Neumann \email{christofneumann1@gmail.com} (\href{https://orcid.org/0000-0002-0236-1219}{ORCID})
+}
+
+}

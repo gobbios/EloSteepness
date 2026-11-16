@@ -16,7 +16,18 @@ repeatability_steepness(mat, n_rand = 1000)
 a steepness value
 }
 \description{
-steepness via repeatability (cf aniDom package)
+function written for easy comparison with other methods for validation study
+}
+\details{
+The function was initially written as a wrapper around \code{aniDom::estimate_uncertainty_by_repeatability}.
+This version removed the dependency on \code{aniDom}.
+The corresponding code snippet:
+\preformatted{
+estimate_uncertainty_by_repeatability(
+ winners = s[, 1],
+ losers = s[, 2],
+ n.rands = n_rand)
+}
 }
 \examples{
 data(bonobos, package = "EloRating")
