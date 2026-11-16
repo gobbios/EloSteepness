@@ -1,7 +1,7 @@
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/EloSteepness)](https://CRAN.R-project.org/package=EloSteepness)
 [![R-CMD-check](https://github.com/gobbios/EloSteepness/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/gobbios/EloSteepness/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/gobbios/EloSteepness/branch/main/graph/badge.svg)](https://app.codecov.io/gh/gobbios/EloSteepness?branch=main)
+[![Codecov test coverage](https://codecov.io/gh/gobbios/EloSteepness/branch/master/graph/badge.svg)](https://app.codecov.io/gh/gobbios/EloSteepness?branch=master)
 
 <!-- badges: end -->
 
@@ -43,11 +43,11 @@ If not, then execute the following command and if asked for whether you want to 
 
 `install.packages("brms")`
 
-The only other thing you need are two more packages, `EloRating` and `aniDom`, which are easy to install:
+The only other thing you need are two more packages, `EloRating` and `lme4`, which are easy to install:
 
 `install.packages("EloRating")`
 
-`install.packages("aniDom")`
+`install.packages("lme4")`
 
 For good measure, it might be good idea to restart R (or RStudio if you work with it) at this point. 
 If you want to be on the safe side, you'd even restart your computer at this point, but this shouldn't be necessary in most cases.
@@ -67,7 +67,7 @@ devtools::has_devel()
 ```
 
 If that gives positive feedback then you are set.
-If not, you need to install more stuff (on MacOS you need the `Xcode` command line tools (e.g. [here](https://mac.install.guide/commandlinetools/4.html)), and on Windows the `Rtools` [here](https://cran.r-project.org/bin/windows/Rtools/rtools40.html)).
+If not, you need to install more stuff (on MacOS you need the `Xcode` command line tools (e.g. [here](https://mac.install.guide/commandlinetools/4.html)), and on Windows the `Rtools` [here](https://cran.r-project.org/bin/windows/Rtools/) (select the version that matches your R version)).
 
 I've also seen cases where problems arose because the version of `devtools` was outdated, so even if you have it installed already it might be a good idea to update the package (also with `install.packages("devtools")`).
 
