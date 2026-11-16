@@ -1,6 +1,7 @@
 ## Resubmission
 
-This is a patch release that fixes a stale URL in the `README.md`. And replaces a dependency (`aniDom`/`rptR` towards `lme4`).
+This is a patch release that fixes a stale URL in the `README.md` (replaced a link to a specific Rtools version by a generic link to Rtools).
+Replaced a dependency (`aniDom`/`rptR` with now `lme4`).
 The general testing and deployment workflow was also updated (see below for checking/testing via GitHub actions).
 
 ## Submitted version
