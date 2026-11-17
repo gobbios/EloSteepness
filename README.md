@@ -1,7 +1,7 @@
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/EloSteepness)](https://CRAN.R-project.org/package=EloSteepness)
 [![R-CMD-check](https://github.com/gobbios/EloSteepness/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/gobbios/EloSteepness/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/gobbios/EloSteepness/branch/master/graph/badge.svg)](https://app.codecov.io/gh/gobbios/EloSteepness?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/gobbios/EloSteepness/branch/main/graph/badge.svg)](https://app.codecov.io/gh/gobbios/EloSteepness?branch=main)
 
 <!-- badges: end -->
 
@@ -119,18 +119,18 @@ Here you download the package as a single file and then install it from there.
 Start by downloading the package file [from here](https://github.com/gobbios/EloSteepness/releases/latest).
 
 
-If you are on Windows, download the `EloSteepness_0.4.6.zip` file and run (and don't forget to change the path and use the correct file name):
+If you are on Windows, download the `EloSteepness_0.5.2.zip` file and run (and don't forget to change the path and use the correct file name):
 
 ```
-install.packages("C:/Users/myname/Downloads/EloSteepness_0.4.6.zip", 
+install.packages("C:/Users/myname/Downloads/EloSteepness_0.5.2.zip", 
                  dependencies = TRUE, 
                  repos = NULL, type = "win.binary")
 ```
 
-If you are on MacOS, download the `EloSteepness_0.4.6.tgz` file and run (and don't forget to change the path and use the correct file name):
+If you are on MacOS, download the `EloSteepness_0.5.2.tgz` file and run (and don't forget to change the path and use the correct file name):
 
 ```
-install.packages("~/Downloads/EloSteepness_0.4.6.tgz", 
+install.packages("~/Downloads/EloSteepness_0.5.2.tgz", 
                  dependencies = TRUE, 
                  repos = NULL, type = "mac.binary")
 ```
@@ -145,18 +145,18 @@ vignette("tutorial", package = "EloSteepness")
 ```
 
 
-If this didn't work or you feel a bit more adventurous, choose the file `EloSteepness_0.4.6.tar.gz` for download (don't unpack it!), and remember the path you saved it to...
+If this didn't work or you feel a bit more adventurous, choose the file `EloSteepness_0.5.2.tar.gz` for download (don't unpack it!), and remember the path you saved it to...
 Then depending on what OS you use, adapt to your needs and run one of the following code chunks (don't forget to change the path and use the correct file name):
 
 ```
 # something like this on MacOS or Linux
-install.packages("~/Downloads/EloSteepness_0.4.6.tar.gz",  
+install.packages("~/Downloads/EloSteepness_0.5.2.tar.gz",  
                  repos = NULL, type = "source")
 ```
 
 ```
 # something like this on Windows
-install.packages("C:/Users/myname/Downloads/EloSteepness_0.4.6.tar.gz",  
+install.packages("C:/Users/myname/Downloads/EloSteepness_0.5.2.tar.gz",  
                  repos = NULL, type = "source")
 ```
 
